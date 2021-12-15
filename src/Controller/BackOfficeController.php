@@ -8,11 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BackOfficeController extends AbstractController
 {
-    #[Route('/back/office', name: 'back_office')]
+    #[Route('/admin', name: 'back_office')]
     public function index(): Response
     {
         return $this->render('back_office/index.html.twig', [
-            'controller_name' => 'BackOfficeController',
+            'title' => 'Admin | Home',
         ]);
     }
 }
