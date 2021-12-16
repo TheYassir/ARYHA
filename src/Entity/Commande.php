@@ -32,6 +32,17 @@ class Commande
      */
     private $etat;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commandes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToOne(targetEntity=DetailCommande::class, mappedBy="commande", cascade={"persist", "remove"})
+     */
+    private $detailCommande;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +80,35 @@ class Commande
     public function setEtat(string $etat): self
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDetailCommande(): ?DetailCommande
+    {
+        return $this->detailCommande;
+    }
+
+    public function setDetailCommande(DetailCommande $detailCommande): self
+    {
+        // set the owning side of the relation if necessary
+        if ($detailCommande->getCommande() !== $this) {
+            $detailCommande->setCommande($this);
+        }
+
+        $this->detailCommande = $detailCommande;
 
         return $this;
     }

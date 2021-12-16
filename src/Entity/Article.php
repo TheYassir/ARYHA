@@ -28,7 +28,7 @@ class Article
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $photo;
 
@@ -46,6 +46,12 @@ class Article
      * @ORM\Column(type="string", length=255)
      */
     private $couleur;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="article")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
 
     public function getId(): ?int
     {
@@ -120,6 +126,18 @@ class Article
     public function setCouleur(string $couleur): self
     {
         $this->couleur = $couleur;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
