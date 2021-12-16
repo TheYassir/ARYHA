@@ -27,6 +27,12 @@ class DetailCommande
      */
     private $prix;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Commande::class, inversedBy="detailCommande", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $commande;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +58,18 @@ class DetailCommande
     public function setPrix(float $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getCommande(): ?Commande
+    {
+        return $this->commande;
+    }
+
+    public function setCommande(Commande $commande): self
+    {
+        $this->commande = $commande;
 
         return $this;
     }
