@@ -8,12 +8,27 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ShopController extends AbstractController
 {
-    #[Route('/', name: 'shop')]
+    #[Route('/', name: 'index')]
     public function index(): Response
     {
         return $this->render('shop/index.html.twig', [
-            'controller_name' => 'ShopController',
+           'titre' => 'Bienvenue sur World of Shoua',
+        ]);
+    }
+
+    #[Route('/description', name:'description')]
+    public function home(): Response
+    {
+        return $this->render('shop/description.html.twig', [
+            
         ]);
     }
     
+    #[Route('/boutique', name: 'boutique')]
+    public function boutique(): Response
+    {
+        return $this->render('shop/boutique.html.twig', [
+            
+        ]); 
+    }
 }
