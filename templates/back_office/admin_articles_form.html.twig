@@ -1,0 +1,64 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+
+    Admin | 
+
+ {% if editMode %}    
+        Modification de l'article
+    {% else %}        
+        Nouvel article
+    {% endif %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class="ajout-article-admin rounded">
+
+    <h1 class="text-center my-5">Ajouter un nouvel article :</h1> 
+
+    <div class="col-7 mx-auto mb-5">
+        {{ form_start(formArticle) }}
+
+        {{ form_row(formArticle.titre) }}
+
+        {{ form_row(formArticle.category) }}
+
+        {{ form_row(formArticle.description) }}
+
+        {{ form_row(formArticle.couleur) }}
+
+        {{ form_row(formArticle.prix) }}
+
+        {{ form_row(formArticle.stock) }}
+
+        {{ form_row(formArticle.photo) }}
+
+        {% if photoActuelle %}
+
+        {# Si photoActuelle retourne TRUE, cela veut dire que l'article possède une photo, c'est une modification, alors on entre dans la condition IF et on affiche la photoactuelle de l'article #}
+        <em>Vous pouvez mettre une autre photo si vous souhaitez la modifier</em>
+        <P class="col-12 text-center">
+            <img src="{{ asset('uploads/photos/' ~ photoActuelle) }}" alt="" class="img-responsive">
+        </p>
+            
+        {% endif %}
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary col-3">                
+                {% if editMode %}    
+                    Enregistrer
+                {% else %}
+                    Envoyer
+                {% endif %}                
+                </button>
+            </div>
+        {{ form_end(formArticle) }}
+    </div>  
+
+</div>
+
+</div>
+    
+{% endblock %}
