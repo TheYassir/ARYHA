@@ -1,20 +1,19 @@
 {% extends "base_admin.html.twig" %}
 
 {% block title %}
-    BlogSymfony | Gestions des articles
+    Admin | Gestions des articles
 {% endblock %}
 
 {% block body %}
 
-    <h1 class="text-center my-2">Liste des articles</h1>
+    <h1 class="text-center my-5">Liste des articles</h1>
 
     {% for message in app.flashes('success') %}
         <div class="col-6 mx-auto text-center alert alert-success">
             {{ message }}
         </div>        
     {% endfor %}
-
-    <table class="table table-striped mx-2" id="table-backoffice">
+    <table class="table table-striped mx-2" id="table-backoffice-user">
         <thead>
             <tr class="entete-articles">
                 {% for data in colonnes %}
@@ -26,8 +25,7 @@
                     {% endif %}
                     
                 {% endfor %}
-                <th class="text-center">Cat</th>
-                <th class="text-center">No Comm.</th>
+                <th class="text-center">Catégorie</th>
                 <th class="text-center">Action</th>
             </tr>
         </thead>
@@ -37,32 +35,26 @@
 
                 {% if data != 'id' %}
                     <tr>
-            
-                    <td> <a  href="{{ path('blog_show', {'id': data.id}) }}" class="link-secondary">{{ data.titre }} </a></td>
-                    <td> {{ data.contenu|slice(0, 150)|striptags }}[...] </td> 
-                    {% if data.photo != null %}
+                    <td> <a  href="" class="link-secondary">{{ data.titre|slice(0, 20)|striptags }} </a></td>
+                    <td> {{ data.description|slice(0, 50)|striptags }}[...] </td> 
+                    {% if data.photo == null %}
                         <td class="text-center"><img src="{{ asset('uploads/photos/' ~ data.photo) }}" alt="" style="width: 100%; height: 100%;"></td>
                     {% else %}
                         <td class="text-danger text-center">Aucune photo téléchargée</td>
-                    {% endif %}               
-                    <td class="text-center"> {{ data.date|date("d/m/Y") }} {{data.date|date('H:i:s') }} </td>
-                    <td class="text-center"> {{ data.category.titre|upper }} </td>
-                    <td class="text-center"> {{ data.comments|length }} </td>
+                    {% endif %}                    <td class="text-center"> {{ data.prix }}&nbsp;€</td>
+                    <td class="text-center"> {{ data.stock }}</td>
+                    <td class="text-center"> {{ data.couleur }}</td>
 
-                    <td >
-                        <div class="d-flex nowrap">
-                            <a href="{{ path('app_admin_articles_remove', {'id': data.id}) }}" class="btn bg-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet article : {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                    <td class="text-center">{{data.category.titre}}</td>
+                    
+                    <td><div class="d-flex nowrap">
+                            <a href="{{ path('app_admin_articles_delete', {'id': data.id}) }}" class="btn bg-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet article : {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
                             <a href="{{ path('app_admin_articles_update', {'id': data.id}) }}" class="btn bg-success text-white"><i class="bi bi-pencil-square"></i>
-                            </a>
                         <div>
                     </td>
-
                     </tr>          
-
                 {% endif %}  
-
             {% endfor %}
         </tbody>
     </table>
-    
 {% endblock %}
