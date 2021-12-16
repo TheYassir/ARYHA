@@ -17,6 +17,6 @@ class BackOfficeController extends AbstractController
         ]);
     }
 
-     # Méthode qui affiche la page Home du backOffice // permet INSERT, UPDATE, DELETE
-     #[Route('/admin/articles', name: 'app_admin_articles')]
+    //  # Méthode qui affiche la page Home du backOffice // permet INSERT, UPDATE, DELETE
+    //  #[Route('/admin/articles', name: 'app_admin_articles')]
 }
