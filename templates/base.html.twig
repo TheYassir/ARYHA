@@ -64,40 +64,24 @@
     <!-- Custom styles for this template -->
     <link href="shop.css" rel="stylesheet">
   </head>
-  <body class="d-flex h-100 text-center text-white bg-dark">
-    
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <header class="mb-auto">
-        <div>
-        <h3 class="float-md-start mb-0">WORLD OF SHOUA</h3>
-        <nav class="nav nav-masthead justify-content-center float-md-end">
-            <a class="nav-link active" aria-current="page" href="{{ path('index') }}">Accueil</a>
-            <a class="nav-link" href="{{ path('boutique') }}">Boutique</a>
-            <a class="nav-link" href="{{ path('description') }}">Presentation</a>
-        </nav>
-        </div>
-    </header>
 
     {% block body %}
         
     {% endblock %}
 
-    <footer class="mt-auto text-white">
-                
-                <p class="d-flex justify-content-center">
-                    <a href=""><i class="bi bi-facebook icone-b p-5"></i></a>
-                    <a href=""><i class="bi bi-instagram icone-b p-5"></i></a>
-                    <a href=""><i class="bi bi-twitter icone-b p-5"></i></a>
-                </p>
-               
-            <ul class="d-flex justify-content-around my-3">
-                    <a href="#">CGV</a>
-                    <a href="#">Mentions légales</a>
-                    <a href="#">Contact</a>
-                </ul>
-    
-        <p>2021 - Tous Droit Réservé - Rigobert - Shoua - Yassine - Yassir </p>
+    <footer class="mt-auto text-white mt-5">
+      <p class="d-flex justify-content-center">
+          <a href=""><i class="bi bi-facebook icone-b p-5"></i></a>
+          <a href=""><i class="bi bi-instagram icone-b p-5"></i></a>
+          <a href=""><i class="bi bi-twitter icone-b p-5"></i></a>
+      </p>
 
+      <ul class="d-flex justify-content-around my-3">
+          <a href="#">CGV</a>
+          <a href="#">Mentions légales</a>
+          <a href="#">Contact</a>
+      </ul>
+        <p>2021 - Tous Droit Réservé - Rigobert - Shoua - Yassine - Yassir </p>
     </footer>
 
     </div>
