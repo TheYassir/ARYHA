@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Controller\ShopController;
+use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,9 +74,7 @@ class BackOfficeController extends AbstractController
             else
                 $txt = "modifier";
 
-            if($article->getId())           
-               $article->setDate(new \DateTime());
-
+            if($article->getId())
             $photo = $formArticle->get('photo')->getData();
 
             if($photo)
@@ -124,67 +124,67 @@ class BackOfficeController extends AbstractController
 
 // USERS
 
-    #[Route('/admin/utilisateurs', name: 'app_admin_utilisateurs')] // Affichage des users
-    #[Route('/admin/utilisateurs/{id}/update', name: 'app_admin_utilisateurs_update')] // modification
-    #[Route('/admin/utilisateurs/{id}/remove', name: 'app_admin_utilisateurs_remove')] // suppression
-    public function adminUsers(EntityManagerInterface $manager, UtilisateurRepository $repoUtilisateur, Utilisateur $utilisateur = null, Request $request): Response
-    {
-        //dd($user);
-        //dd($request->query);
+    // #[Route('/admin/user', name: 'app_admin_user')] // Affichage des users
+    // #[Route('/admin/user/{id}/update', name: 'app_admin_user_update')] // modification
+    // #[Route('/admin/user/{id}/remove', name: 'app_admin_user_remove')] // suppression
+    // public function adminUsers(EntityManagerInterface $manager, UserRepository $repoUtilisateur, User $user = null, Request $request): Response
+    // {
+    //     //dd($user);
+    //     //dd($request->query);
 
-        $colonnes = $manager->getClassMetadata(Utilisateur::class)->getFieldNames();
-        // dd($colonnes);
+    //     $colonnes = $manager->getClassMetadata(User::class)->getFieldNames();
+    //     // dd($colonnes);
 
-        $utilisateurs = $repoUtilisateur->findAll();
-        //dd($user);
+    //     $user = $repoUtilisateur->findAll();
+    //     //dd($user);
 
-        // Si $user retourne true, cela veut que $user les informations d'1 user stocké en BDD
-        if($utilisateur)
-        {
-            // Si l'indice 'op' est définit dans l'URL et qu'il a pour valeur 'update', alors on entre dans la condition et on execute une requete 'update'.
-            if($request->query->get('op') == 'update')
-            {
-                // dd('update');
-                $formUtilisateurUpdate = $this->createForm(RegistrationFormType::class, $utilisateur, [
-                    'utilisateurUpdateBack' => true
-                ]);
+    //     // Si $user retourne true, cela veut que $user les informations d'1 user stocké en BDD
+    //     if($user)
+    //     {
+    //         // Si l'indice 'op' est définit dans l'URL et qu'il a pour valeur 'update', alors on entre dans la condition et on execute une requete 'update'.
+    //         if($request->query->get('op') == 'update')
+    //         {
+    //             // dd('update');
+    //             $formUtilisateurUpdate = $this->createForm(RegistrationFormType::class, $user, [
+    //                 'userUpdateBack' => true
+    //             ]);
 
-                $formUtilisateurUpdate->handleRequest($request);
+    //             $formUtilisateurUpdate->handleRequest($request);
 
-                if($formUtilisateurUpdate->isSubmitted() && $formUtilisateurUpdate->isValid())
-                {
-                    $infos = $utilisateur->getPrenom() . " " . $utilisateur->getNom();
+    //             if($formUtilisateurUpdate->isSubmitted() && $formUtilisateurUpdate->isValid())
+    //             {
+    //                 $infos = $user->getPrenom() . " " . $user->getNom();
 
-                    $manager->persist($utilisateur);
-                    $manager->flush();
+    //                 $manager->persist($user);
+    //                 $manager->flush();
 
-                    $this->addFlash('success', "Le role de l'utilisateur $infos a été modifié avec succès.");
+    //                 $this->addFlash('success', "Le role de l'utilisateur $infos a été modifié avec succès.");
 
-                    return $this->redirectToRoute('app_admin_utilisateurs');
-                }
-            }
-            else    // Sinon, aucun paramètres dans l'URL, alors on execute une requete de suppression
-            {
-                // dd('delete');
-                $infos = $utilisateur->getPrenom() . " " . $utilisateur->getNom();
+    //                 return $this->redirectToRoute('app_admin_utilisateurs');
+    //             }
+    //         }
+    //         else    // Sinon, aucun paramètres dans l'URL, alors on execute une requete de suppression
+    //         {
+    //             // dd('delete');
+    //             $infos = $user->getPrenom() . " " . $user->getNom();
 
-                $manager->remove($utilisateur);
-                $manager->flush();
+    //             $manager->remove($user);
+    //             $manager->flush();
 
-                $this->addFlash('succes', "Le rôle de l'utilisateur $infos a été supprimé avec succès.");
+    //             $this->addFlash('succes', "Le rôle de l'utilisateur $infos a été supprimé avec succès.");
 
-                return $this->redirectToRoute('app_admin_users');
-            }
-        }
+    //             return $this->redirectToRoute('app_admin_users');
+    //         }
+    //     }
         
-        return $this->render('back_office/admin_users.html.twig', [
-            'colonnes' => $colonnes,
-            'users' => $utilisateurs,
-            // Si l'indice dans l'URL est 'op=update' alors on execute createView() sur l'objet formUserUpdate pour générer le formulaire, sinon on stock une chaine de caractère vide.
-            'formUserUpdate' => ($request->query->get('op') == 'update') ?$formUtilisateurUpdate->createView() : '',
-            'user' => $utilisateur
-        ]);
-    }     
+    //     return $this->render('back_office/admin_users.html.twig', [
+    //         'colonnes' => $colonnes,
+    //         'users' => $user,
+    //         // Si l'indice dans l'URL est 'op=update' alors on execute createView() sur l'objet formUserUpdate pour générer le formulaire, sinon on stock une chaine de caractère vide.
+    //         'formUserUpdate' => ($request->query->get('op') == 'update') ?$formUtilisateurUpdate->createView() : '',
+    //         'user' => $user
+    //     ]);
+    // }     
     
 
 

@@ -37,8 +37,8 @@
                     <tr>
                     <td> <a  href="" class="link-secondary">{{ data.titre|slice(0, 20)|striptags }} </a></td>
                     <td> {{ data.description|slice(0, 50)|striptags }}[...] </td> 
-                    {% if data.photo == null %}
-                        <td class="text-center"><img src="{{ asset('uploads/photos/' ~ data.photo) }}" alt="" style="width: 100%; height: 100%;"></td>
+                    {% if data.photo != null %}
+                        <td class="text-center"><img src="{{ asset('uploads/photos/' ~ data.photo) }}" alt="" style="width: 100px; height: 100px;"></td>
                     {% else %}
                         <td class="text-danger text-center">Aucune photo téléchargée</td>
                     {% endif %}                    <td class="text-center"> {{ data.prix }}&nbsp;€</td>
