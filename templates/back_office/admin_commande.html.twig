@@ -1,0 +1,43 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    BlogSymfony | Gestions des commentaires
+{% endblock %}
+
+{% block body %}
+        {{ dump(cellules)}}
+
+    <h1 class="text-center mt-3 mb-4">Commentaires</h1>
+    <div class="container col-12">
+        <table class="table table-striped mx-2 mb-5" id="table-backoffice-comment">
+        <thead>
+            <tr class="entete-comments">
+                {% for data in colonnes %}
+                        <th class="text-center"> {{data|capitalize}} </th>
+                {% endfor %}
+                <th class="text-center">Articles :</th>
+                <th class="text-center">Action</th>
+            </tr> 
+        </thead>
+        <tbody>    
+
+             {% for data in cellules %}                 
+                <tr>
+                    <td> {{ data.id }} </td>
+                    <td class="text-center"> {{ data.montant}} €</td>
+                    <td class="text-center"> {{ data.date|date("d/m/Y") }} {{data.date|date('H:i:s')}} </td>
+                    <td class="text-center"> {{ data.etat }} </td>
+                    <td class="text-center"> {{ data.etat }} </td>
+                    <td>
+                        <div class="d-flex nowrap">
+                            <a href="" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cette commande' ))"><i class="bi bi-trash"></i></a>
+                            <a href="" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i></a>
+                        </div>
+                    </td>
+                </tr>
+
+            {% endfor %}     
+        </tbody>   
+    </table>
+</div>
+{% endblock %}

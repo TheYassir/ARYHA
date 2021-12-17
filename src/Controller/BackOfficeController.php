@@ -6,8 +6,10 @@ use App\Entity\User;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Controller\ShopController;
+use App\Entity\Commande;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
+use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -115,6 +117,43 @@ class BackOfficeController extends AbstractController
             'photoActuelle' => $article->getPhoto()
         ]);
     }
+
+
+    #[Route('/admin/commande', name: 'app_admin_commande')]
+    #[Route('/admin/commande/{id}/delete', name: 'app_admin_commande_delete')]
+    public function adminCommande(EntityManagerInterface $manager, CommandeRepository $repoCom, Commande $comDelete = null)
+    {
+
+        $colonnes = $manager->getclassMetadata(Commande::class)->getFieldNames();
+
+        $cellules = $repoCom->findAll();
+
+        if($comDelete)
+        {
+            $comId = $comDelete->getId();
+
+            if($comDelete->getDetailCommande()->isEmpty())
+            {
+                $manager->remove($comDelete);
+                $manager->flush();
+
+                $this->addFlash('success', "La commande n°$comId a bien été supprimé avec succès.");
+            }
+            else
+            {
+                $this->addFlash('danger', "Impossible de supprimer la commande n°$comId car il y a encore des details associés");
+            }
+
+            return $this->redirectToRoute('app_admin_commande');
+        }
+
+        return $this->render('back_office/admin_commande.html.twig', [
+            'colonnes' => $colonnes,
+            'cellules' => $cellules
+        ]);
+        
+    }
+    
 
 
 

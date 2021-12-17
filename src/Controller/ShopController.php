@@ -24,7 +24,7 @@ class ShopController extends AbstractController
         ]);
     }
     
-    #[Route('/boutique', name: 'boutique')]
+    #[Route('/shop', name: 'shop')]
     public function boutique(): Response
     {
         return $this->render('shop/boutique.html.twig', [
