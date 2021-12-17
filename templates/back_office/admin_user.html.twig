@@ -72,7 +72,7 @@
 {# app.request.query : objet twig qui renvoi les données de $_GET  #}
 {{ dump(app.request.query) }}
 {# Si l'indice 'op' est définit dans l'URL et qu'il a pour valeur 'update', alors on entre dans la condition IF  #}
-{% if app.request.query.get('op') == 'update' %}
+{% if app.request.query.get('op') == 'update' %}    
 
     {{ form_start(formUserUpdate, {'attr': {'class': 'col-3 mx-auto'}}) }}
 
@@ -84,7 +84,7 @@
 
     {{ form_end(formUserUpdate) }}
 
-{% endif %}    
+{% endif %}   
  
 {% endblock %}
 
