@@ -28,6 +28,7 @@ class ShopController extends AbstractController
     public function boutique(): Response
     {
         return $this->render('shop/shop.html.twig', [
+
             
         ]); 
     }
