@@ -1,17 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}World of Shoua | Inscription{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+    <h1 class="text-center my-5">Créer votre compte</h1>
+    <div class="col-7 mx-auto mb-5">
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+        {{ form_start(registrationForm) }}
+
+            <div class="col-12 d-flex justify-content-between">
+                <div class="col-7">{{ form_row(registrationForm.email) }}</div>
+                <div class="col-4">{{ form_row(registrationForm.telephone) }}</div>
+            </div>
+
+            <div class="col-12 d-flex justify-content-between">
+                <div class="col-7">{{ form_row(registrationForm.pseudo) }}</div>
+                <div class="col-4">{{ form_row(registrationForm.sexe) }}</div>
+            </div>
+            
+            <div class="col-12 d-flex justify-content-between">
+                <div class="col-5">{{ form_row(registrationForm.prenom) }}</div>
+                <div class="col-5">{{ form_row(registrationForm.nom) }}</div>
+            </div>
+            
+            <div class="col-12 d-flex justify-content-between">
+                <div class="col-4">{{ form_row(registrationForm.adresse) }}</div>
+                <div class="col-4">{{ form_row(registrationForm.ville) }}</div>
+                <div class="col-2">{{ form_row(registrationForm.codePostal) }}</div>
+            </div>
+
+            <div class="col-12 d-flex justify-content-between">
+                <div class="col-5">{{ form_row(registrationForm.password.first) }}</div>
+                <div class="col-5">{{ form_row(registrationForm.password.second) }}</div>
+            </div>
+            <div class='text-center my-5'>
+                    <button type="submit" class="btn btn-success text-white mb-3 col-3">S'inscrire</button>
+            </div>
+
+        {{ form_end(registrationForm) }}
+    </div>
+
 {% endblock %}
