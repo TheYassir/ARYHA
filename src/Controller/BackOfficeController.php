@@ -7,6 +7,7 @@ use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Controller\ShopController;
 use App\Entity\Commande;
+use App\Form\CommandeType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CommandeRepository;
@@ -132,7 +133,7 @@ class BackOfficeController extends AbstractController
         {
             $comId = $comDelete->getId();
 
-            if($comDelete->getDetailCommande()->isEmpty())
+            if($comDelete->getDetailCommande())
             {
                 $manager->remove($comDelete);
                 $manager->flush();
@@ -152,82 +153,53 @@ class BackOfficeController extends AbstractController
             'cellules' => $cellules
         ]);
         
+        
     }
     
+    #[Route('/admin/commande/{id}/edit', name: 'app_admin_commande_update')]
+    public function adminUsersForm(Commande $commande, Request $request, EntityManagerInterface $manager): Response
+    {
+ 
+        $formEtatCom = $this->createForm(CommandeType::class, $commande);
+        $formEtatCom->handleRequest($request);
+        $etatCom = $commande->getEtat();
 
+            if($formEtatCom->isSubmitted() && $formEtatCom->isValid())
+            {         
+                $manager->persist($commande);
+                $manager->flush();
+                $etatCom2 = $commande->getEtat();
+                $idCommande = $commande->getId();
+                $this->addFlash('success', "La commande n°$idCommande été modifié avec succès de '$etatCom' à '$etatCom2'.");
+                return $this->redirectToRoute('app_admin_commande');         
+            }        
 
+        return $this->render('back_office/admin_commande_form.html.twig', [
+            'formEtatCom' => $formEtatCom->createView(),
+            'commande' => $commande
+        ]);
+    }
 
+    #[Route('/admin/user', name: 'app_admin_user')]
+    #[Route('/admin/user/{id}/remove', name: 'app_admin_user_delete')]
+    public function adminUser(EntityManagerInterface $manager, UserRepository $repoUser, User $userDelete = null): Response
+    {
+        $colonnes = $manager->getclassMetadata(User::class)->getFieldNames();
+        $cellules = $repoUser->findAll();
 
-
-    // Affichage et suppression des Users
-
-// USERS
-
-    // #[Route('/admin/user', name: 'app_admin_user')] // Affichage des users
-    // #[Route('/admin/user/{id}/update', name: 'app_admin_user_update')] // modification
-    // #[Route('/admin/user/{id}/remove', name: 'app_admin_user_remove')] // suppression
-    // public function adminUsers(EntityManagerInterface $manager, UserRepository $repoUtilisateur, User $user = null, Request $request): Response
-    // {
-    //     //dd($user);
-    //     //dd($request->query);
-
-    //     $colonnes = $manager->getClassMetadata(User::class)->getFieldNames();
-    //     // dd($colonnes);
-
-    //     $user = $repoUtilisateur->findAll();
-    //     //dd($user);
-
-    //     // Si $user retourne true, cela veut que $user les informations d'1 user stocké en BDD
-    //     if($user)
-    //     {
-    //         // Si l'indice 'op' est définit dans l'URL et qu'il a pour valeur 'update', alors on entre dans la condition et on execute une requete 'update'.
-    //         if($request->query->get('op') == 'update')
-    //         {
-    //             // dd('update');
-    //             $formUtilisateurUpdate = $this->createForm(RegistrationFormType::class, $user, [
-    //                 'userUpdateBack' => true
-    //             ]);
-
-    //             $formUtilisateurUpdate->handleRequest($request);
-
-    //             if($formUtilisateurUpdate->isSubmitted() && $formUtilisateurUpdate->isValid())
-    //             {
-    //                 $infos = $user->getPrenom() . " " . $user->getNom();
-
-    //                 $manager->persist($user);
-    //                 $manager->flush();
-
-    //                 $this->addFlash('success', "Le role de l'utilisateur $infos a été modifié avec succès.");
-
-    //                 return $this->redirectToRoute('app_admin_utilisateurs');
-    //             }
-    //         }
-    //         else    // Sinon, aucun paramètres dans l'URL, alors on execute une requete de suppression
-    //         {
-    //             // dd('delete');
-    //             $infos = $user->getPrenom() . " " . $user->getNom();
-
-    //             $manager->remove($user);
-    //             $manager->flush();
-
-    //             $this->addFlash('succes', "Le rôle de l'utilisateur $infos a été supprimé avec succès.");
-
-    //             return $this->redirectToRoute('app_admin_users');
-    //         }
-    //     }
-        
-    //     return $this->render('back_office/admin_users.html.twig', [
-    //         'colonnes' => $colonnes,
-    //         'users' => $user,
-    //         // Si l'indice dans l'URL est 'op=update' alors on execute createView() sur l'objet formUserUpdate pour générer le formulaire, sinon on stock une chaine de caractère vide.
-    //         'formUserUpdate' => ($request->query->get('op') == 'update') ?$formUtilisateurUpdate->createView() : '',
-    //         'user' => $user
-    //     ]);
-    // }     
-    
-
-
-
+        if($userDelete)
+        {
+            $id = $userDelete->getId();
+            $manager->remove($userDelete);
+            $manager->flush();
+            $this->addFlash('success', "L'Utilisateur n°$id a bien été supprimer avec succès");
+            return $this->redirectToRoute('app_admin_user');
+        }
+        return $this->render('back_office/admin_user.html.twig', [
+            'colonnes' => $colonnes,
+            'cellules' => $cellules
+        ]);
+    }
 
 }
 

@@ -1,0 +1,46 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    Admin | Gestions des User
+{% endblock %}
+{% block body %}
+<pre>
+    {{ dump(cellules) }}
+</pre>
+    <h1 class="text-center my-5">Liste des Utilisateurs</h1>
+    {% for message in app.flashes('success') %}
+        <div class="col-6 mx-auto text-center alert alert-success">
+            {{ message }}
+        </div>        
+    {% endfor %}
+    <table class="table table-striped mx-2" id="table-backoffice-user">
+        <thead>
+            <tr class="entete-articles">
+                {% for data in colonnes %}
+                    {% if data != 'id'  %}
+                        {% if data != 'password'  %}
+                            {% if data == 'codePostal'  %}
+                                <th class="text-center">Code&nbsp;Postale</th>
+                            {% else %}
+                                <th class="text-center"> {{data|capitalize}} </th>
+                            {% endif %}
+                        {% endif %} 
+                    {% endif %}  
+                {% endfor %}
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>        
+            {% for data in cellules %} 
+
+                {% if data != 'id' %}
+                {% if data != 'password' %}
+
+                {% endif %}  
+                {% endif %}  
+
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
