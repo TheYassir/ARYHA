@@ -8,6 +8,7 @@ use App\Form\ArticleType;
 use App\Controller\ShopController;
 use App\Entity\Commande;
 use App\Form\CommandeType;
+use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CommandeRepository;
@@ -155,7 +156,7 @@ class BackOfficeController extends AbstractController
         
         
     }
-    
+
     #[Route('/admin/commande/{id}/edit', name: 'app_admin_commande_update')]
     public function adminUsersForm(Commande $commande, Request $request, EntityManagerInterface $manager): Response
     {
