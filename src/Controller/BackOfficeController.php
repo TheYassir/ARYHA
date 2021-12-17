@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Controller\ShopController;
+use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -124,67 +125,67 @@ class BackOfficeController extends AbstractController
 
 // USERS
 
-    // #[Route('/admin/user', name: 'app_admin_user')] // Affichage des users
-    // #[Route('/admin/user/{id}/update', name: 'app_admin_user_update')] // modification
-    // #[Route('/admin/user/{id}/remove', name: 'app_admin_user_remove')] // suppression
-    // public function adminUsers(EntityManagerInterface $manager, UserRepository $repoUtilisateur, User $user = null, Request $request): Response
-    // {
-    //     //dd($user);
-    //     //dd($request->query);
+    #[Route('/admin/user', name: 'app_admin_user')] // Affichage des users
+    #[Route('/admin/user/{id}/update', name: 'app_admin_user_update')] // modification
+    #[Route('/admin/user/{id}/remove', name: 'app_admin_user_remove')] // suppression
+    public function adminUsers(EntityManagerInterface $manager, UserRepository $repoUser, User $user = null, Request $request): Response
+    {
+        //dd($user);
+        //dd($request->query);
 
-    //     $colonnes = $manager->getClassMetadata(User::class)->getFieldNames();
-    //     // dd($colonnes);
+        $colonnes = $manager->getClassMetadata(User::class)->getFieldNames();
+        // dd($colonnes);
 
-    //     $user = $repoUtilisateur->findAll();
-    //     //dd($user);
+        $users = $repoUser->findAll();
+        //dd($user);
 
-    //     // Si $user retourne true, cela veut que $user les informations d'1 user stocké en BDD
-    //     if($user)
-    //     {
-    //         // Si l'indice 'op' est définit dans l'URL et qu'il a pour valeur 'update', alors on entre dans la condition et on execute une requete 'update'.
-    //         if($request->query->get('op') == 'update')
-    //         {
-    //             // dd('update');
-    //             $formUtilisateurUpdate = $this->createForm(RegistrationFormType::class, $user, [
-    //                 'userUpdateBack' => true
-    //             ]);
+        // Si $user retourne true, cela veut que $user les informations d'1 user stocké en BDD
+        if($user)
+        {
+            // Si l'indice 'op' est définit dans l'URL et qu'il a pour valeur 'update', alors on entre dans la condition et on execute une requete 'update'.
+            if($request->query->get('op') == 'update')
+            {
+                // dd('update');
+                $formUserUpdate = $this->createForm(RegistrationFormType::class, $user, [
+                    'user' => true
+                ]);
 
-    //             $formUtilisateurUpdate->handleRequest($request);
+                $formUserUpdate->handleRequest($request);
 
-    //             if($formUtilisateurUpdate->isSubmitted() && $formUtilisateurUpdate->isValid())
-    //             {
-    //                 $infos = $user->getPrenom() . " " . $user->getNom();
+                if($formUserUpdate->isSubmitted() && $formUserUpdate->isValid())
+                {
+                    $infos = $user->getPrenom() . " " . $user->getNom();
 
-    //                 $manager->persist($user);
-    //                 $manager->flush();
+                    $manager->persist($user);
+                    $manager->flush();
 
-    //                 $this->addFlash('success', "Le role de l'utilisateur $infos a été modifié avec succès.");
+                    $this->addFlash('success', "Le role de l'utilisateur $infos a été modifié avec succès.");
 
-    //                 return $this->redirectToRoute('app_admin_utilisateurs');
-    //             }
-    //         }
-    //         else    // Sinon, aucun paramètres dans l'URL, alors on execute une requete de suppression
-    //         {
-    //             // dd('delete');
-    //             $infos = $user->getPrenom() . " " . $user->getNom();
+                    return $this->redirectToRoute('app_admin_users');
+                }
+            }
+            else    // Sinon, aucun paramètres dans l'URL, alors on execute une requete de suppression
+            {
+                // dd('delete');
+                $infos = $user->getPrenom() . " " . $user->getNom();
 
-    //             $manager->remove($user);
-    //             $manager->flush();
+                $manager->remove($user);
+                $manager->flush();
 
-    //             $this->addFlash('succes', "Le rôle de l'utilisateur $infos a été supprimé avec succès.");
+                $this->addFlash('succes', "Le rôle de l'utilisateur $infos a été supprimé avec succès.");
 
-    //             return $this->redirectToRoute('app_admin_users');
-    //         }
-    //     }
+                return $this->redirectToRoute('app_admin_users');
+            }
+        }
         
-    //     return $this->render('back_office/admin_users.html.twig', [
-    //         'colonnes' => $colonnes,
-    //         'users' => $user,
-    //         // Si l'indice dans l'URL est 'op=update' alors on execute createView() sur l'objet formUserUpdate pour générer le formulaire, sinon on stock une chaine de caractère vide.
-    //         'formUserUpdate' => ($request->query->get('op') == 'update') ?$formUtilisateurUpdate->createView() : '',
-    //         'user' => $user
-    //     ]);
-    // }     
+        return $this->render('back_office/admin_user.html.twig', [
+            'colonnes' => $colonnes,
+            'users' => $users,
+            // Si l'indice dans l'URL est 'op=update' alors on execute createView() sur l'objet formUserUpdate pour générer le formulaire, sinon on stock une chaine de caractère vide.
+            'formUserUpdate' => ($request->query->get('op') == 'update') ?$formUserUpdate->createView() : '',
+            'user' => $user
+        ]);
+    }     
     
 
 
