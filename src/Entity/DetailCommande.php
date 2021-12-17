@@ -29,9 +29,15 @@ class DetailCommande
 
     /**
      * @ORM\OneToOne(targetEntity=Commande::class, inversedBy="detailCommande", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $commande;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="detailCommandes")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $article;
 
     public function getId(): ?int
     {
@@ -70,6 +76,18 @@ class DetailCommande
     public function setCommande(Commande $commande): self
     {
         $this->commande = $commande;
+
+        return $this;
+    }
+
+    public function getArticle(): ?Article
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?Article $article): self
+    {
+        $this->article = $article;
 
         return $this;
     }
