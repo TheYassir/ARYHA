@@ -16,10 +16,10 @@ class ShopController extends AbstractController
         ]);
     }
 
-    #[Route('/description', name:'description')]
+    #[Route('/categorie', name:'categorie')]
     public function home(): Response
     {
-        return $this->render('shop/description.html.twig', [
+        return $this->render('shop/categorie.html.twig', [
             
         ]);
     }
