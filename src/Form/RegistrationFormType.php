@@ -50,6 +50,9 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'userRegistration' => false,
+            'userUpdate' => false,
+            'userUpdateBack' => false
         ]);
     }
 
