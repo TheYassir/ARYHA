@@ -24,10 +24,18 @@ class ShopController extends AbstractController
         ]);
     }
     
-    #[Route('/boutique', name: 'boutique')]
+    #[Route('/shop', name: 'shop')]
     public function boutique(): Response
     {
-        return $this->render('shop/boutique.html.twig', [
+        return $this->render('shop/shop.html.twig', [
+            
+        ]); 
+    }
+
+    #[Route('/inscription', name: 'inscription')]
+    public function inscription(): Response
+    {
+        return $this->render('shop/inscription.html.twig', [
             
         ]); 
     }
