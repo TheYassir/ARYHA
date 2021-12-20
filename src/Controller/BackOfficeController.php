@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Article;
-use App\Form\ArticleType;
-use App\Controller\ShopController;
 use App\Entity\Commande;
+use App\Form\ArticleType;
 use App\Form\CommandeType;
+use App\Controller\ShopController;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
@@ -159,7 +159,7 @@ class BackOfficeController extends AbstractController
     }
 
     #[Route('/admin/commande/{id}/edit', name: 'app_admin_commande_update')]
-    public function adminUsersForm(Commande $commande, Request $request, EntityManagerInterface $manager): Response
+    public function adminCommandeForm(Commande $commande, Request $request, EntityManagerInterface $manager): Response
     {
  
         $formEtatCom = $this->createForm(CommandeType::class, $commande);
@@ -183,7 +183,7 @@ class BackOfficeController extends AbstractController
     }
 
     #[Route('/admin/user', name: 'app_admin_user')]
-    #[Route('/admin/user/{id}/remove', name: 'app_admin_user_delete')]
+    #[Route('/admin/user/{id}/delete', name: 'app_admin_user_delete')]
     public function adminUser(EntityManagerInterface $manager, UserRepository $repoUser, User $userDelete = null): Response
     {
         $colonnes = $manager->getclassMetadata(User::class)->getFieldNames();
@@ -200,7 +200,36 @@ class BackOfficeController extends AbstractController
         }
         return $this->render('back_office/admin_user.html.twig', [
             'colonnes' => $colonnes,
-            'cellules' => $cellules
+            'cellules' => $cellules,
+        ]);
+    }
+
+    #[Route('/admin/user/{id}/edit', name: 'app_admin_user_update')]
+    public function adminUserForm(User $user, Request $request, EntityManagerInterface $manager): Response
+    {
+ 
+        $formAdminUser = $this->createForm(RegistrationFormType::class, $user, [
+            'userUpdateBack' => true 
+        ]);
+
+        $formAdminUser->handleRequest($request);
+
+            if($formAdminUser->isSubmitted() && $formAdminUser->isValid())
+            {         
+                $manager->persist($user);
+                $manager->flush();
+
+                $idComment = $user->getId();
+
+                $this->addFlash('success', "Le commentaire n°$idComment été ajouté avec succès !");
+
+                return $this->redirectToRoute('app_admin_user');         
+            
+            }        
+
+        return $this->render('back_office/admin_user_form.html.twig', [
+            'formAdminUser' => $formAdminUser->createView(),
+            'user' => $user
         ]);
     }
 
