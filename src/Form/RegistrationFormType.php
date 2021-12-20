@@ -40,14 +40,7 @@ class RegistrationFormType extends AbstractType
                         ])
                     ]
                 ])
-                ->add('prenom', TextType::class, [
-                    'required' => true,
-                    'constraints' => [
-                        new NotBlank([
-                            'message' => "Veuillez renseigner votre prenom"
-                        ])
-                    ]
-                ])
+                
                 ->add('nom', TextType::class, [
                     'required' => true,
                     'constraints' => [
@@ -56,7 +49,29 @@ class RegistrationFormType extends AbstractType
                         ])
                     ]
                 ])
-                ->add('sexe', ChoiceType::class, ['choices' => [ 'Homme' => 'Homme', 'Femme' => 'Femme'], 'expanded' => false, 'multiple' => false, 'label' => "Civilité",])
+
+                ->add('prenom', TextType::class, [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => "Veuillez renseigner votre prenom"
+                        ])
+                    ]
+                ])
+                ->add('sexe', ChoiceType::class, [
+                    'choices' => [ 'Homme' => 'Homme', 'Femme' => 'Femme'], 
+                    'expanded' => false, 
+                    'multiple' => false, 
+                    'label' => "Civilité"])
+
+                ->add('telephone', NumberType::class, [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => "Veuillez renseigner votre numéro de téléphone"
+                        ])
+                    ]
+                ])                    
 
                 ->add('adresse', TextType::class, [
                     'required' => true,
@@ -82,14 +97,7 @@ class RegistrationFormType extends AbstractType
                         ])
                     ]
                 ])
-                ->add('telephone', NumberType::class, [
-                    'required' => true,
-                    'constraints' => [
-                        new NotBlank([
-                            'message' => "Veuillez renseigner votre numéro de téléphone"
-                        ])
-                    ]
-                ])
+                
                 ->add('password', RepeatedType::class, [
                     'type' => PasswordType::class,
                     'required' => true,
@@ -114,8 +122,7 @@ class RegistrationFormType extends AbstractType
                             'minMessage' => "Votre mot de passe doit contenir au minimum 8 caractères"
                         ])
                     ]
-                ])
-            ;
+                ]);
         }
         elseif($options['userUpdate'] == true)
         {
@@ -175,8 +182,7 @@ class RegistrationFormType extends AbstractType
             ->add('roles', ChoiceType::class, [
                     'choices' => [
                         'Utilisateur' => '',
-                        'Administrateur' => 'ROLE_ADMIN'
-                    ],
+                        'Administrateur' => 'ROLE_ADMIN'],
                     'expanded' => true,
                     'multiple' => true,
                     'label' => "Définir le role de l'utilisateur",

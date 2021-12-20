@@ -6,7 +6,7 @@
 {% endblock %}
 {% block body %}
 
-{{ dump(users) }}
+{# {{ dump(users) }} #}
 
 
 {% for message in app.flashes('success') %}
@@ -29,8 +29,7 @@
             <th class="text-center">{{ data|capitalize }}</th>
         {% endif %}
 
-    {% endfor %}
-        {# <th class="text-center">Article</th> #}
+    {% endfor %}        
         <th>Action</th>
     </tr>
 </thead>
@@ -58,7 +57,7 @@
             <td>{{ data.codePostal }}</td>                      
 
         <td>
-            <a href="{{ path('app_admin_user_update', {'id': data.id}) }}?op=update" class="btn btn-success mb-3"><i class="bi bi-pencil-square"></i></a>
+            <a href="{{ path('app_admin_user_update', {'id': data.id}) }}" class="btn btn-success mb-3"><i class="bi bi-pencil-square"></i></a>
             <br>
 
             <a href="{{ path('app_admin_user_remove', {'id': data.id}) }}" class="btn btn-danger" onclick="return(confirm('Voulez-vous réellement supprimer l\'utilisateur {{ data.prenom }} {{ data.nom }}'));">

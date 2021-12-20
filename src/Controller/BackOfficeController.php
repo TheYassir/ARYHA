@@ -126,7 +126,7 @@ class BackOfficeController extends AbstractController
 // USERS
 
     #[Route('/admin/user', name: 'app_admin_user')] // Affichage des users
-    #[Route('/admin/user/{id}/update', name: 'app_admin_user_update')] // modification
+    //#[Route('/admin/user/{id}/update', name: 'app_admin_user_update')] // modification  
     #[Route('/admin/user/{id}/remove', name: 'app_admin_user_remove')] // suppression
     public function adminUsers(EntityManagerInterface $manager, UserRepository $repoUser, User $user = null, Request $request): Response
     {
@@ -147,7 +147,7 @@ class BackOfficeController extends AbstractController
             {
                 // dd('update');
                 $formUserUpdate = $this->createForm(RegistrationFormType::class, $user, [
-                    'user' => true
+                    'userUpdateBack' => true
                 ]);
 
                 $formUserUpdate->handleRequest($request);
@@ -161,7 +161,7 @@ class BackOfficeController extends AbstractController
 
                     $this->addFlash('success', "Le role de l'utilisateur $infos a été modifié avec succès.");
 
-                    return $this->redirectToRoute('app_admin_users');
+                    return $this->redirectToRoute('app_admin_user');
                 }
             }
             else    // Sinon, aucun paramètres dans l'URL, alors on execute une requete de suppression
@@ -174,7 +174,7 @@ class BackOfficeController extends AbstractController
 
                 $this->addFlash('succes', "Le rôle de l'utilisateur $infos a été supprimé avec succès.");
 
-                return $this->redirectToRoute('app_admin_users');
+                return $this->redirectToRoute('app_admin_user');
             }
         }
         
@@ -185,11 +185,7 @@ class BackOfficeController extends AbstractController
             'formUserUpdate' => ($request->query->get('op') == 'update') ?$formUserUpdate->createView() : '',
             'user' => $user
         ]);
-    }     
-    
-
-
-
+    }
 
 }
 
