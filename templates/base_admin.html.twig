@@ -77,27 +77,28 @@
   <div class="row">
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3">
+        {% set route_name = app.request.attributes.get('_route') %}
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{ path('app_admin') }}">
+            <a class="nav-link {% if route_name == 'app_admin' %} active {% endif %}" aria-current="page" href="{{ path('app_admin') }}">
             <i class="bi bi-house-door-fill"></i>
             &nbsp;Accueil
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_admin_articles') }}">
+            <a class="nav-link {% if route_name == 'app_admin_articles' %} active {% endif %}" href="{{ path('app_admin_articles') }}">
             <i class="bi bi-file-earmark-fill"></i>
             &nbsp;Article
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_admin_commande') }}">
+            <a class="nav-link {% if route_name == 'app_admin_commande' %} active {% endif %}" href="{{ path('app_admin_commande') }}">
             <i class="bi bi-cart-fill"></i>
             &nbsp;Commande
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_admin_user') }}">
+            <a class="nav-link {% if route_name == 'app_admin_user' %} active {% endif %}" href="{{ path('app_admin_user') }}">
             <i class="bi bi-suit-heart-fill"></i>
             &nbsp;Utilisateur
             </a>
@@ -108,13 +109,13 @@
         <hr>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_admin_articles_add') }}">
+            <a class="nav-link {% if route_name == 'app_admin_articles_add' %} active {% endif %}" href="{{ path('app_admin_articles_add') }}">
             <i class="bi bi-file-earmark-plus-fill"></i>
             &nbsp;Nouvel Article
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ path('app_profil') }}">
             <i class="bi bi-person-badge-fill"></i>
             &nbsp;Profil
             </a>
