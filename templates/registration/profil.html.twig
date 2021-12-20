@@ -8,6 +8,7 @@
     
     <h1 class="text-center">Vos données personnelles</h1>
 
+
     {% if user.roles.0 == 'ROLE_ADMIN' %}
         <p class="text-center text-secondary">Vous êtes ADMINISTRATEUR du site</p>
     {% endif %}
@@ -103,8 +104,10 @@
                     <span><a href="{{ path('app_profil_edit', {'id': user.id}) }}" class="link-secondary">Modifier</a></span>
                 </div>
             </div>
+
         </div>
     </div>
+</div>
 
     
 
