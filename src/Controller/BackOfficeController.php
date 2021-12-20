@@ -139,6 +139,7 @@ class BackOfficeController extends AbstractController
                 $manager->remove($comDelete);
                 $manager->flush();
 
+
                 $this->addFlash('success', "La commande n°$comId a bien été supprimé avec succès.");
             }
             else
@@ -156,7 +157,7 @@ class BackOfficeController extends AbstractController
         
         
     }
-    
+
     #[Route('/admin/commande/{id}/edit', name: 'app_admin_commande_update')]
     public function adminCommandeForm(Commande $commande, Request $request, EntityManagerInterface $manager): Response
     {
@@ -187,6 +188,7 @@ class BackOfficeController extends AbstractController
     {
         $colonnes = $manager->getclassMetadata(User::class)->getFieldNames();
         $cellules = $repoUser->findAll();
+
 
         if($userDelete)
         {
