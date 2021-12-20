@@ -139,6 +139,7 @@ class BackOfficeController extends AbstractController
                 $manager->remove($comDelete);
                 $manager->flush();
 
+
                 $this->addFlash('success', "La commande n°$comId a bien été supprimé avec succès.");
             }
             else
@@ -187,6 +188,7 @@ class BackOfficeController extends AbstractController
     {
         $colonnes = $manager->getclassMetadata(User::class)->getFieldNames();
         $cellules = $repoUser->findAll();
+
 
         if($userDelete)
         {

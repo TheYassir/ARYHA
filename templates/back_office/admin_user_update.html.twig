@@ -1,0 +1,18 @@
+{% extends "base_admin.html.twig" %}    
+{% block title %}
+    BlogSymfony | Modification user
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center my-5">Modification user</h1>
+
+    {{ form_start(formUser, {'attr': {'class': 'col-7 mx-auto'}}) }}
+
+        {{ form_widget(formUser) }}
+
+    <button class="btn btn-dark">Enregistrer les modifications</button>
+
+    {{ form_end(formUser) }}
+
+{% endblock %}

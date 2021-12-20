@@ -8,6 +8,10 @@
     
     <h1 class="text-center">Vos données personnelles</h1>
 
+    {% if user.roles.0 == 'ROLE_ADMIN' %}
+        <p class="text-center text-secondary">Vous êtes ADMINISTRATEUR du site</p>
+    {% endif %}
+
     <div class="col-6 mx-auto accordion mb-5" id="accordionExample">
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
@@ -24,14 +28,14 @@
         </div>
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingTwo">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsetwo" aria-expanded="true" aria-controls="collapseOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsetwo" aria-expanded="true" aria-controls="collapseTwo">
                 Pseudo
             </button>
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                 <div class="accordion-body d-flex justify-content-between">
                     <span>{{ user.pseudo }}</span>
-                    <span><a href="" class="link-secondary">Modifier</a></span>
+                    <span><a href="{{ path('app_profil_edit', {'id': user.id}) }}" class="link-secondary">Modifier</a></span>
                 </div>
             </div>
         </div>
@@ -44,7 +48,7 @@
             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                 <div class="accordion-body d-flex justify-content-between">
                 <span>{{ user.prenom }}</span>
-                <span><a href="" class="link-secondary">Modifier</a></span>
+                <span><a href="{{ path('app_profil_edit', {'id': user.id}) }}" class="link-secondary">Modifier</a></span>
                 </div>
             </div>
         </div>
@@ -57,7 +61,7 @@
             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                 <div class="accordion-body d-flex justify-content-between">
                     <span>{{ user.nom }}</span>
-                    <span><a href="" class="link-secondary">Modifier</a></span>
+                    <span><a href="{{ path('app_profil_edit', {'id': user.id}) }}" class="link-secondary">Modifier</a></span>
                 </div>
             </div>
         </div>
@@ -70,7 +74,7 @@
             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
                 <div class="accordion-body d-flex justify-content-between">
                     <span>{{ user.adresse }}</span>
-                    <span><a href="" class="link-secondary">Modifier</a></span>
+                    <span><a href="{{ path('app_profil_edit', {'id': user.id}) }}" class="link-secondary">Modifier</a></span>
                 </div>
             </div>
         </div>
@@ -83,7 +87,7 @@
             <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
                 <div class="accordion-body d-flex justify-content-between">
                     <span>{{ user.ville }}</span>
-                    <span><a href="" class="link-secondary">Modifier</a></span>
+                    <span><a href="{{ path('app_profil_edit', {'id': user.id}) }}" class="link-secondary">Modifier</a></span>
                 </div>
             </div>
         </div>
@@ -96,11 +100,12 @@
             <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
                 <div class="accordion-body d-flex justify-content-between">
                     <span>{{ user.codePostal }}</span>
-                    <span><a href="" class="link-secondary">Modifier</a></span>
+                    <span><a href="{{ path('app_profil_edit', {'id': user.id}) }}" class="link-secondary">Modifier</a></span>
                 </div>
             </div>
         </div>
     </div>
 
+    
 
 {% endblock %}
