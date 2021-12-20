@@ -5,7 +5,12 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="text-center mt-3 mb-4">Commentaires</h1>
+    <h1 class="text-center mt-3 mb-4">Les Commandes</h1>
+    {% for message in app.flashes('success') %}
+        <div class="col-6 mx-auto text-center alert alert-success">
+            {{ message }}
+        </div>        
+    {% endfor %}
     <div class="container col-12">
         <table class="table table-striped mx-2 mb-5" id="table-backoffice-commande">
         <thead>

@@ -4,28 +4,38 @@
     Admin | Gestions des User
 {% endblock %}
 {% block body %}
-<pre>
-    {{ dump(cellules) }}
-</pre>
+
+{% if app.request.query.get('op') == 'adm' %}
+    <h1 class="text-center my-5">Liste des Administrateurs</h1>
+{% else %}
     <h1 class="text-center my-5">Liste des Utilisateurs</h1>
+{% endif %}
+    <div class="d-flex mx-auto justify-content-around my-4">
+        <div class="text-center mx-auto"><a href="{{ path('app_admin_user') }}" class="btn bg-primary text-white"><i class="bi bi-person-lines-fill"></i></a><p class="text-center">Afficher les utilisateurs</p></div>
+        <div class="text-center mx-auto"><a href="?op=adm" class="btn bg-primary text-white"><i class="bi bi-person-lines-fill"></i></a><p class="text-center">Afficher les administrateurs</p></div>
+    </div>
+
     {% for message in app.flashes('success') %}
         <div class="col-6 mx-auto text-center alert alert-success">
             {{ message }}
         </div>        
     {% endfor %}
+<div class="container">
     <table class="table table-striped mx-2" id="table-backoffice-user">
         <thead>
             <tr class="entete-articles">
                 {% for data in colonnes %}
                     {% if data != 'id'  %}
                         {% if data != 'password'  %}
-                            {% if data == 'codePostal'  %}
-                                <th class="text-center">Code&nbsp;Postale</th>
-                            {% else %}
-                                <th class="text-center"> {{data|capitalize}} </th>
+                            {% if data != 'roles'  %}
+                                {% if data == 'codePostal'  %}
+                                    <th class="text-center">Code&nbsp;Postale</th>
+                                {% else %}
+                                    <th class="text-center"> {{data|capitalize}} </th>
+                                {% endif %}
                             {% endif %}
-                        {% endif %} 
-                    {% endif %}  
+                        {% endif %}
+                    {% endif %}
                 {% endfor %}
                 <th class="text-center">Action</th>
             </tr>
@@ -33,14 +43,64 @@
 
         <tbody>        
             {% for data in cellules %} 
-
                 {% if data != 'id' %}
-                {% if data != 'password' %}
+                    {% if data != 'password' %}
 
-                {% endif %}  
+                        {% if app.request.query.get('op') == 'adm' %}
+                            {# <pre>
+                                {{ dump(data.roles) }}
+                            </pre> #}
+                            {% if data.roles.0 == "ROLE_ADMIN" %}
+                            <tr class="text-center">
+                                <td class="text-primary"> {{ data.email }} </td>
+                                <td class="text-primary"> {{ data.pseudo }}</td>
+                                <td class="text-primary"> {{ data.nom }}</td>
+                                <td class="text-primary"> {{ data.prenom }}</td>
+                                <td class="text-primary"> {{ data.sexe }}</td>
+                                <td class="text-primary"> {{ data.telephone }}</td>
+                                <td class="text-primary"> {{ data.adresse }}</td>
+                                <td class="text-primary"> {{ data.ville }}</td>
+                                <td class="text-primary"> {{ data.codePostal }}</td>                        
+                                <td>
+                                    <div class="d-flex nowrap">
+                                        <a href="{{ path('app_admin_user_delete', {'id': data.id}) }}" class="btn bg-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet user' ))"><i class="bi bi-trash"></i></a>
+                                        <a href="{{ path('app_admin_user_update', {'id': data.id}) }}" class="btn bg-success text-white"><i class="bi bi-pencil-square"></i>
+                                    <div>
+                                </td>
+                            </tr>  
+                            {% endif %}
+
+                        {% else %}
+
+                            {% if data.roles.0 != "ROLE_ADMIN" %}
+                                
+                            <tr class="text-center">
+                                <td class=""> {{ data.email }} </td>
+                                <td class=""> {{ data.pseudo }}</td>
+                                <td class=""> {{ data.nom }}</td>
+                                <td class=""> {{ data.prenom }}</td>
+                                <td class=""> {{ data.sexe }}</td>
+                                <td class=""> {{ data.telephone }}</td>
+                                <td class=""> {{ data.adresse }}</td>
+                                <td class=""> {{ data.ville }}</td>
+                                <td class=""> {{ data.codePostal }}</td>                        
+                                <td>
+                                    <div class="d-flex nowrap">
+                                        <a href="{{ path('app_admin_user_delete', {'id': data.id}) }}" class="btn bg-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet user' ))"><i class="bi bi-trash"></i></a>
+                                        <a href="{{ path('app_admin_user_update', {'id': data.id}) }}" class="btn bg-success text-white"><i class="bi bi-pencil-square"></i>
+                                    <div>
+                                </td>
+                            </tr>   
+
+                            {% endif %}
+
+                        {% endif %}  
+                    {% endif %}  
+
                 {% endif %}  
 
             {% endfor %}
         </tbody>
     </table>
+</div>
 {% endblock %}

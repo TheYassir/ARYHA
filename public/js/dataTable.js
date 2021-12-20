@@ -10,12 +10,12 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-    $('#table-category').DataTable({
+    $('#table-backoffice-user').DataTable({
         language: {
             url: '/js/dataTables.french.json'
         },
         "aoColumnDefs": [
-            { 'bSortable': false, 'aTargets': [ 1,3 ] }
+            { 'bSortable': false, 'aTargets': [ 5,9 ] }
         ]
     });
 });
