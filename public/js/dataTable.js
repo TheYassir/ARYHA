@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#table-backoffice-user').DataTable({
+    $('#table-backoffice-article').DataTable({
         language: {
             url: '/js/dataTables.french.json'
         },
@@ -21,12 +21,12 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-    $('#table-backoffice-comment').DataTable({
+    $('#table-backoffice-commande').DataTable({
         language: {
             url: '/js/dataTables.french.json'
         },
         "aoColumnDefs": [
-            { 'bSortable': false, 'aTargets': [3] }
+            { 'bSortable': false, 'aTargets': [6] }
         ]
     });
 });
