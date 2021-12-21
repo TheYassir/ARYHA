@@ -5,7 +5,15 @@
 {% endblock %}
 {% block body %}
 
-<h1 class="text-center my-5">Liste des Catégory</h1>
+{% if app.request.query.get('op') == 'cheveux' %}
+    <h1 class="text-center my-5">Liste des Catégory Cheveux</h1>
+    {% elseif app.request.query.get('op') == 'corps' %}
+    <h1 class="text-center my-5">Liste des Catégory Corps</h1>
+    {% elseif app.request.query.get('op') == 'kit' %}
+    <h1 class="text-center my-5">Liste des Catégory Kit</h1>
+    {% else %}
+    <h1 class="text-center my-5">Liste des Catégory</h1>
+{% endif %}
 
 {% for message in app.flashes('success') %}
     <div class="col-6 mx-auto text-center alert alert-success">
@@ -24,7 +32,7 @@
 <div class="container col-12">
     <table class="table table-striped mx-2 mb-5" id="table-backoffice-category">
         <thead>
-            <tr class="entete-comments">
+            <tr class="entete-comments border dark">
                 <th class="text-center">Identifiant</th>
                 <th class="text-center">Titre</th>
                 <th class="text-center">Grande Category</th>
@@ -34,7 +42,9 @@
         <tbody>        
             {% for data in cellules %} 
                 {% if app.request.query.get('op') == 'cheveux' %}
+                
                     {% if data.grdCat == "Cheveux" %}
+                        
                         <tr>
                             <td class="text-center"> {{ data.id }}</td>
                             <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
