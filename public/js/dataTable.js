@@ -30,3 +30,13 @@ $(document).ready(function() {
         ]
     });
 });
+$(document).ready(function() {
+    $('#table-backoffice-category').DataTable({
+        language: {
+            url: '/js/dataTables.french.json'
+        },
+        "aoColumnDefs": [
+            { 'bSortable': false, 'aTargets': [ 3 ] }
+        ]
+    });
+});

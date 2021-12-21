@@ -4,13 +4,16 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Article;
+use App\Entity\Category;
 use App\Entity\Commande;
 use App\Form\ArticleType;
+use App\Form\CategoryType;
 use App\Form\CommandeType;
 use App\Controller\ShopController;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,7 +80,7 @@ class BackOfficeController extends AbstractController
                 $txt = "enregistré";
             else
                 $txt = "modifier";
-
+          
             $photo = $formArticle->get('photo')->getData();
 
             if($photo)
@@ -232,5 +235,60 @@ class BackOfficeController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/category', name: 'app_admin_category')]
+    #[Route('/admin/category/{id}/delete', name: 'app_admin_category_delete')]
+    public function adminCategory(EntityManagerInterface $manager, CategoryRepository $repoCat, Category $catDelete = null): Response
+    {
+        $colonnes = $manager->getclassMetadata(Category::class)->getFieldNames();
+        $cellules = $repoCat->findAll();
+
+
+        if($catDelete)
+        {
+            $id = $catDelete->getId();
+            $manager->remove($catDelete);
+            $manager->flush();
+            $this->addFlash('success', "La Category n°$id a bien été supprimer avec succès");
+            return $this->redirectToRoute('app_admin_category');
+        }
+        return $this->render('back_office/admin_category.html.twig', [
+            'colonnes' => $colonnes,
+            'cellules' => $cellules,
+        ]);
+    }
+
+    #[Route('/admin/category/add', name: 'app_admin_category_add')]
+    #[Route('/admin/category/{id}/edit', name: 'app_admin_category_update')]
+    public function adminCatgoryForm(Category $category = null, Request $request, EntityManagerInterface $manager): Response
+    {
+        if(!$category)
+        {
+            $category = new Category;
+        }
+        
+        $formCat = $this->createForm(CategoryType::class, $category);
+        $formCat->handleRequest($request);
+
+
+        if($formCat->isSubmitted() && $formCat->isValid())
+        {
+            if(!$category->getId())
+                $txt = "enregistré";
+            else
+                $txt = "modifier";
+
+            $manager->persist($category);
+            $manager->flush();
+            $this->addFlash('success', "La Category a été $txt avec succès !");
+
+            return $this->redirectToRoute('app_admin_category', [
+                'id' => $category->getId()
+            ]);           
+        }
+        return $this->render('back_office/admin_category_form.html.twig', [
+            'formCat' => $formCat->createView(),
+            'editMode' => $category->getId(),
+        ]);
+    }
 }
 

@@ -103,15 +103,27 @@
             &nbsp;Utilisateur
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link {% if route_name == 'app_admin_category' %} active {% endif %}" href="{{ path('app_admin_category') }}">
+            <i class="bi bi-diagram-2-fill"></i>
+            &nbsp;Category
+            </a>
+          </li>
         </ul>
         <hr>
-        <br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
         <hr>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
             <a class="nav-link {% if route_name == 'app_admin_articles_add' %} active {% endif %}" href="{{ path('app_admin_articles_add') }}">
             <i class="bi bi-file-earmark-plus-fill"></i>
             &nbsp;Nouvel Article
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if route_name == 'app_admin_category_add' %} active {% endif %}" href="{{ path('app_admin_category_add') }}">
+            <i class="bi bi-node-plus-fill"></i>
+            &nbsp;Nouvel Category
             </a>
           </li>
           <li class="nav-item">
