@@ -16,7 +16,6 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-         // Si getUser() renvoi des données, cela veut dire que l'internaute est authentifié, il n'a rien à faire sur la route '/register', on le redirige vers la route de connexion '/blog'
         if($this->getUser())
         {
             return $this->redirectToRoute ('shop');
@@ -25,30 +24,24 @@ class RegistrationController extends AbstractController
         $user = new User();
 
         $form = $this->createForm(RegistrationFormType::class, $user, [
-            'userRegistration' => true // on precise dans quelle condition on entre, dans la classe registrationFormType pour afficher un formulaire en particulier, la classe contient plusieur formulaire
+            'userRegistration' => true 
         ]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            // fait appel a l'objet $userPasswordHasher de la classe UserPasswordHasherInterface afin d'encoder le mot de passe en BDD
-            // En argument on lui fournit l'objet entité dans lequel nous allons encoder un élément ($user) et on lui fournit le mot de passe saisi dans le formulaire a encoder
             $hash = $userPasswordHasher->hashPassword(
                 $user,
                 $form->get('password')->getData()
             );
 
-            //dd($hash);
-
-            // on transmet au setter du password la clé de hachage à enregistrer en bdd
             $user->setPassword($hash);
 
             $this->addFlash('success', "Félicitation ! Vous êtes maintenant inscrit sur le site !");
 
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
 
             return $this->redirectToRoute('app_login');
         }

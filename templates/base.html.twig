@@ -1,152 +1,73 @@
-<html lang="en"><head>
-    <meta charset="utf-8">
+<html lang="fr" class="h-100">
+    <head>
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Notre Boutique e-commerce">
-        <meta name="author" content="Yassir Rigobert Khadija Yassine">
+        <meta name="description" content="Ma Boutique e-commerce">
+        <meta name="author" content="Yassir">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css"> 
         <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
         <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
-
-        <script src="{{ asset('js/dataTable.js') }}"></script>
         <meta name="theme-color" content="#7952b3">
         <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/dashboard/">
-        <title>
-            {% block title %} 
-
-            {% endblock %}
-        </title>
-
-    <!-- Bootstrap core CSS -->
-
-    <!-- Favicons -->
-
-
-
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      .contener {
-        height: 1250px;
-      }
-    </style>
-
-    
-    <!-- Custom styles for this template -->
-  <link href="{{ asset('CSS/shop.css') }}" rel="stylesheet">
-
-  {# <script type="{{ asset('js/script.js') }}">/* Chart.js */ #}
- 
- </head> 
-  <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#">WORLD OF SHOUA</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{{ path('index') }}">Accueil</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active" href="">Boutique</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Catégories
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
-                </li>
-
-                <a class="nav-link text-white" href="">Panier</a>
-
-              </ul>
-              <form class="d-flex">
-
-                    {% if app.user %}
-                        <a class="nav-link text-white" href="{{ path('app_profil') }}" title="Accès à votre compte">Bonjour <strong>{{ app.user.prenom }} {{ app.user.nom }}</strong></a>
-                    {% else %}
-                        <a class="nav-link text-white" href="{{ path('app_register') }}">Créer votre compte</a>
-                    {% endif %}
-
-                   {% if is_granted('ROLE_ADMIN') %}
-                        <a class="btn btn-outline-primary me-2" href="{{ path('app_admin') }}">BACKOFFICE</a>
-                    {% endif %}
-
-                    {% if app.user %}
-                        <a class="btn btn-outline-danger" href="{{ path('app_logout') }}">Deconnexion</a>
-                    {% else %}
-                        <a class="text-white p-2" href="{{ path('app_login') }}">Identifier-vous</a>
-                    {% endif %}
-
-              </form>
-            </div>
-          </div>
-        </nav>  
-
-        <div class="contener">
-        {% block body %}
-            
-        {% endblock %}        
-        </div>
-
-          <footer class="mt-auto text-white bg-dark">
-                
-                <p class="d-flex justify-content-center">
-                    <a href=""><i class="bi bi-facebook icone-b p-5"></i></a>
-                    <a href=""><i class="bi bi-instagram icone-b p-5"></i></a>
-                    <a href=""><i class="bi bi-twitter icone-b p-5"></i></a>
-                </p>
-               
-                <ul class="d-flex justify-content-around my-3">
-                    <a href="#">CGV</a>
-                    <a href="#">Mentions légales</a>
-                    <a href="#">Contact</a>
+        <title>Home</title>
+        <link href="{{ asset('CSS/shop.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        <header class="bg-dark">
+            <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+                {% if app.user %}                    
+                    <a class="nav-link text-light ms-1" href="{{ path('app_profil') }}" title="Acces a votre compte">Bonjour <strong>{{ app.user.prenom }} {{ app.user.nom}}</strong></a>
+                    <a href="/" class="d-flex align-items-center mb-2 mb-md-0 text-dark text-decoration-none"></a>
+                {% else %}
+                    <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none"></a>
+                {% endif %}
+                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="{{ path('home') }}" class="nav-link px-2 me-2 text-white">Home</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">About</a></li>
                 </ul>
+
+                <div class="col-md-3 text-end me-3">
+                    {% if app.user %} 
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a type="button" href="{{ path('app_admin') }}" class="btn btn-outline-warning me-2">BackOffice</a>
+                        {% endif %}
+                        <a type="button" href="{{ path('app_logout') }}" class="btn btn-outline-danger">Déconnexion</a>
+                    {% else %}
+                        <a type="button" href="{{ path('app_login') }}" class="btn btn-outline-primary me-2">Connexion</a>
+                        <a type="button" href="{{ path('app_register') }}" class="btn btn-outline-success">Inscription</a>
+                    {% endif %}
+                </div>
+            </nav>
+        </header>
+        <main style="height : 100%;">
+            {% block body %}
+                
+            {% endblock %}   
+        </main>
+        <footer class="bg-dark">
+            <div class="py-3 my-4">
+                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                    <li class="nav-item"><a href="{{ path('home') }}" class="nav-link px-2 text-white">Home</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-white">Features</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-white">About</a></li>
+                </ul>
+                <p class="text-center text-muted">© 2021 Yassir & Corp, Inc</p>
+            </div>
+        </footer>
+        
+        {% block javascripts %}
     
-                <p class="text-center">&copy; 2021 - Tous Droit Réservé - Rigobert - Shoua - Yassine - Yassir </p>
-
-                <p class="text-center">
-                  <a href="#">Back to top</a>
-                </p>
-
-          </footer>
-
-    {% block javascripts %}
-    
-    {% endblock %}
-
-    
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
-    {# <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script> #}
-    
-
+        {% endblock %}
+        <script src="/docs/5.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
     </body>
 </html>
+
