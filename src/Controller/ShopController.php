@@ -16,25 +16,12 @@ class ShopController extends AbstractController
            'titre' => 'Bienvenue sur World of Shoua',
         ]);
     }
-
-    public function shop(ArticleRepository $repoArticle)
-    {
-        $shop = $repoArticle->findAll();
-
-        return $this->render('shop/shop.html.twig', [
-            'shop' => $shop
-        ]); 
-    }
-
-    #[Route('/categorie', name:'categorie')]
+    
+    #[Route('/home', name: 'home')]
     public function home(): Response
     {
-        return $this->render('shop/categorie.html.twig', [
-            
-        ]);
+        return $this->render('shop/home.html.twig');
     }
-    
-    
 
     #[Route('/panier', name: 'panier')]
     public function panier(): Response

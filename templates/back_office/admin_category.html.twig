@@ -81,7 +81,7 @@
                         <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
                         <td class="text-center"> {{ data.grdCat }}</td>                    
                         <td>
-                            <div class=" text-center">
+                            <div class="text-center">
                                 <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
                                 <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
                             <div>
