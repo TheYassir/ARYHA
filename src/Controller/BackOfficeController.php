@@ -78,7 +78,6 @@ class BackOfficeController extends AbstractController
             else
                 $txt = "modifier";
 
-            if($article->getId())
             $photo = $formArticle->get('photo')->getData();
 
             if($photo)
