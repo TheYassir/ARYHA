@@ -48,8 +48,8 @@
 
         {# Si photoActuelle retourne TRUE, cela veut dire que l'article possède une photo, c'est une modification, alors on entre dans la condition IF et on affiche la photoactuelle de l'article #}
         <em>Vous pouvez mettre une autre photo si vous souhaitez la modifier</em>
-        <P class="col-12 text-center">
-            <img src="{{ asset('uploads/photos/' ~ photoActuelle) }}" alt="" class="img-responsive">
+        <P class="col-12 d-flex justify-content-around">
+            <img src="{{ asset('uploads/photos/' ~ photoActuelle) }}" alt="" class="img-responsive my-2" style="width: 200px; height: 200px;">
         </p>
             
         {% endif %}

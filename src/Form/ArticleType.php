@@ -22,7 +22,7 @@ class ArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titre', TextType::class,['label' => 'Titre de l\'article :', 'required' => true, 'attr' => ['placeholder' => "Saisir le titre de l'article",], 'constraints' => [new Length(['min' => 10, 'max' => 50, 'minMessage' => "Titre trop court (min 10 caractères)", 'maxMessage' => "Titre trop long (max 50 caractères)"]), New NotBlank(['message' => "Merci de saisir un titre."])]])
+            ->add('titre', TextType::class,['label' => 'Titre de l\'article :', 'required' => true, 'attr' => ['placeholder' => "Saisir le titre de l'article",], 'constraints' => [new Length(['min' => 5, 'max' => 50, 'minMessage' => "Titre trop court (min 5 caractères)", 'maxMessage' => "Titre trop long (max 50 caractères)"]), New NotBlank(['message' => "Merci de saisir un titre."])]])
             ->add('description', TextareaType::class, ['label' => 'Description de l\'article :', 'required' => false, 'attr' => ['placeholder' =>"Saisir la description de l'article", 'rows' => 5],'constraints' =>[New NotBlank(['message' => "Merci de saisir unz description d'article"])]])
             ->add('photo', FileType::class, ['label' => 'Uploader une photo :', "mapped" => true,'required' => false,"data_class" => null,'constraints' => [new File(['maxSize' => '5M', 'mimeTypes' => ['image/jpeg', 'image/png', 'image/jpg'],"mimeTypesMessage" => 'Format autorisés : jpg/png/jpeg.'])]])
             ->add('prix', NumberType::class,['label' => 'Prix de l\'article :', 'required' => true, 'attr' => ['placeholder' => "Saisir le prix de l'article",], 'constraints' =>[New NotBlank(['message' => "Merci de saisir un prix."])]])

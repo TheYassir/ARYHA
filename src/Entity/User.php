@@ -60,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $sexe;
 
     /**
-     * @ORM\Column(type="integer", length=10, options={"unsigned":true})
+     * @ORM\Column(type="integer", length=12)
      */
     private $telephone;
 

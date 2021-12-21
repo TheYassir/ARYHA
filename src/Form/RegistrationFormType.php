@@ -65,7 +65,7 @@ class RegistrationFormType extends AbstractType
                     'multiple' => false, 
                     'label' => "Civilité"])
 
-                ->add('telephone', NumberType::class, [
+                ->add('telephone', TextType::class, [
                     'required' => true,
                     'constraints' => [
                         new NotBlank([
