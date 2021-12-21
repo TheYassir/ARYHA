@@ -80,8 +80,7 @@ class BackOfficeController extends AbstractController
                 $txt = "enregistré";
             else
                 $txt = "modifier";
-
-            
+          
             $photo = $formArticle->get('photo')->getData();
 
             if($photo)
