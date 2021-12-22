@@ -23,11 +23,21 @@ class ShopController extends AbstractController
         return $this->render('shop/home.html.twig');
     }
 
-    #[Route('/panier', name: 'panier')]
-    public function panier(): Response
+    #[Route('/boutique', name: 'boutique')]
+    #[Route('/boutique/produit/{id}', name: 'boutique_produit')]
+    public function boutique(ArticleRepository $repoArticle): Response
     {
-        return $this->render('shop/panier.html.twig', [
 
+        $articles = $repoArticle->findAll();
+
+        return $this->render('shop/shop.html.twig', [
+            'articles' => $articles
         ]); 
+    }
+
+    #[Route('/ficheProduit', name: 'fiche-produit')]
+    public function ficheProduit(): Response
+    {
+        return $this->render('shop/fiche-produit.html.twig');
     }
 }

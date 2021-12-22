@@ -30,7 +30,7 @@ class ArticleFixtures extends Fixture
                     ->setAdresse($faker->streetAddress)
                     ->setVille($faker->city)
                     ->setCodePostal($faker->randomNumber($nbDigits = 5, $strict = true));
-                $manager->persist($user);
+            $manager->persist($user);
         }
 
         for($cat = 1; $cat <= 10; $cat++)
