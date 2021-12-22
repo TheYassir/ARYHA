@@ -123,59 +123,86 @@ class RegistrationFormType extends AbstractType
                             'minMessage' => "Votre mot de passe doit contenir au minimum 8 caractères"
                         ])
                     ]
-                ]);
+                ])
+            ;
         }
         elseif($options['userUpdate'] == true)
         {
             $builder
-            ->add('email', TextType::class, [
-                'required' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => "Veuillez renseigner votre email"
-                    ])
-                ]
-            ])
-            ->add('prenom', TextType::class, [
-                'required' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => "Veuillez renseigner votre prenom"
-                    ])
-                ]
-            ])
-            ->add('nom', TextType::class, [
-                'required' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => "Veuillez renseigner votre nom"
-                    ])
-                ]
-            ])
-            ->add('adresse', TextType::class, [
-                'required' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => "Veuillez renseigner votre adresse"
-                    ])
-                ]
-            ])
-            ->add('ville', TextType::class, [
-                'required' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => "Veuillez renseigner votre ville"
-                    ])
-                ]
-            ])
-            ->add('codePostal', TextType::class, [
-                'required' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => "Veuillez renseigner votre code postale"
-                    ])
-                ]
-            ]);
+                ->add('email', TextType::class, [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => "Veuillez renseigner votre email"
+                        ])
+                    ]
+                ])
+                ->add('pseudo', TextType::class, [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => "Veuillez renseigner votre pseudo"
+                        ])
+                    ]
+                ])
+                
+                ->add('nom', TextType::class, [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => "Veuillez renseigner votre nom"
+                        ])
+                    ]
+                ])
+
+                ->add('prenom', TextType::class, [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => "Veuillez renseigner votre prenom"
+                        ])
+                    ]
+                ])
+                ->add('sexe', ChoiceType::class, [
+                    'choices' => [ 'Homme' => 'Homme', 'Femme' => 'Femme'], 
+                    'expanded' => false, 
+                    'multiple' => false, 
+                    'label' => "Civilité"])
+
+                ->add('telephone', TextType::class, [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => "Veuillez renseigner votre numéro de téléphone"
+                        ])
+                    ]
+                ])                    
+
+                ->add('adresse', TextType::class, [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => "Veuillez renseigner votre adresse"
+                        ])
+                    ]
+                ])
+                ->add('ville', TextType::class, [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => "Veuillez renseigner votre ville"
+                        ])
+                    ]
+                ])
+                ->add('codePostal', NumberType::class, [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => "Veuillez renseigner votre code postale"
+                        ])
+                    ]
+                ])
+            ;
         }
         elseif($options['userUpdateBack'] == true)
         {
