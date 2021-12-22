@@ -16,8 +16,8 @@
         <link href="{{ asset('CSS/shop.css') }}" rel="stylesheet">
     </head>
     <body>
-        <header class="bg-dark">
-            <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <header class="">
+            <nav class="d-flex navbar-black flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom fixed-top">
                 {% if app.user %}                    
                     <a class="nav-link text-light ms-1" href="{{ path('app_profil') }}" title="Acces a votre compte">Bonjour <strong>{{ app.user.prenom }} {{ app.user.nom}}</strong></a>
                     <a href="/" class="d-flex align-items-center mb-2 mb-md-0 text-dark text-decoration-none"></a>
@@ -45,7 +45,7 @@
                 </div>
             </nav>
         </header>
-        <main style="height : 100%;">
+        <main style="min-height : 70%;">
             {% block body %}
                 
             {% endblock %}   
