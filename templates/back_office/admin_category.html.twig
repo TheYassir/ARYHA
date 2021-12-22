@@ -6,13 +6,13 @@
 {% block body %}
 
 {% if app.request.query.get('op') == 'cheveux' %}
-    <h1 class="text-center my-5">Liste des Catégory Cheveux</h1>
+    <h1 class="text-center my-5">Liste des Catégories Cheveux</h1>
     {% elseif app.request.query.get('op') == 'corps' %}
-    <h1 class="text-center my-5">Liste des Catégory Corps</h1>
+    <h1 class="text-center my-5">Liste des Catégories Corps</h1>
     {% elseif app.request.query.get('op') == 'kit' %}
-    <h1 class="text-center my-5">Liste des Catégory Kit</h1>
+    <h1 class="text-center my-5">Liste des Catégories Kit</h1>
     {% else %}
-    <h1 class="text-center my-5">Liste des Catégory</h1>
+    <h1 class="text-center my-5">Liste des Catégories</h1>
 {% endif %}
 
 {% for message in app.flashes('success') %}
