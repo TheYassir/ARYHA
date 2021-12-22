@@ -52,7 +52,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/profil', name: 'app_profil')]
-    public function userProfil(): Response
+    public function userProfil(Request $request, EntityManagerInterface $manager): Response
     {
         if(!$this->getUser())
         {
@@ -60,33 +60,31 @@ class RegistrationController extends AbstractController
         }
         $user= $this->getUser();
 
-        return $this->render('registration/profil.html.twig', [
-            'user' => $user
-        ]);
-
-    }
-
-    #[Route('/profil/{id}/edit', name: 'app_profil_edit')]
-    public function userProfilEdit(User $user, Request $request, EntityManagerInterface $manager): Response
-    {
-        $formUpdate = $this->createForm(RegistrationFormType::class, $user, [
-            'userUpdate' => true
-        ]);
-
-        $formUpdate->handleRequest($request);
-        
-        if($formUpdate->isSubmitted() && $formUpdate->isValid())
+        if( $request->query->get('op')) 
         {
-            $manager->persist($user);
-            $manager->flush();
+            
+            $formUpdate = $this->createForm(RegistrationFormType::class, $user, [
+                'userUpdate' => true
+            ]);
 
-            $this->addFlash('success', 'Vous avez modifié vos informations, merci de vous authentifié de nouveau');
-
-            return $this->redirectToRoute('app_logout');
+            $formUpdate->handleRequest($request);
+    
+            if($formUpdate->isSubmitted() && $formUpdate->isValid())
+            {
+                $manager->persist($user);
+                $manager->flush();
+    
+                $this->addFlash('success', 'Vous avez modifié vos informations. Merci de vous authentifié de nouveau');
+    
+                return $this->redirectToRoute('app_profil');
+            }
         }
+        
 
-        return $this->render('registration/profil_edit.html.twig', [
-            'formUpdate' => $formUpdate->createView()
+        return $this->render('registration/profil.html.twig', [
+            'user' => $user,
+            'formUpdate' => (isset($formUpdate)) ? $formUpdate->createView() : ''
         ]);
+
     }
 }
