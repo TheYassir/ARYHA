@@ -1,0 +1,18 @@
+<div class="container mt-5">
+    <div class="text-center border border-dark mb-3">
+        <p>Genre :</p>
+        <div class="d-flex justify-content-around text-center border-dark border-top">
+            <a href="{{ path('shop_genre', {'sexe': "Homme"}) }}" class="text-secondary text-decoration-none">Homme</a>
+            <a href="{{ path('shop_genre', {'sexe': "Femme"}) }}" class="text-secondary text-decoration-none">Femme</a>
+        </div>
+    </div>
+
+    {% for value in categorys %}
+        <a href="{{ path('shop_category', {'id': value.id}) }}" class="p-2 link-secondary">{{ value.titre }}</a>    
+    {% endfor %}
+
+
+</div>
+
+
+
