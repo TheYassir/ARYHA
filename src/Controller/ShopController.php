@@ -80,7 +80,6 @@ class ShopController extends AbstractController
         ]);
     }
 
-    
 
 
 }
