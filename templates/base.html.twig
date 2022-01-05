@@ -34,12 +34,12 @@
                 <div class="col-md-3 col-sd-1 text-end me-3">
                     {% if app.user %} 
                         {% if is_granted('ROLE_ADMIN') %}
-                            <a type="button" href="{{ path('app_admin') }}" class="btn btn-sm btn-outline-warning me-2 border-dark">BackOffice</a>
+                            <a type="button" href="{{ path('app_admin') }}" class="btn btn-sm hovab me-2 border-dark">BackOffice</a>
                         {% endif %}
-                        <a type="button" href="{{ path('app_logout') }}" class="btn btn-sm btn-outline-danger border-dark">Déconnexion</a>
+                        <a type="button" href="{{ path('app_logout') }}" class="btn btn-sm hovab border-dark">Déconnexion</a>
                     {% else %}
-                        <a type="button" href="{{ path('app_login') }}" class="btn btn-sm btn-outline-primary me-2 border-dark">Connexion</a>
-                        <a type="button" href="{{ path('app_register') }}" class="btn btn-sm btn-outline-success border-dark">Inscription</a>
+                        <a type="button" href="{{ path('app_login') }}" class="btn btn-sm hovad me-2 border-dark">Connexion</a>
+                        <a type="button" href="{{ path('app_register') }}" class="btn btn-sm hovae border-dark">Inscription</a>
                     {% endif %}
                 </div>
             </nav>
