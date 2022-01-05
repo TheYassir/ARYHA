@@ -5,7 +5,19 @@
 {% endblock %}
 {% block body %}
 
+<<<<<<< HEAD
 <h1 class="text-center my-5">Liste des Catégory</h1>
+=======
+{% if app.request.query.get('op') == 'cheveux' %}
+    <h1 class="text-center my-5">Liste des Catégories Cheveux</h1>
+    {% elseif app.request.query.get('op') == 'corps' %}
+    <h1 class="text-center my-5">Liste des Catégories Corps</h1>
+    {% elseif app.request.query.get('op') == 'kit' %}
+    <h1 class="text-center my-5">Liste des Catégories Kit</h1>
+    {% else %}
+    <h1 class="text-center my-5">Liste des Catégories</h1>
+{% endif %}
+>>>>>>> c0e25e0dbb69761aac39e9523825310f3f74a729
 
 {% for message in app.flashes('success') %}
     <div class="col-6 mx-auto text-center alert alert-success">
