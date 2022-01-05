@@ -1,0 +1,118 @@
+<div class="accordion" id="accordionExample">      
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Homme
+            </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">  
+                    {% set newArray = [] %}
+                    {% set a = 1 %}
+                    {% for value in categorys %}
+                    {% if value.sexe == "Homme" %}
+                        {% if value.grdCat not in newArray %}
+                            {% set newArray = newArray|merge([value.grdCat]) %}
+                            {% set a = a + 1 %}
+                            
+                                <div class="accordion" id="accordionExample{{a}}">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne{{a}}">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{a}}" aria-expanded="true" aria-controls="collapseOne{{a}}">
+                                            {{value.grdCat}}
+                                        </button>
+                                        </h2>
+                                        <div id="collapseOne{{a}}" class="accordion-collapse collapse " aria-labelledby="headingOne{{a}}" data-bs-parent="#accordionExample{{a}}">
+                                        <div class="accordion-body">
+
+                                        {% for valeur in categorys %}
+                                            {% if valeur.sexe == "Homme" %}   
+                                            {% set i = 0 %} 
+                                            {% set j = 0 %}                        
+                                                {% for grd in newArray[j:] %}
+                                                {% set i = j + 1 %}
+                                                    {% if grd == valeur.grdCat %}
+                                                        {# <pre>
+                                                        {{ dump(grd) }}
+                                                        </pre> #}
+                                                        
+                                                        <a href="" class="btn link-secondary">{{valeur.titre}}</a>
+
+                                                    {% endif %}
+                                                    
+                                                {% endfor %}
+                                                
+                                            {% endif %}   
+                                        {% endfor %}
+
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endif %}   
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Femme
+            </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    {% set newArray3 = [] %}
+                    {% set b = 10 %}
+                    {% for value in categorys %}
+                    {% if value.sexe == "Femme" %}
+                        {% if value.grdCat not in newArray3 %}
+                            {% set newArray3 = newArray3|merge([value.grdCat]) %}
+                            {% set b = b + 1 %}
+
+                                <div class="accordion" id="accordionExample{{b}}">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingTwo{{b}}">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo{{b}}" aria-expanded="true" aria-controls="collapseTwo{{b}}">
+                                            {{value.grdCat}}
+                                        </button>
+                                        </h2>
+                                        <div id="collapseTwo{{b}}" class="accordion-collapse collapse " aria-labelledby="headingTwo{{b}}" data-bs-parent="#accordionExample{{b}}">
+                                        <div class="accordion-body">
+                                        {% set newArray4 = [] %}
+                                        {% for valeur in categorys %}
+                                            {% if valeur.titre not in newArray4 %}
+                                                {% set newArray4 = newArray4|merge([valeur.titre]) %}
+                                                {% if valeur.sexe == "Femme" %}
+                                                    {% for grd in newArray3 %}
+                                                    {% if grd == valeur.grdCat %}
+                                                        {# <pre>
+                                                        {{ dump(valeur.titre) }}
+                                                        </pre> #}
+                                                        
+                                                        <a href="" class="btn link-secondary">{{valeur.titre}}</a>
+
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {# <a href="" class="btn link-secondary">{{value.titre}}</a> #}
+                                                {% endif %}   
+                                            {% endif %}
+                                        
+                                        {% endfor %}
+
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endif %}   
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>

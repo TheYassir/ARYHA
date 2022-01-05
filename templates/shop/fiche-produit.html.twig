@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-    ARYHA | Fiche Produit
+    ARYHA paris | Fiche Produit
 {% endblock %}
 {% block body %}
 
@@ -87,7 +87,11 @@
             </a>
         </div>
         <div class="text-center mb-5">
-            <button class="col-3 btn hova">Ajouter au panier</button>
+            {% if app.user %}
+            <a href="{{ path('add_panier', {'id': article.id}) }}" class="col-3 btn hova">Ajouter au panier</a>
+            {% else %}
+            <a href="{{ path('app_login')}}" class="col-3 btn hova">Ajouter au panier</a>
+            {% endif %}
         </div>
 
     </div>

@@ -1,18 +1,18 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-    World of Shoua | Profil
+ARYHA paris | Profil
 {% endblock %}
 
 {% block body %}
     
-    <h1 class="text-center">Vos données personnelles</h1>
+    <h1 class="text-center my-5">Vos données personnelles</h1>
 
     {% if user.roles.0 == 'ROLE_ADMIN' %}
         <p class="text-center text-secondary mb-4">Vous êtes <span class="text-primary">ADMINISTRATEUR</span>  du site</p>
     {% endif %}
 
-    <div class="d-flex justify-content-around">
+    <div class="d-flex justify-content-around my-3">
         <div class="col-sm-5">
             <div class="card border-secondary">
                 <div class="card-body">
