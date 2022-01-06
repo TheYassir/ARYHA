@@ -5,7 +5,7 @@
 {% endblock %}
 {% block body %}
 
-    <h1 class="text-center my-3 hov"> Bienvenue dans le panier</h1>
+    <h1 class="my-3 ms-5 hov">&nbsp;&nbsp;&nbsp;Bienvenue dans le panier</h1>
     <div class="container d-flex justify-content-between">
         <div class="" style="width: 70%;">
             <table class="table table-hover">
@@ -42,9 +42,10 @@
                 <tfoot>
                     <tr>
                         <td colspan="3">Total</td>
+                        <td></td>
                         <td class="text-end">{{ total }} €</td>
                         <td class="text-end">
-                            Tout supprimer <a href="{{ path('delete_all_panier') }}" class="btn btn-danger"><i class="bi bi-cart-x"></i></a>
+                            Vider le panier <a href="{{ path('delete_all_panier') }}" class="btn btn-danger"><i class="bi bi-cart-x"></i></a>
                         </td>
                     </tr>
                 </tfoot>
@@ -81,7 +82,7 @@
             <input type="text"  class="form-control my-3" placeholder="Code Promo ?" name="codePromo">
 
             <div class="text-center">
-                <a href="" type="submit" class="btn btn-primary">Continuer</a>
+                <a href="{{ path('commander') }}" type="submit" class="btn hova">Commander</a>
             </div>
         </form>
 

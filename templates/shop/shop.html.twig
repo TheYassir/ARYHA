@@ -47,19 +47,23 @@
                     </div>
                 {% endif %}
             {% else %}
-            <div class="card mx-auto">
-                <div class="card-body">
-                    <h5 class="card-title">Pas de produit disponible pour cette catégorie !</h5>
-                    <div class="d-flex justify-content-between">
-                    <a href="" class="btn hov">Retournez dans la boutique</a>
+        </div>    
+            <div class="text-center d-flex ">
+                <div class="card mx-auto my-3">
+                    <div class="card-body my-3">
+                        <h5 class="card-title">Pas de produit disponible pour cette catégorie !</h5>
+                        <div class="d-flex justify-content-between">
+                        <a href="" class="btn hov">Retournez dans la boutique</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            
             {% endfor %}
 
 
-        </div>        
-        <a href="?top" class="btn btn-sm hova">Remontez en haut</a>
+        </div>  
+        <div class="text-center mt-5 mb-1"><a href="?top" class="btn btn-sm hova">Remontez en haut</a></div>      
+        
     </div>
 
 
@@ -67,32 +71,45 @@
 
     <div class="w-25 h-100"> 
         <div class="col-10 mx-auto order-md-last mt-5">
+            
+            {% if app.user %}
             <h4 class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-primary">Votre Panier</span>
             </h4>
-            <ul class="list-group mb-3">
-            {% for element in dataPanier  %}
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                    <h6 class="my-0">{{element.article.titre}}</h6>
-                    <small class="text-muted">Quantité : {{element.quantite}}</small>
-                    </div>
-                    <span class="text-muted">{{element.article.prix * element.quantite}} €</span>
-                </li>
+                <ul class="list-group mb-3">
+                    {% for element in dataPanier  %}
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                            <h6 class="my-0">{{element.article.titre}}</h6>
+                            <small class="text-muted">Quantité : {{element.quantite}}</small>
+                            </div>
+                            <span class="text-muted">{{element.article.prix * element.quantite}} €</span>
+                        </li>
+                    {% else %}
+                        
+                    {% endfor %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (euros €)</span>
+                        <strong>{{total}} €</strong>
+                    </li>
+                    </ul>
+                    <form method="post" class="card p-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Code Promo" name="codePromo">
+                            <button type="submit" class="btn btn-secondary">Utiliser</button>
+                        </div>
+                    </form>
             {% else %}
-                
-            {% endfor %}
-            <li class="list-group-item d-flex justify-content-between">
-                <span>Total (euros €)</span>
-                <strong>{{total}} €</strong>
-            </li>
-            </ul>
-            <form method="post" class="card p-2">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Code Promo" name="codePromo">
-                <button type="submit" class="btn btn-secondary">Utiliser</button>
+            <h4 class="align-items-center mb-3">
+            <span class="text-primary">Connectez vous ou Inscrivez-vous</span> <br>
+            </h4>
+            <span class="text-muted">Pour pouvoir remplir votre panier</span>
+            
+            <div class="d-flex justify-content-around">
+
             </div>
-            </form>
+            {% endif %}
+            
         </div>
     </div>
 

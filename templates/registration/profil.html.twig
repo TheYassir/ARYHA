@@ -91,9 +91,52 @@ ARYHA paris | Profil
                     </div>
                 </div>
             </div>
+        {# {% else %}
+            <div class="accordion" id="accordionExample">      
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Homme
+                    </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">  
+                            {% set a = 1 %}
+                            {% set newArray = [] %}
+                            {% for value in catHom %}
+                                {% if value.grdCat not in newArray %}
+                                {% set newArray = newArray|merge([value.grdCat]) %}
+                                {% set a = a + 1 %}
+                                    <div class="accordion" id="accordionExample{{a}}">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingOne{{a}}">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{a}}" aria-expanded="true" aria-controls="collapseOne{{a}}">
+                                                {{value.grdCat}}
+                                            </button>
+                                            </h2>
+                                            <div id="collapseOne{{a}}" class="accordion-collapse collapse " aria-labelledby="headingOne{{a}}" data-bs-parent="#accordionExample{{a}}">
+                                                <div class="accordion-body">
+                                                    {% for valeur in catHom %}
+                                                    {% if valeur.grdCat == value.grdCat %}
+                                                        <a href="{{ path('shop_category', {'id': valeur.id}) }}" class="btn link-secondary text-start">{{valeur.titre}}</a><br>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div> #}
         {% endif %}
     </div>
 
+    <div class="container text-center">
+        Vos commandes
+    </div>
     
 
     

@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Commande;
+use App\Entity\DetailCommande;
 use App\Repository\ArticleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -99,5 +102,65 @@ class CartController extends AbstractController
         
         return $this->redirectToRoute("panier");    
     }
+    
+    #[Route('/panier/achat', name: 'commander')]
+    public function validPanier(SessionInterface $session, EntityManagerInterface $manager, ArticleRepository $articleRepo) : Response
+    {
+        $panier = $session->get("panier", []);
+        $commande = new Commande;
+        $commande->setDate(new \DateTime());
+        $commande->setUser($this->getUser());
+        $commande->setEtat("En cours de traitement");
+        $montant = 0;
+        
+        $panier = $session->get("panier", []);
 
+        // On fabrique les données
+        $dataPanier = [];
+        $montant = 0;
+
+        foreach($panier as $id => $quantite)
+        {
+            $article = $articleRepo->find($id);
+            $dataPanier[] = [
+                "article" => $article,
+                "quantite" => $quantite
+            ];
+            $montant += $article->getPrix() * $quantite;
+        }
+        $commande->setMontant($montant);
+
+        $manager->persist($commande);
+
+
+
+        foreach($panier as $id => $quantite)
+        {
+            $articles = $articleRepo->find($id);
+            $detailCommande = new DetailCommande;
+            $detailCommande->setArticle($articles);
+            $detailCommande->setQuantite($quantite);
+            $prix = $articles->getPrix();
+            $detailCommande->setPrix($prix);
+            $detailCommande->setCommande($commande);
+            $manager->persist($detailCommande);
+
+        }
+        $manager->flush();        
+
+        $this->addFlash('success', "Félicitations ! Votre commande a été enregistré avec succès !");
+        $session->remove('panier');
+
+        return $this->redirectToRoute("app_valid,{$commande['id']}");
+    }
+
+    #[Route('/validation/{id}', name: 'app_valid')]
+    public function validation(Commande $commande)
+    {   
+        
+        return $this->render('shop/validation.html.twig', [
+            'commande' => $commande
+        ]);    
+    
+    }
 }
