@@ -35,9 +35,5 @@ class ShopController extends AbstractController
         ]); 
     }
 
-    #[Route('/ficheProduit', name: 'fiche-produit')]
-    public function ficheProduit(): Response
-    {
-        return $this->render('shop/fiche-produit.html.twig');
-    }
+
 }
