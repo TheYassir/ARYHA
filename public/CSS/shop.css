@@ -1,13 +1,39 @@
 .nav-link:hover {
-  color: orange !important;
+  opacity: 1;
 }
+.coul {
+  color: rgb(155, 4, 4) !important;
+}
+.nav-link{
+  display: inline-block;
+  position: relative;
+  opacity: 0.75;
+  padding: 10px 0px !important;
+  margin: 0px 10px !important;
+}
+.nav-link::before {
+  transition: 300ms;
+  height: 5px;
+  content: "";
+  position: absolute;
+  background-color: #550505;
+}
+
+.nav-link-ltr::before {
+  width: 0%;
+  bottom: 10px;
+}
+
+.nav-link-ltr:hover::before {
+  width: 100%;
+}
+
+
 /* GLOBAL STYLES
 -------------------------------------------------- */
 /* Padding below the footer and lighter body text */
 
 body {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
   color: #5a5a5a;
 }
 
@@ -72,7 +98,6 @@ body {
   letter-spacing: -.05rem;
 }
 
-
 /* RESPONSIVE CSS
 -------------------------------------------------- */
 
@@ -95,3 +120,30 @@ body {
   }
 }
 
+.tail {
+  height: 600px;
+}
+.tai {
+  height: 400px;
+}
+.espace {
+  width: 100%;
+}
+.ico {
+  text-decoration: none;
+  color: #706d6d;
+}
+.ico:hover{
+  color: #790808;
+}
+.hov:hover{
+  color: #790808;
+}
+.hova{
+  color: #d8d8d8;
+  background-color: #5a5a5a;
+}
+.hova:hover{
+  color: #d8d8d8;
+  background-color: #550505;
+}

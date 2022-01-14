@@ -25,7 +25,7 @@ class Article
     private $titre;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $description;
 
@@ -59,6 +59,11 @@ class Article
      * @ORM\OneToMany(targetEntity=DetailCommande::class, mappedBy="article")
      */
     private $detailCommandes;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $taille;
 
     public function __construct()
     {
@@ -180,6 +185,18 @@ class Article
                 $detailCommande->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTaille(): ?string
+    {
+        return $this->taille;
+    }
+
+    public function setTaille(?string $taille): self
+    {
+        $this->taille = $taille;
 
         return $this;
     }

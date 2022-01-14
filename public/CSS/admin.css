@@ -103,3 +103,10 @@ body {
       font-size: large;
   }
   
+  .bgRose{
+    background-color: rgb(233, 41, 175);
+  }
+
+  .bgBleu{
+    background-color: rgb(9, 49, 134);
+  }

@@ -45,7 +45,7 @@
                     <td class="text-center"> {{ data.stock }}</td>
                     <td class="text-center"> {{ data.couleur }}</td>
 
-                    <td class="text-center">{{data.category.titre}}</td>
+                    <td class="text-center">{{data.category.titre}} / {{data.category.grdCat}} / {{data.category.sexe}}</td>
                     
                     <td><div class="d-flex nowrap">
                             <a href="{{ path('app_admin_articles_delete', {'id': data.id}) }}" class="btn bg-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet article : {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
