@@ -39,7 +39,7 @@
                 <nav class="nav nav-masthead justify-content-center float-md-end">
                     <a class="nav-link text-white" aria-current="page" href="{{ path('home') }}">Home</a>
                     <a class="nav-link text-white" href="#">Boutique</a>
-                    <a class="nav-link text-white" href="#">Contact</a>
+                    {# <a class="nav-link text-white" href="#">Contact</a> #}
                 </nav>
                 </div>
             </header>
@@ -47,9 +47,7 @@
                     <h1>Bienvenue sur notre site</h1>
                     <p class="lead">Quel type d'article recherchez-vous ?</p>
                     <p class="lead">
-                        <a href="#" class="btn hova fw-bold border-white">Homme</a>
-                        <a href="#" class="btn hovab fw-bold border-white">Des idées ?</a>
-                        <a href="#" class="btn hova fw-bold border-white">Femme</a>
+                        <a href="{{ path('home') }}" class="btn hova fw-bold border-white">Entrée sur le site</a>
                     </p>
             </main>
 

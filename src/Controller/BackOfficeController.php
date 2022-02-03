@@ -40,17 +40,25 @@ class BackOfficeController extends AbstractController
     #[Route('/admin/articles/{id}/remove', name: 'app_admin_articles_delete')]
     public function adminArticles(EntityManagerInterface $manager, ArticleRepository $repoArticle, Article $artDelete = null, ShopController $artUpdate): Response
     {
+        // Pour récupérer tout les noms des champs inscris en BDD
         $colonnes = $manager->getclassMetadata(Article::class)->getFieldNames();
+        // Pour récupérer tout les articles sans distinction
         $cellules = $repoArticle->findAll();
 
+        // Si un ID est envoyer en URL, il est récuperer automatiquement dans la variable artDelete
         if($artDelete)
         {
+            // Grace à l'id on récupère l'article au complet 
             $id = $artDelete->getId();
+            // On le supprime 
             $manager->remove($artDelete);
+            // Et on flush, on execute la suppression
             $manager->flush();
+            // On enregistre un message en session quon pourra afficher
             $this->addFlash('success', "L'article n°$id a bien été supprimer avec succès");
             return $this->redirectToRoute('app_admin_articles');
         }
+        // Envoi un template a afficher avec des valeur données pour pouvoir afficher se que l'on veut précisement ici les titre et les article au complet 
         return $this->render('back_office/admin_articles.html.twig', [
             'colonnes' => $colonnes,
             'cellules' => $cellules

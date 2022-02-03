@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Commande;
 use App\Entity\DetailCommande;
 use App\Repository\ArticleRepository;
+use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -105,7 +106,7 @@ class CartController extends AbstractController
     
     #[Route('/panier/achat', name: 'commander')]
     public function validPanier(SessionInterface $session, EntityManagerInterface $manager, ArticleRepository $articleRepo) : Response
-    {
+    {   
         $panier = $session->get("panier", []);
         $commande = new Commande;
         $commande->setDate(new \DateTime());
@@ -114,7 +115,7 @@ class CartController extends AbstractController
         $montant = 0;
         
         $panier = $session->get("panier", []);
-
+        
         // On fabrique les données
         $dataPanier = [];
         $montant = 0;
@@ -147,20 +148,23 @@ class CartController extends AbstractController
 
         }
         $manager->flush();        
-
         $this->addFlash('success', "Félicitations ! Votre commande a été enregistré avec succès !");
         $session->remove('panier');
-
-        return $this->redirectToRoute("app_valid,{$commande['id']}");
-    }
-
-    #[Route('/validation/{id}', name: 'app_valid')]
-    public function validation(Commande $commande)
-    {   
         
-        return $this->render('shop/validation.html.twig', [
-            'commande' => $commande
-        ]);    
-    
+
+        return $this->redirectToRoute("home");
     }
+
+    // #[Route('/panier/validation', name: 'valid')]
+    // public function validation(CommandeRepository $repoCommande)
+    // {      
+    //     // $commande = $repoCommande->findOneBy(array("id" => "ASC"));
+    //     $commande = $repoCommande->findBy(array('id' => 'Registration'),array('id' => 'ASC'),1 ,0)[0];
+    //     // $commande = $repoCommande->findAll();
+    //     dd($commande);
+    //     return $this->render('shop/validation.html.twig', [
+    //         'commande' => $commande
+    //     ]);    
+    
+    // }
 }
