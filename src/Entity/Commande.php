@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommandeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -39,9 +41,14 @@ class Commande
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity=DetailCommande::class, mappedBy="commande", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=DetailCommande::class, mappedBy="commande")
      */
     private $detailCommande;
+
+    public function __construct()
+    {
+        $this->detailCommande = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -96,20 +103,34 @@ class Commande
         return $this;
     }
 
-    public function getDetailCommande(): ?DetailCommande
+    /**
+     * @return Collection|DetailCommande[]
+     */
+    public function getDetailCommande(): Collection
     {
         return $this->detailCommande;
     }
 
-    public function setDetailCommande(DetailCommande $detailCommande): self
+    public function addDetailCommande(DetailCommande $detailCommande): self
     {
-        // set the owning side of the relation if necessary
-        if ($detailCommande->getCommande() !== $this) {
+        if (!$this->detailCommande->contains($detailCommande)) {
+            $this->detailCommande[] = $detailCommande;
             $detailCommande->setCommande($this);
         }
 
-        $this->detailCommande = $detailCommande;
+        return $this;
+    }
+
+    public function removeDetailCommande(DetailCommande $detailCommande): self
+    {
+        if ($this->detailCommande->removeElement($detailCommande)) {
+            // set the owning side to null (unless already changed)
+            if ($detailCommande->getCommande() === $this) {
+                $detailCommande->setCommande(null);
+            }
+        }
 
         return $this;
     }
+
 }

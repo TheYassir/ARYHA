@@ -27,35 +27,19 @@
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                     <li class="nav-link nav-link-ltr"><a href="{{ path('home') }}" class="nav-link me-2 text-white">Home</a></li>
                     <li class="nav-link nav-link-ltr"><a href="{{ path('shop') }}" class="nav-link text-white">Shop</a></li>
-                    <li class="nav-link nav-link-ltr">
-                        <a href="#" class="nav-link text-white dropdown-toggle" id="drop1" role="button" data-bs-toggle="dropdown" aria-expanded="false">Homme</a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="drop1">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-link nav-link-ltr">
-                        <a href="#" class="nav-link text-white dropdown-toggle" id="drop2" role="button" data-bs-toggle="dropdown" aria-expanded="false">Femme</a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="drop2">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
                     <li class="nav-link nav-link-ltr"><a href="#" class="nav-link text-white">Contact</a></li>
-                    <li class="nav-link nav-link-ltr"><a href="#" class="nav-link text-white">Panier <i class="bi bi-cart4"></i></a></li>
+                    <li class="nav-link nav-link-ltr"><a href="{{ path('panier') }}" class="nav-link text-white">Panier <i class="bi bi-cart4"></i></a></li>
                 </ul>
 
                 <div class="col-md-3 col-sd-1 text-end me-3">
                     {% if app.user %} 
                         {% if is_granted('ROLE_ADMIN') %}
-                            <a type="button" href="{{ path('app_admin') }}" class="btn btn-sm btn-outline-warning me-2 border-dark">BackOffice</a>
+                            <a type="button" href="{{ path('app_admin') }}" class="btn btn-sm hova me-2 border-dark">BackOffice</a>
                         {% endif %}
-                        <a type="button" href="{{ path('app_logout') }}" class="btn btn-sm btn-outline-danger border-dark">Déconnexion</a>
+                        <a type="button" href="{{ path('app_logout') }}" class="btn btn-sm hovab border-dark">Déconnexion</a>
                     {% else %}
-                        <a type="button" href="{{ path('app_login') }}" class="btn btn-sm btn-outline-primary me-2 border-dark">Connexion</a>
-                        <a type="button" href="{{ path('app_register') }}" class="btn btn-sm btn-outline-success border-dark">Inscription</a>
+                        <a type="button" href="{{ path('app_login') }}" class="btn btn-sm hova me-2 border-dark">Connexion</a>
+                        <a type="button" href="{{ path('app_register') }}" class="btn btn-sm hovab border-dark">Inscription</a>
                     {% endif %}
                 </div>
             </nav>
@@ -70,12 +54,13 @@
             <div class="pb-3">
                 <ul class="nav justify-content-center border-bottom mb-3">
                     <li class="nav-link nav-link-ltr"><a href="{{ path('home') }}" class="nav-link px-2 me-2 text-white"><img src="{{ asset('uploads/photos/logo_small_icon_only_inverted.png') }}" alt="logo" style="height: 30px;"></a></li>
-                    <li class="nav-link nav-link-ltr"><a href="#" class="nav-link px-2 text-white">Features</a></li>
-                    <li class="nav-link nav-link-ltr"><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-                    <li class="nav-link nav-link-ltr"><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                    <li class="nav-link nav-link-ltr"><a href="#" class="nav-link px-2 text-white">About</a></li>
+                    <li class="nav-link nav-link-ltr"><a href="{{ path('app_profil') }}" class="nav-link px-2 text-white">Profil</a></li>
+                    <li class="nav-link nav-link-ltr"><a href="{{ path('shop') }}" class="nav-link px-2 text-white">Shop</a></li>
+                    <li class="nav-link nav-link-ltr"><a href="#" class="nav-link px-2 text-white">Mentions légales</a></li>
+                    <li class="nav-link nav-link-ltr"><a href="#" class="nav-link px-2 text-white">FaQ</a></li>
+                    <li class="nav-link nav-link-ltr"><a href="#" class="nav-link px-2 text-white">Contact</a></li>
                 </ul>
-                <p class="text-center text-muted">© 2021 SYYR & Corp, Inc</p>
+                <p class="text-center text-muted">© 2021 ARYHA paris</p>
             </div>
         </footer>
         

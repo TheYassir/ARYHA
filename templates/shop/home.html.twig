@@ -1,13 +1,16 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-Home | ARYHA paris
+ARYHA paris | Home
 {% endblock %}
 
 {% block body %}
 <section class="m-0 p-0 w-100" style="background: url({{ asset('uploads/photos/fond.jpg') }}) no-repeat center fixed; background-size: cover; height: 700px;">
 </section>
+<<<<<<< HEAD
+=======
 
+>>>>>>> db463e97081c5ebb2b85b40449c6df655ee01e58
 
 <div class="espace bg-light border">
   <h1 class="text-center my-5">Que recherchez-vous ?</h1>
@@ -20,8 +23,8 @@ Home | ARYHA paris
         <h2>Sacs à main / Sac à dos</h2>
         <p>A partir de 100 €</p>
         <div>
-          <button class="btn btn-outline-secondary" type="button">Pour elle</button>
-          <button class="btn btn-outline-secondary" type="button">Pour lui</button>
+          <a href="{{ path('shop_category', {'id': 42}) }}" class="btn btn-outline-secondary" type="button">Pour elle</a>
+          <a href="{{ path('shop_category', {'id': 64}) }}" class="btn btn-outline-secondary" type="button">Pour lui</a>
         </div>
       </div>
     </div>
@@ -43,8 +46,8 @@ Home | ARYHA paris
         <h2>Bonnets / Gants / Ceintures</h2>
         <p>A partir de 20 €</p>
         <div>
-          <button class="btn btn-outline-secondary" type="button">Pour elle</button>
-          <button class="btn btn-outline-secondary" type="button">Pour lui</button>
+          <a href="{{ path('shop_category', {'id': 75}) }}" class="btn btn-outline-secondary" type="button">Pour elle</a>
+          <a href="{{ path('shop_category', {'id': 49}) }}" class="btn btn-outline-secondary" type="button">Pour lui</a>
         </div>
       </div>
     </div>
@@ -58,8 +61,8 @@ Home | ARYHA paris
         <h2>Sneakers / Escarpins / Mocassins</h2>
         <p>A partir de 120 €</p>
         <div>
-          <button class="btn btn-outline-secondary" type="button">Pour elle</button>
-          <button class="btn btn-outline-secondary" type="button">Pour lui</button>
+          <a href="{{ path('shop_category', {'id': 77}) }}" class="btn btn-outline-secondary" type="button">Pour elle</a>
+          <a href="{{ path('shop_category', {'id': 50}) }}" class="btn btn-outline-secondary" type="button">Pour lui</a>
         </div>      
       </div>
     </div>
@@ -81,8 +84,8 @@ Home | ARYHA paris
         <h2>Chemises / Sweats / Robes</h2>
         <p>A partir de 75 €</p>
         <div>
-          <button class="btn btn-outline-secondary" type="button">Pour elle</button>
-          <button class="btn btn-outline-secondary" type="button">Pour lui</button>
+          <a href="{{ path('shop_category', {'id': 81}) }}" class="btn btn-outline-secondary" type="button">Pour elle</a>
+          <a href="{{ path('shop_category', {'id': 64}) }}" class="btn btn-outline-secondary" type="button">Pour lui</a>
         </div>      
         </div>
     </div>
@@ -96,8 +99,8 @@ Home | ARYHA paris
         <h2>Montres / Colliers / Bagues</h2>
         <p>A partir de 50 €</p>
         <div>
-          <button class="btn btn-outline-secondary" type="button">Pour elle</button>
-          <button class="btn btn-outline-secondary" type="button">Pour lui</button>
+          <a href="{{ path('shop_category', {'id': 89}) }}" class="btn btn-outline-secondary" type="button">Pour elle</a>
+          <a href="{{ path('shop_category', {'id': 59}) }}" class="btn btn-outline-secondary" type="button">Pour lui</a>
         </div>
       </div>
     </div>

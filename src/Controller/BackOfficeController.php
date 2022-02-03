@@ -10,11 +10,13 @@ use App\Form\ArticleType;
 use App\Form\CategoryType;
 use App\Form\CommandeType;
 use App\Controller\ShopController;
+use App\Entity\DetailCommande;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\CommandeRepository;
+use App\Repository\DetailCommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,17 +40,25 @@ class BackOfficeController extends AbstractController
     #[Route('/admin/articles/{id}/remove', name: 'app_admin_articles_delete')]
     public function adminArticles(EntityManagerInterface $manager, ArticleRepository $repoArticle, Article $artDelete = null, ShopController $artUpdate): Response
     {
+        // Pour récupérer tout les noms des champs inscris en BDD
         $colonnes = $manager->getclassMetadata(Article::class)->getFieldNames();
+        // Pour récupérer tout les articles sans distinction
         $cellules = $repoArticle->findAll();
 
+        // Si un ID est envoyer en URL, il est récuperer automatiquement dans la variable artDelete
         if($artDelete)
         {
+            // Grace à l'id on récupère l'article au complet 
             $id = $artDelete->getId();
+            // On le supprime 
             $manager->remove($artDelete);
+            // Et on flush, on execute la suppression
             $manager->flush();
+            // On enregistre un message en session quon pourra afficher
             $this->addFlash('success', "L'article n°$id a bien été supprimer avec succès");
             return $this->redirectToRoute('app_admin_articles');
         }
+        // Envoi un template a afficher avec des valeur données pour pouvoir afficher se que l'on veut précisement ici les titre et les article au complet 
         return $this->render('back_office/admin_articles.html.twig', [
             'colonnes' => $colonnes,
             'cellules' => $cellules
@@ -125,12 +135,15 @@ class BackOfficeController extends AbstractController
 
     #[Route('/admin/commande', name: 'app_admin_commande')]
     #[Route('/admin/commande/{id}/delete', name: 'app_admin_commande_delete')]
-    public function adminCommande(EntityManagerInterface $manager, CommandeRepository $repoCom, Commande $comDelete = null)
+    public function adminCommande(EntityManagerInterface $manager, CommandeRepository $repoCom, Commande $comDelete = null, DetailCommandeRepository $repoDet)
     {
 
         $colonnes = $manager->getclassMetadata(Commande::class)->getFieldNames();
 
         $cellules = $repoCom->findAll();
+
+        $detailCommande = $repoDet->findAll();
+
 
         if($comDelete)
         {
@@ -154,16 +167,17 @@ class BackOfficeController extends AbstractController
 
         return $this->render('back_office/admin_commande.html.twig', [
             'colonnes' => $colonnes,
-            'cellules' => $cellules
+            'cellules' => $cellules,
+            'detailCommande' => $detailCommande
         ]);
         
         
     }
 
     #[Route('/admin/commande/{id}/edit', name: 'app_admin_commande_update')]
-    public function adminCommandeForm(Commande $commande, Request $request, EntityManagerInterface $manager): Response
+    public function adminCommandeForm(Commande $commande, Request $request, EntityManagerInterface $manager, DetailCommandeRepository $repoDet): Response
     {
- 
+        $detailCommande = $repoDet->findAll();
         $formEtatCom = $this->createForm(CommandeType::class, $commande);
         $formEtatCom->handleRequest($request);
         $etatCom = $commande->getEtat();
@@ -180,7 +194,8 @@ class BackOfficeController extends AbstractController
 
         return $this->render('back_office/admin_commande_form.html.twig', [
             'formEtatCom' => $formEtatCom->createView(),
-            'commande' => $commande
+            'commande' => $commande,
+            'detailCommande' => $detailCommande
         ]);
     }
 

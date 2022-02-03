@@ -9,6 +9,7 @@ use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ShopController extends AbstractController
@@ -30,9 +31,13 @@ class ShopController extends AbstractController
     public function allCategory(CategoryRepository $repoCategory)
     {
         $categorys = $repoCategory->findAll();
-        // dd($categorys);
+        $catHom = $repoCategory->findBy(array("sexe" => "Homme"));
+        $catFem = $repoCategory->findBy(array("sexe" => "Femme"));
+        // dump($catHom);
         return $this->render('shop/category_list.html.twig', [
-            'categorys' => $categorys
+            'categorys' => $categorys,
+            'catHom' => $catHom,
+            'catFem' => $catFem
         ]);
     }
 
@@ -49,37 +54,48 @@ class ShopController extends AbstractController
     #[Route('/shop', name: 'shop')]
     #[Route('/shop/category/{id}', name: 'shop_category')]
     #[Route('/shop/{sexe}', name: 'shop_genre')]
-    public function Shop(ArticleRepository $repoArticle, Category $category = null, $sexe = null): Response
+    public function Shop(SessionInterface $session, ArticleRepository $repoArticle, Category $category = null, $sexe = null): Response
     {
+
+        $panier = $session->get("panier", []);
+
+        // On fabrique les données
+        $dataPanier = [];
+        $total = 0;
+
+        foreach($panier as $id => $quantite)
+        {
+            $article = $repoArticle->find($id);
+            $dataPanier[] = [
+                "article" => $article,
+                "quantite" => $quantite
+            ];
+            $total += $article->getPrix() * $quantite;
+            // dump($dataPanier);
+        }
 
         if ($category)
         {
             $articles = $category->getArticle();
         }
-        # elseif($sexe)  {
-        # $articles = $repository->findBy(
-        # ['name' => 'Keyboard'],
-        # ['price' => 'ASC']
-        # );
-        # $articles = $repository->findAll();
-        # }
+        // elseif($sexe == "Homme")  {
+        //     $articles = $repoArticle->getCategory();
+        // }
+        // elseif($sexe == "Femme")  {
+        //     $articles = $repoArticle->getCategory();
+        // }
         else {
             $articles = $repoArticle->findAll();
         }
 
-        return $this->render('shop/shop.html.twig', [
-            'articles' => $articles,
-        ]);
+        return $this->render('shop/shop.html.twig', compact("dataPanier", "total", "articles", "category"));
     }
 
-    #[Route('/panier', name: 'panier')]
-    public function panier(): Response
-    {
-        return $this->render('shop/panier.html.twig', [
+<<<<<<< HEAD
 
-        ]);
-    }
 
+=======
+>>>>>>> db463e97081c5ebb2b85b40449c6df655ee01e58
 
 
 }

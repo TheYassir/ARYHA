@@ -19,7 +19,6 @@
                         <th class="text-center"> {{data|capitalize}} </th>
                 {% endfor %}
                 <th class="text-center">Utilisateur :</th>
-                <th class="text-center">Articles :</th>
                 <th class="text-center">Action</th>
             </tr> 
         </thead>
@@ -31,9 +30,16 @@
                     <td class="text-center">{{ data.date|date("d/m/Y") }} {{data.date|date('H:i:s')}} </td>
                     <td class="text-center">{{ data.etat }} </td>
                     <td class="text-center">{{ data.user.nom }} / {{ data.user.prenom }} / {{ data.user.email }} </td>
-                    <td class="text-center">{{ data.detailCommande.article.titre }} </td>
+                    <td class="text-center">
+                        {% for det in detailCommande %}
+                            {% if data.id == det.commande.id %}
+                                <a href="{{ path('shop_show', {'id': det.article.id}) }}" class=" link-secondary">{{det.article.titre}}</a> / Nb = {{det.quantite}} / {{det.prix}} €<br>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+
                     <td>
-                        <div class="text-center">
+                        <div class="text-center d-flex justify-content-around">
                             <a href="{{ path('app_admin_commande_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cette commande' ))"><i class="bi bi-trash"></i></a>
                             <a href="{{ path('app_admin_commande_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i></a>
                         </div>
