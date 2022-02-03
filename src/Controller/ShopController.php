@@ -91,8 +91,11 @@ class ShopController extends AbstractController
         return $this->render('shop/shop.html.twig', compact("dataPanier", "total", "articles", "category"));
     }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> db463e97081c5ebb2b85b40449c6df655ee01e58
 
 
 }
