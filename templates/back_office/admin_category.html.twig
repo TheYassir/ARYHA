@@ -4,7 +4,9 @@
     Admin | Gestions des Category
 {% endblock %}
 {% block body %}
-
+<form>
+  <input type="button" class="btn btn-outline-secondary" value="Retour" onclick="history.go(-1)">
+</form>
 <h1 class="text-center my-5">Liste des Catégory</h1>
 
 {% for message in app.flashes('success') %}

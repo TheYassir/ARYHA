@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Category;
+use App\Form\TailleType;
+use App\Repository\TailleRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -42,12 +45,34 @@ class ShopController extends AbstractController
     }
 
     #[Route('/shop/{id}', name: 'shop_show')]
-    public function ShopShow(Article $article): Response
+    public function ShopShow(Article $article, TailleRepository $repoTaille, Request $request, EntityManagerInterface $manager): Response
     {
-        // $user = $this->getUser();
-        // dd($article);
+        $taille = $article->getTailles();
+        // dd($taille);
+        $formTaille = $this->createForm(TailleType::class, $taille, [
+            'tailleFront' => true 
+        ]);
+        $formTaille->handleRequest($request);
+
+            if($formTaille->isSubmitted() && $formTaille->isValid())
+            {         
+                $manager->persist($taille);
+                $manager->flush();
+
+                return $this->redirectToRoute('add_panier', [
+                    'id' => $article->getId(),
+                    // 'taille' => 
+                ]);         
+            }        
+
+
+        $cellules = $repoTaille->findBy(
+            ['article' => $article]
+        );
         return $this->render('shop/fiche-produit.html.twig', [
-            'article' => $article
+            'article' => $article,
+            'formTaille' => $formTaille->createView(),
+            'cellules' => $cellules
         ]);
     }
 
@@ -90,12 +115,5 @@ class ShopController extends AbstractController
 
         return $this->render('shop/shop.html.twig', compact("dataPanier", "total", "articles", "category"));
     }
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> db463e97081c5ebb2b85b40449c6df655ee01e58
-
 
 }

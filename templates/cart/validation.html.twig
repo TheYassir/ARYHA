@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    ARYHA paris | Validation
+{% endblock %}
+{% block body %}
+<pre>
+    {{ dump(app.user) }}
+</pre>
+<div class="container text-center">
+    <h1 class="">Votre commande est bien validé et envoyé !</h1>
+    <h2 class="">Félicitation <strong class="hiv">{{ app.user.nom }}</strong>  <strong class="huv">{{ app.user.prenom }}</strong> pour votre commande !</h2>
+</div>
+
+{% endblock %}

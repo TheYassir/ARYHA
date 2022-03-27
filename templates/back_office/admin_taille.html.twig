@@ -1,0 +1,55 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    Admin | Taille
+{% endblock %}
+
+{% block body %}
+<form>
+  <input type="button" class="btn btn-outline-secondary" value="Retour" onclick="history.go(-1)">
+</form>
+    <h1 class="text-center my-5">Gestion des Tailles et des Stocks</h1>
+    <div class="row">
+        {% for donnee in cellules %}   
+            
+            <div class="col-sm-6 my-3">
+                {% if donnee.stock == 0 %}
+                    <div class="card border border-danger">
+                {% elseif donnee.stock < 10 %}
+                    <div class="card border border-warning">
+                {% else %}
+                    <div class="card border border-success">
+                {% endif %}
+                    <a href="{{ path('app_admin_taille_update', {'id': donnee.id}) }}" class="text-decoration-none text-dark">
+                    <div class="card-header text-muted border-secondary">
+                    {{donnee.id}}
+                        Taille {{ donnee.titre }}
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-text">Stock : </h5>                                
+                            <h6 class="card-text"> {{ donnee.stock }} </h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-text">Etat : </h5>                                
+                            <h6 class="card-text">
+                                {% if donnee.stock == 0 %}
+                                    <p class="text-danger">Rupture</p>
+                                {% elseif donnee.stock < 10 %}
+                                    <p class="text-warning">Insuffisant</p>
+                                {% else %}
+                                    <p class="text-success">Disponible</p>
+                                {% endif %}
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+        {% endfor %}    
+        <div class="d-flex justify-content-center my-3">
+            <a href="{{ path('app_admin_articles') }}" class="btn btn-outline-dark col-3 mx-1">Terminer</a>         
+        </div>
+    </div>
+
+{% endblock %}

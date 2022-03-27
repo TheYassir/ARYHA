@@ -11,12 +11,15 @@ use App\Form\CategoryType;
 use App\Form\CommandeType;
 use App\Controller\ShopController;
 use App\Entity\DetailCommande;
+use App\Entity\Taille;
 use App\Form\RegistrationFormType;
+use App\Form\TailleType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\DetailCommandeRepository;
+use App\Repository\TailleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,13 +41,22 @@ class BackOfficeController extends AbstractController
 
     #[Route('/admin/articles', name: 'app_admin_articles')]
     #[Route('/admin/articles/{id}/remove', name: 'app_admin_articles_delete')]
-    public function adminArticles(EntityManagerInterface $manager, ArticleRepository $repoArticle, Article $artDelete = null, ShopController $artUpdate): Response
+    public function adminArticles(EntityManagerInterface $manager, ArticleRepository $repoArticle, Article $artDelete = null, TailleRepository $repoTail): Response
     {
         // Pour récupérer tout les noms des champs inscris en BDD
         $colonnes = $manager->getclassMetadata(Article::class)->getFieldNames();
         // Pour récupérer tout les articles sans distinction
         $cellules = $repoArticle->findAll();
 
+        $toutTailles = $repoTail->findAll();
+
+        // $tab = array("39"=>"10", "40"=>"20", "41"=>"30");
+        // foreach($tab as $key => $value)
+        // {
+        dump($cellules);
+        // }
+
+        // dd($tab);
         // Si un ID est envoyer en URL, il est récuperer automatiquement dans la variable artDelete
         if($artDelete)
         {
@@ -61,7 +73,8 @@ class BackOfficeController extends AbstractController
         // Envoi un template a afficher avec des valeur données pour pouvoir afficher se que l'on veut précisement ici les titre et les article au complet 
         return $this->render('back_office/admin_articles.html.twig', [
             'colonnes' => $colonnes,
-            'cellules' => $cellules
+            'cellules' => $cellules,
+            'toutTail' => $toutTailles
         ]);
     }
 
@@ -73,17 +86,19 @@ class BackOfficeController extends AbstractController
         if($article)
         {
             $photoActuelle = $article->getPhoto();
+            
         }
 
         if(!$article)
         {
             $article = new Article;
+            
         }
         
         $formArticle = $this->createForm(ArticleType::class, $article);
         $formArticle->handleRequest($request);
 
-
+        
         if($formArticle->isSubmitted() && $formArticle->isValid())
         {
             if(!$article->getId())
@@ -118,12 +133,52 @@ class BackOfficeController extends AbstractController
                     $article->setPhoto("null");
             }
             $manager->persist($article);
-            $manager->flush();
-            $this->addFlash('success', "L'article a été $txt avec succès !");
+            
 
-            return $this->redirectToRoute('app_admin_articles', [
-                'id' => $article->getId()
-            ]);           
+            if($article->getCategory()->getGrdCat() == "Souliers")
+            {
+                $tab = [37, 38, 39, 40, 41, 42, 43, 44, 45];
+                foreach($tab as $value){
+                    $taille = new Taille;
+                    $taille->setTitre($value);
+                    $taille->setStock("0");
+                    $taille->setArticle($article);
+                    $manager->persist($taille);
+                }
+                
+
+            } elseif($article->getCategory()->getGrdCat() == "Prêt-à-porter") 
+            {
+                $tab = ["XS", "S", "M", "L", "XL"];
+
+                foreach($tab as $value){
+                    $taille = new Taille;
+                    $taille->setTitre($value);
+                    $taille->setStock("0");
+                    $taille->setArticle($article);
+                    $manager->persist($taille);
+                }
+
+            } else 
+            {
+                
+                $this->addFlash('success', "L'article a été $txt avec succès !");
+                $taille = new Taille;
+                $taille->setTitre("Unique");
+                $taille->setStock("0");
+                $taille->setArticle($article);
+                $manager->persist($taille);
+            }
+            $manager->flush();
+
+            return $this->redirectToRoute('app_admin_taille', [
+                'id' => $article->getId(),
+            ]);  
+            
+            // return $this->redirectToRoute('app_admin_articles', [
+            //     'id' => $article->getId()
+            // ]); 
+                    
         }
         return $this->render('back_office/admin_articles_form.html.twig', [
             'formArticle' => $formArticle->createView(),
@@ -164,7 +219,7 @@ class BackOfficeController extends AbstractController
 
             return $this->redirectToRoute('app_admin_commande');
         }
-
+        
         return $this->render('back_office/admin_commande.html.twig', [
             'colonnes' => $colonnes,
             'cellules' => $cellules,
@@ -181,6 +236,7 @@ class BackOfficeController extends AbstractController
         $formEtatCom = $this->createForm(CommandeType::class, $commande);
         $formEtatCom->handleRequest($request);
         $etatCom = $commande->getEtat();
+
 
             if($formEtatCom->isSubmitted() && $formEtatCom->isValid())
             {         
@@ -303,6 +359,49 @@ class BackOfficeController extends AbstractController
         return $this->render('back_office/admin_category_form.html.twig', [
             'formCat' => $formCat->createView(),
             'editMode' => $category->getId(),
+        ]);
+    }
+
+    #[Route('/admin/taille/{id}', name: 'app_admin_taille')]
+    public function tailleAffiche(Article $article, TailleRepository $repoTaille)
+    {
+        $cellules = $repoTaille->findBy(
+            ['article' => $article]
+        );
+    
+        return $this->render('back_office/admin_taille.html.twig', [
+            'cellules' => $cellules,
+            'editMode' => $article->getId(),
+        ]);
+    }
+
+    #[Route('/admin/taille/edit/{id}', name: 'app_admin_taille_update')]
+    public function tailleForm(Taille $taille, Request $request, EntityManagerInterface $manager): Response
+    {
+        // $formTaille = $this->createForm(TailleType::class, $taille);
+        $formTaille = $this->createForm(TailleType::class, $taille, [
+            'tailleBack' => true 
+        ]);
+        $formTaille->handleRequest($request);
+
+
+        if($formTaille->isSubmitted() && $formTaille->isValid())
+        {         
+            $manager->persist($taille);
+            $manager->flush();
+
+            return $this->redirectToRoute('app_admin_taille', [
+                'id' => $taille->getArticle()->getId(),
+                'editMode' => $taille->getId(),
+            ]);      
+        
+        }        
+
+        
+        return $this->render('back_office/admin_taille_form.html.twig', [
+            'formTaille' => $formTaille->createView(),
+            'taille' => $taille,
+            'editMode' => $taille->getId(),
         ]);
     }
 }

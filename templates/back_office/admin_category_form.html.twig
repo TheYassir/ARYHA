@@ -12,7 +12,9 @@
 {% endblock %}
 
 {% block body %}
-
+<form>
+  <input type="button" class="btn btn-outline-secondary" value="Retour" onclick="history.go(-1)">
+</form>
 <div class="rounded my-5">
     <div class="col-7 mx-auto my-5">
         {{ form_start(formCat) }}

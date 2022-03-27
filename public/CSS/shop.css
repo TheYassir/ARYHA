@@ -156,4 +156,17 @@ body {
   color: #d8d8d8;
   background-color: #5a5a5a;
 }
-
+.hiv {
+  text-decoration: none;
+  color: #790808;
+}
+.hiv:hover{
+  color: #081079;
+}
+.huv {
+  text-decoration: none;
+  color: #790808;
+}
+.huv:hover{
+  color: #087917;
+}

@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block body %}
+<form>
+  <input type="button" class="btn btn-outline-secondary" value="Retour" onclick="history.go(-1)">
+</form>
     <h1 class="text-center mt-3 mb-4">Les Commandes</h1>
     {% for message in app.flashes('success') %}
         <div class="col-6 mx-auto text-center alert alert-success">
