@@ -38,12 +38,7 @@ class Article
      * @ORM\Column(type="float")
      */
     private $prix;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $stock;
-
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -61,13 +56,15 @@ class Article
     private $detailCommandes;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\OneToMany(targetEntity=Taille::class, mappedBy="article")
      */
-    private $taille;
-
+    private $tailles;
+    
     public function __construct()
     {
         $this->detailCommandes = new ArrayCollection();
+        $this->taille = new ArrayCollection();
+        $this->tailles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -119,18 +116,6 @@ class Article
     public function setPrix(float $prix): self
     {
         $this->prix = $prix;
-
-        return $this;
-    }
-
-    public function getStock(): ?int
-    {
-        return $this->stock;
-    }
-
-    public function setStock(int $stock): self
-    {
-        $this->stock = $stock;
 
         return $this;
     }
@@ -189,15 +174,34 @@ class Article
         return $this;
     }
 
-    public function getTaille(): ?string
+    /**
+     * @return Collection|Taille[]
+     */
+    public function getTailles(): Collection
     {
-        return $this->taille;
+        return $this->tailles;
     }
 
-    public function setTaille(?string $taille): self
+    public function addTaille(Taille $taille): self
     {
-        $this->taille = $taille;
+        if (!$this->tailles->contains($taille)) {
+            $this->tailles[] = $taille;
+            $taille->setArticle($this);
+        }
 
         return $this;
     }
+
+    public function removeTaille(Taille $taille): self
+    {
+        if ($this->tailles->removeElement($taille)) {
+            // set the owning side to null (unless already changed)
+            if ($taille->getArticle() === $this) {
+                $taille->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

@@ -4,6 +4,9 @@
     Admin | Modification Etat
 {% endblock %}
 {% block body %}
+<form>
+  <input type="button" class="btn btn-outline-secondary" value="Retour" onclick="history.go(-1)">
+</form>
 {{ form_start(formEtatCom) }}
     <div class="card text-center my-5 col-10 mx-auto border-secondary">
         <div class="card-header border-secondary"><h1 class="h4 text-center m-2">Modification de l'état de la commande n°{{commande.id}}</h1> </div>
@@ -21,7 +24,10 @@
                 <p class="card-text my-auto">Infos Article :</p>
                     {% for det in detailCommande %}
                         {% if commande.id == det.commande.id %}
-                            <p class="card-text">{{ det.article.titre }} <br> Au prix de {{ det.prix }} € / article <br>Il en reste {{ det.article.stock }} pièces</p>
+                            <pre>
+                            {{ dump(det.article) }}
+                        </pre>
+                            {# <p class="card-text">{{ det.article.titre }} <br> Au prix de {{ det.prix }} € / article <br>Il en reste {{ det.article.tailles.stock }} pièces</p> #}
                         {% endif %}
                     {% endfor %}
             </div>

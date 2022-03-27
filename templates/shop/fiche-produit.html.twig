@@ -4,7 +4,9 @@
     ARYHA paris | Fiche Produit
 {% endblock %}
 {% block body %}
-
+<pre>
+    {{ dump(cellules) }}
+</pre>
 <div class="d-flex w-100 my-5">
 <div class="row row-cols-sm-1">
     <div class="col-md-5 col-sm-10 h-100 my-3 mx-auto">
@@ -55,44 +57,74 @@
 
         <div class="d-flex justify-content-around">
          <p class="text-end my-3">{{ article.prix|number_format(2)}} € <small>TTC</small></p>
-        {% if article.stock > 10 %}
+        {# {% if article.stock > 10 %}
             <p class="text-end my-3">Stock : <strong class="text-success">Disponible</strong></p>
         {% elseif article.stock == 0 %}
             <p class="text-end my-3">Stock : <strong class="text-danger">Epuisée</strong></p>
         {% else %}
             <p class="text-end my-3">Stock : Il reste seulement <strong class="text-warning">{{article.stock}}</strong> articles</p>
-        {% endif %}
+        {% endif %} #}
         </div>
+        
         <p class="mx-3 my-3">Couleur : {{ article.couleur}}</p>
-        <p class="mx-3 my-3">Tailles : <a href="" class="link-secondary">39</a> <a href="" class="link-secondary">40</a> <a href="" class="link-secondary">41</a> <a href="" class="link-secondary">42</a> <a href="" class="link-secondary">43</a> <a href="" class="link-secondary">44</a> <a href="" class="link-secondary">45</a> <a href="" class="link-secondary">46</a> <a href="" class="link-secondary">47</a> <a href="" class="link-secondary">48</a> <a href="" class="link-secondary">49</a></p>
-       
+        <form action="" method="post" class="form">
+            <p class="mx-3 my-3">Tailles :  
+        
+            {# <select name="taille" id="taille" class="col-3">
+                {% for data in cellules %}
+                    {% if data.stock == 0 %}
+                        <option value="{{ data.titre }}"disabled>{{ data.titre }}</option>
+                    {% else %}
+                        <option value="{{ data.titre }}">{{ data.titre }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select> #}
+             {{ form_start(formTaille) }}
+                {{ form_widget(formTaille) }}
+                <button class="btn btn-outline-secondary">Enregistrer</button>
+            {{ form_end(formTaille) }}
+            </p>
+           
+        
 
-        <p class="text-center my-3">{{ article.description }}</p>
-        <div class="d-flex justify-content-around my-5">
-            <a type="button" class="text-center ico" data-bs-toggle="modal" data-bs-target="#modal1">
-                <p><i class="bi bi-credit-card fs-3"></i></p>
-                <p>Paiement Sécurisée</p>
-            </a>
-            <a type="button" class="text-center ico" data-bs-toggle="modal" data-bs-target="#modal2">
-                <p><i class="fas fa-truck fs-3"></i></p>
-                <p>Livraison Offerte</p>
-            </a>
-            <a type="button" class="text-center ico" data-bs-toggle="modal" data-bs-target="#modal3">
-                <p><i class="bi bi-arrow-repeat fs-3"></i></p>
-                <p>Retour Sans Frais</p>
-            </a>
-            <a type="button" class="text-center ico" data-bs-toggle="modal" data-bs-target="#modal4">
-                <p><i class="bi bi-bag-check fs-3"></i></p>
-                <p>Click & Collect</p>
-            </a>
-        </div>
-        <div class="text-center mb-5">
-            {% if app.user %}
-            <a href="{{ path('add_panier', {'id': article.id}) }}" class="col-3 btn hova">Ajouter au panier</a>
-            {% else %}
-            <a href="{{ path('app_login')}}" class="col-3 btn hova">Ajouter au panier</a>
-            {% endif %}
-        </div>
+
+
+            {# {% for data in cellules %}
+                    {% if data.stock == 0 %}
+                        &nbsp;&nbsp;<button type="button" class="btn btn-dark" disabled>{{ data.titre }}</button>
+                    {% else %}
+                        &nbsp;&nbsp;<button type="button" class="btn btn-light">{{ data.titre }}</button>
+                    {% endif %}
+                    
+                {% endfor %} #}
+            <p class="text-center my-3">{{ article.description }}</p>
+            <div class="d-flex justify-content-around my-5">
+                <a type="button" class="text-center ico" data-bs-toggle="modal" data-bs-target="#modal1">
+                    <p><i class="bi bi-credit-card fs-3"></i></p>
+                    <p>Paiement Sécurisée</p>
+                </a>
+                <a type="button" class="text-center ico" data-bs-toggle="modal" data-bs-target="#modal2">
+                    <p><i class="fas fa-truck fs-3"></i></p>
+                    <p>Livraison Offerte</p>
+                </a>
+                <a type="button" class="text-center ico" data-bs-toggle="modal" data-bs-target="#modal3">
+                    <p><i class="bi bi-arrow-repeat fs-3"></i></p>
+                    <p>Retour Sans Frais</p>
+                </a>
+                <a type="button" class="text-center ico" data-bs-toggle="modal" data-bs-target="#modal4">
+                    <p><i class="bi bi-bag-check fs-3"></i></p>
+                    <p>Click & Collect</p>
+                </a>
+            </div>
+            <div class="text-center mb-5">
+                {% if app.user %}
+                <a href="{{ path('add_panier', {'id': article.id}) }}" class="col-3 btn hova">Ajouter au panier</a>
+                {% else %}
+                <a href="{{ path('app_login')}}" class="col-3 btn hova">Ajouter au panier</a>
+                {% endif %}
+                {# <button type="submit" class="col-3 btn hova">Ajouter</button> #}
+            </div>
+        </form>
 
     </div>
 

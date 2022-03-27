@@ -15,7 +15,9 @@
 {% block body %}
 
 <div class="ajout-article-admin rounded">
-
+<form>
+  <input type="button" class="btn btn-outline-secondary" value="Retour" onclick="history.go(-1)">
+</form>
     <h1 class="text-center my-5">Ajouter un nouvel article :</h1> 
 
     <div class="col-7 mx-auto mb-5">
@@ -33,16 +35,27 @@
         </div>
 
         {{ form_row(formArticle.description) }}
+        
 
         <div class="d-flex col-12 justify-content-between my-2">
-            <div class="col-5">
+            <div class="col-4">
                 {{ form_row(formArticle.prix) }}
             </div>
             <div class="col-5">
-                {{ form_row(formArticle.stock) }}
+                {# {{ form_row(formArticle.stock) }} #}
+                {{ form_row(formArticle.photo) }}
+                
             </div>
         </div>
-        {{ form_row(formArticle.photo) }}
+
+        {# {{ form_row(formArticle.taille) }} #}
+        {# {% if editMode %}
+        
+        {% else %}
+            
+        {% endif %} #}
+        {# {{ form_row(formArticle.stock) }} #}
+
 
         {% if photoActuelle %}
 
@@ -54,7 +67,7 @@
             
         {% endif %}
 
-            <div class="text-center">
+            <div class="text-center my-5">
                 <button type="submit" class="btn btn-primary col-3">                
                 {% if editMode %}    
                     Enregistrer

@@ -1,0 +1,44 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    Admin | 
+    {% if editMode %}    
+        Modification des taille
+    {% else %}        
+        Ajout taille
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+<form>
+  <input type="button" class="btn btn-outline-secondary" value="Retour" onclick="history.go(-1)">
+</form>
+<h1 class="text-center my-5">Gestion des Tailles et des Stocks</h1>
+    <div class="row">    
+            <div class="col-sm-6 my-3 mx-auto">
+                {% if taille.stock == 0 %}
+                    <div class="card border border-danger">
+                {% elseif taille.stock < 10 %}
+                    <div class="card border border-warning">
+                {% else %}
+                    <div class="card border border-success">
+                {% endif %}
+                        <div class="card-header text-muted border-secondary">
+                            Taille {{ taille.titre }}
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-text">Stock : </h5>                                
+                                <h6 class="card-text"> 
+                                    {{ form_start(formTaille) }}
+                                    {{ form_widget(formTaille) }}
+                                </h6>
+                            </div>
+                            <button class="btn btn-outline-secondary">Enregistrer</button>
+                            {{ form_end(formTaille) }}
+                        </div>
+                    </div>
+            </div>           
+    </div>
+
+{% endblock %}

@@ -4,7 +4,9 @@
     Admin | Gestions des User
 {% endblock %}
 {% block body %}
-
+<form>
+  <input type="button" class="btn btn-outline-secondary" value="Retour" onclick="history.go(-1)">
+</form>
 {% if app.request.query.get('op') == 'adm' %}
     <h1 class="text-center my-5">Liste des Administrateurs</h1>
 {% else %}

@@ -5,7 +5,12 @@
 {% endblock %}
 {% block body %}
 
-    <h1 class="my-3 ms-5 hov">&nbsp;&nbsp;&nbsp;Bienvenue dans le panier</h1>
+    <h1 class="my-3 ms-5 hov">Bienvenue dans le panier</h1>
+    {% for message in app.flashes('danger') %}
+        <div class="col-6 mx-auto text-center alert alert-danger">
+            {{ message }}
+        </div>        
+    {% endfor %}
     <div class="container d-flex justify-content-between">
         <div class="" style="width: 70%;">
             <table class="table table-hover">
