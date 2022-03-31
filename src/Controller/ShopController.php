@@ -47,31 +47,36 @@ class ShopController extends AbstractController
     #[Route('/shop/{id}', name: 'shop_show')]
     public function ShopShow(Article $article, TailleRepository $repoTaille, Request $request, EntityManagerInterface $manager): Response
     {
-        $taille = $article->getTailles();
         // dd($taille);
-        $formTaille = $this->createForm(TailleType::class, $taille, [
-            'tailleFront' => true 
-        ]);
-        $formTaille->handleRequest($request);
+        
+        // $formTaille->handleRequest($request);
 
-            if($formTaille->isSubmitted() && $formTaille->isValid())
-            {         
-                $manager->persist($taille);
-                $manager->flush();
+        //     if($formTaille->isSubmitted() && $formTaille->isValid())
+        //     {         
+        //         $manager->persist($taille);
+        //         $manager->flush();
 
-                return $this->redirectToRoute('add_panier', [
-                    'id' => $article->getId(),
-                    // 'taille' => 
-                ]);         
-            }        
+        //         return $this->redirectToRoute('add_panier', [
+        //             'id' => $article->getId(),
+        //             // 'taille' => 
+        //         ]);         
+        //     }        
+        if($request->request->count() > 0){
+            $taille = $request->request->get("taille");
+            // dump($taille);
 
+            return $this->redirectToRoute('add_panier', [
+                'id' => $article->getId(),
+                'taille' => $taille 
+            ]);    
+        }
 
         $cellules = $repoTaille->findBy(
             ['article' => $article]
         );
         return $this->render('shop/fiche-produit.html.twig', [
             'article' => $article,
-            'formTaille' => $formTaille->createView(),
+            // 'formTaille' => $formTaille->createView(),
             'cellules' => $cellules
         ]);
     }
@@ -88,15 +93,29 @@ class ShopController extends AbstractController
         $dataPanier = [];
         $total = 0;
 
-        foreach($panier as $id => $quantite)
+        // foreach($panier as $id => $quantite)
+        // {
+        //     $article = $repoArticle->find($id);
+        //     $dataPanier[] = [
+        //         "article" => $article,
+        //         "quantite" => $quantite
+        //     ];
+        //     $total += $article->getPrix() * $quantite;
+        //     // dump($dataPanier);
+        // }
+        foreach($panier as $id => $taille)
         {
             $article = $repoArticle->find($id);
-            $dataPanier[] = [
-                "article" => $article,
-                "quantite" => $quantite
-            ];
+            foreach($taille as $quantite){
+                // $taille = $tailleRepo->findBy(['article' => $article]);
+
+                $dataPanier[] = [
+                    "article" => $article,
+                    "taille" => $taille,
+                    "quantite" => $quantite
+                ];
             $total += $article->getPrix() * $quantite;
-            // dump($dataPanier);
+            }
         }
 
         if ($category)

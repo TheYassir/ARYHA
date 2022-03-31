@@ -7,6 +7,7 @@ use App\Entity\Commande;
 use App\Entity\DetailCommande;
 use App\Repository\ArticleRepository;
 use App\Repository\CommandeRepository;
+use App\Repository\TailleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,54 +18,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CartController extends AbstractController
 {
     #[Route('/panier', name: 'panier')]
-    public function index(SessionInterface $session, ArticleRepository $articleRepo): Response
+    public function index(SessionInterface $session, ArticleRepository $articleRepo, TailleRepository $tailleRepo, Request $request): Response
     {
         $panier = $session->get("panier", []);
-        dd($panier);
         // On fabrique les données
         $dataPanier = [];
         $total = 0;
 
-        foreach($panier as $id => $quantite)
+        foreach($panier as $id => $data)
         {
             $article = $articleRepo->find($id);
-            $dataPanier[] = [
-                "article" => $article,
-                "quantite" => $quantite
-            ];
+            foreach($data as $taille => $quantite){
+                // $taille = $tailleRepo->findBy(['article' => $article]);
+                $dataPanier[] = [
+                    "article" => $article,
+                    "taille" => $taille,
+                    "quantite" => $quantite,
+                ];
+            
             $total += $article->getPrix() * $quantite;
-        
-        }
 
+            }
+        }
         return $this->render('cart/index.html.twig',compact("dataPanier", "total"));
     }
 
-    // #[Route('/add/{id}', name: 'add_panier')]
-    // public function add(Article $article, SessionInterface $session)
-    // {
-    //     // $taille = $request->request->get("taille", "");
-    //     // $taille =  $panier->set();
-    //     // On récupere le panier actuel
-    //     $panier = $session->get('panier', []);
-    //     $id = $article->getId();
-    //     if(!empty($panier[$id]))
-    //     {
-    //         $panier[$id] ++;
-    //     } else {
-    //         $panier[$id] = 1;
-    //     }
-    //     // On sauvegarde dans la Session
-    //     $session->set('panier', $panier);
-        
-    //     return $this->redirectToRoute("panier");    
-    // }
 
     #[Route('/add/{id}/{taille}', name: 'add_panier')]
     public function add(Article $article, SessionInterface $session, Request $request)
     {
-        $taille = $request->request->get("taille", "");
-        dd($taille);
-        // $taille =  $panier->set();
+        $taille = $request->attributes->get("taille");
+
+        // dd($taille);
         // On récupere le panier actuel
         $panier = $session->get('panier', []);
         $id = $article->getId();
@@ -75,7 +60,6 @@ class CartController extends AbstractController
             {
                 $panier[$id][$taille] ++;
             } else {
-                $panier[$id] = array();
                 $panier[$id][$taille] = 1;
             }
         } else {
@@ -84,26 +68,30 @@ class CartController extends AbstractController
         }
         // On sauvegarde dans la Session
         $session->set('panier', $panier);
-        
+        // dd($panier);
         return $this->redirectToRoute("panier");    
     }
 
-    #[Route('/remove/{id}', name: 'remove_panier')]
-    public function remove(Article $article, SessionInterface $session)
+    #[Route('/remove/{id}/{taille}', name: 'remove_panier')]
+    public function remove(Article $article, SessionInterface $session, Request $request)
     {
+        $taille = $request->attributes->get("taille");
         // On récupere le panier actuel
         $panier = $session->get('panier', []);
         $id = $article->getId();
 
         if(!empty($panier[$id]))
         {
-            if($panier[$id] > 1)
+            if(!empty($panier[$id][$taille]))
             {
-                $panier[$id]--;
+                $panier[$id][$taille] --;
             } else {
-                unset($panier[$id]);
+                unset($panier[$id][$taille]);
             }
+        } else {
+            unset($panier[$id][$taille]);
         }
+
         // On sauvegarde dans la Session
         $session->set('panier', $panier);
         
@@ -136,7 +124,7 @@ class CartController extends AbstractController
     }
     
     #[Route('/panier/achat', name: 'commander')]
-    public function validPanier(SessionInterface $session, EntityManagerInterface $manager, ArticleRepository $articleRepo) : Response
+    public function validPanier(SessionInterface $session, EntityManagerInterface $manager, ArticleRepository $articleRepo, TailleRepository $tailleRepo) : Response
     {   
         if($session->get("panier", [])){
             $panier = $session->get("panier", []);
@@ -152,31 +140,69 @@ class CartController extends AbstractController
             $dataPanier = [];
             $montant = 0;
 
-            foreach($panier as $id => $quantite)
+            foreach($panier as $id => $data)
             {
                 $article = $articleRepo->find($id);
-                $dataPanier[] = [
-                    "article" => $article,
-                    "quantite" => $quantite
-                ];
+                foreach($data as $taille => $quantite){
+                    // $taille = $tailleRepo->findBy(['article' => $article]);
+                    $dataPanier[] = [
+                        "article" => $article,
+                        "taille" => $taille,
+                        "quantite" => $quantite,
+                    ];
                 $montant += $article->getPrix() * $quantite;
+                }
             }
+
+            // foreach($panier as $id => $quantite)
+            // {
+            //    $article = $articleRepo->find($id);
+            //    $dataPanier[] = [
+            //        "article" => $article,
+            //        "quantite" => $quantite
+            //    ];
+            //    $montant += $article->getPrix() * $quantite;
+            // }
             $commande->setMontant($montant);
             $manager->persist($commande);
 
-            foreach($panier as $id => $quantite)
+            foreach($panier as $id => $data)
             {
-                $articles = $articleRepo->find($id);
-                $detailCommande = new DetailCommande;
-                $detailCommande->setArticle($articles);
-                $detailCommande->setQuantite($quantite);
-                $prix = $articles->getPrix();
-                $detailCommande->setPrix($prix);
-                $detailCommande->setCommande($commande);
-                $manager->persist($detailCommande);
+                $article = $articleRepo->find($id);
+                foreach($data as $taille => $quantite){
+                    
+                    $laTaille = $tailleRepo->findOneBy(['article' => $article, 'titre' => $taille]);
+                    $articles = $articleRepo->find($id);
+                    $detailCommande = new DetailCommande;
+                    $detailCommande->setArticle($articles);
+                    $detailCommande->setTaille($laTaille);
+                    // $amel = $laTaille->getStock();
+                    // $amel2 = $amel - $quantite;
+                    // $amel2->setStock();
+                    $detailCommande->setQuantite($quantite);
+                    $prix = $articles->getPrix();
+                    $detailCommande->setPrix($prix);
+                    $detailCommande->setCommande($commande);
+                    $manager->persist($detailCommande);
+     
+                $montant += $article->getPrix() * $quantite;
+
+                }
             }
+
+            // foreach($panier as $id => $quantite)
+            // {
+            //     $articles = $articleRepo->find($id);
+            //     $detailCommande = new DetailCommande;
+            //     $detailCommande->setArticle($articles);
+            //     $detailCommande->setQuantite($quantite);
+            //     $prix = $articles->getPrix();
+            //     $detailCommande->setPrix($prix);
+            //     $detailCommande->setCommande($commande);
+            //     $manager->persist($detailCommande);
+            // }
             $manager->flush();        
-            $this->addFlash('success', "Félicitations ! Votre commande a été enregistré avec succès !");
+            // $this->addFlash('success', "Félicitations ! Votre commande a été enregistré avec succès !");
             $session->remove('panier');
             
 
