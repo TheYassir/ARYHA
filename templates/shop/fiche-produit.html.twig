@@ -70,7 +70,7 @@
         <form action="" method="post" class="form">
             <p class="mx-3 my-3">Tailles :  
         
-            {# <select name="taille" id="taille" class="col-3">
+            <select name="taille" id="taille" class="col-3">
                 {% for data in cellules %}
                     {% if data.stock == 0 %}
                         <option value="{{ data.titre }}"disabled>{{ data.titre }}</option>
@@ -78,11 +78,11 @@
                         <option value="{{ data.titre }}">{{ data.titre }}</option>
                     {% endif %}
                 {% endfor %}
-            </select> #}
-             {{ form_start(formTaille) }}
+            </select>
+             {# {{ form_start(formTaille) }}
                 {{ form_widget(formTaille) }}
                 <button class="btn btn-outline-secondary">Enregistrer</button>
-            {{ form_end(formTaille) }}
+            {{ form_end(formTaille) }} #}
             </p>
            
         
@@ -118,11 +118,11 @@
             </div>
             <div class="text-center mb-5">
                 {% if app.user %}
-                <a href="{{ path('add_panier', {'id': article.id}) }}" class="col-3 btn hova">Ajouter au panier</a>
+                    <button type="submit" class="col-3 btn hova">Ajouter</button>                
                 {% else %}
-                <a href="{{ path('app_login')}}" class="col-3 btn hova">Ajouter au panier</a>
+                    <a href="{{ path('app_login')}}" class="col-3 btn hova">Connectez-vous</a>
                 {% endif %}
-                {# <button type="submit" class="col-3 btn hova">Ajouter</button> #}
+                
             </div>
         </form>
 

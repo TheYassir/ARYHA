@@ -379,9 +379,7 @@ class BackOfficeController extends AbstractController
     public function tailleForm(Taille $taille, Request $request, EntityManagerInterface $manager): Response
     {
         // $formTaille = $this->createForm(TailleType::class, $taille);
-        $formTaille = $this->createForm(TailleType::class, $taille, [
-            'tailleBack' => true 
-        ]);
+        $formTaille = $this->createForm(TailleType::class, $taille);
         $formTaille->handleRequest($request);
 
 
@@ -389,6 +387,8 @@ class BackOfficeController extends AbstractController
         {         
             $manager->persist($taille);
             $manager->flush();
+            $this->addFlash('success', "Le stock du produit a été mis à jour !");
+
 
             return $this->redirectToRoute('app_admin_taille', [
                 'id' => $taille->getArticle()->getId(),

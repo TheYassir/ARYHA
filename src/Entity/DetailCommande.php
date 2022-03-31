@@ -38,6 +38,11 @@ class DetailCommande
      */
     private $commande;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Taille::class)
+     */
+    private $taille;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +92,18 @@ class DetailCommande
     public function setCommande(?Commande $commande): self
     {
         $this->commande = $commande;
+
+        return $this;
+    }
+
+    public function getTaille(): ?Taille
+    {
+        return $this->taille;
+    }
+
+    public function setTaille(?Taille $taille): self
+    {
+        $this->taille = $taille;
 
         return $this;
     }

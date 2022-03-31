@@ -13,43 +13,47 @@
     {% endfor %}
     <div class="container d-flex justify-content-between">
         <div class="" style="width: 70%;">
-            <table class="table table-hover">
+            <table class="table">
                 <thead>
                     <tr class="hova">
                         <th class="text-center">Article</th>
                         <th class="text-center">Photo</th>
                         <th class="text-end">Prix</th>
+                        <th class="text-end">Taille</th>
                         <th class="text-end">Quantité</th>
                         <th class="text-end">Total</th>
                         <th class="text-end">Actions</th>        
                     </tr>
                 </thead>
                 <tbody>
-                        {% for element in dataPanier %}
-                            <tr>
-                                <td class="text-center"><a href="{{ path('shop_show', {'id': element.article.id}) }}" class="hov link-secondary">{{ element.article.titre}}</a></td>
-                                <td class="text-end"><a href="{{ path('shop_show', {'id': element.article.id}) }}"><img src="{{ asset('uploads/photos/' ~ element.article.photo ) }}" alt="" style="width: 100px; height: 100px;"></a></td>
-                                <td class="text-end"> {{ element.article.prix}} €</td>
-                                <td class="text-end"> {{ element.quantite}} </td>
-                                <td class="text-end"> {{ element.article.prix * element.quantite}} €</td>
-                                <td class="text-end">  
-                                    <a href="{{ path('add_panier', {'id': element.article.id}) }}" class="btn btn-success"><i class="bi bi-cart-plus"></i></a>
-                                    <a href="{{ path('remove_panier', {'id': element.article.id}) }}" class="btn btn-warning"><i class="bi bi-cart-dash"></i></a>
-                                    <a href="{{ path('delete_panier', {'id': element.article.id}) }}" class="btn btn-danger"><i class="bi bi-cart-x"></i></a>                        
-                                </td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="5" class="text-center">Votre panier est vide</td>
-                            </tr>
-                        {% endfor %}
+                    {% for element in dataPanier %}
+                        <tr>
+                            <td class="text-center"><a href="{{ path('shop_show', {'id': element.article.id}) }}" class="hov link-secondary">{{ element.article.titre}}</a></td>
+                            <td class="text-end"><a href="{{ path('shop_show', {'id': element.article.id}) }}"><img src="{{ asset('uploads/photos/' ~ element.article.photo ) }}" alt="" style="width: 100px; height: 100px;"></a></td>
+                            <td class="text-end"> {{ element.article.prix}} €</td>
+                            <td class="text-end"> {{ element.taille}} </td>
+                            <td class="text-end">
+                                {{ element.quantite}}
+                                {# <br> 
+                                {% if condition %}
+                                {% endif %} #}
+                            </td>
+                            <td class="text-end"> {{ element.article.prix * element.quantite}} €</td>
+                            <td class="text-end">  
+                                {# <a href="?modif=1" class="btn btn-success"><i class="bi bi-cart-plus"></i></a> #}
+                                <a href="{{ path('add_panier',  {'id': element.article.id , 'taille': element.taille}) }}" class="btn btn-success"><i class="bi bi-cart-plus"></i></a>
+                                <a href="{{ path('remove_panier', {'id': element.article.id , 'taille': element.taille}) }}" class="btn btn-warning"><i class="bi bi-cart-dash"></i></a>
+                                <a href="{{ path('delete_panier', {'id': element.article.id}) }}" class="btn btn-danger"><i class="bi bi-cart-x"></i></a>                        
+                            </td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
                 <tfoot>
                     <tr>
                         <td colspan="3">Total</td>
-                        <td></td>
-                        <td class="text-end">{{ total }} €</td>
-                        <td class="text-end">
+                        {# <td></td> #}
+                        <td colspan class="text-end">{{ total }} €</td>
+                        <td colspan="3" class="text-end">
                             Vider le panier <a href="{{ path('delete_all_panier') }}" class="btn btn-danger"><i class="bi bi-cart-x"></i></a>
                         </td>
                     </tr>
