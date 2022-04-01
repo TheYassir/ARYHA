@@ -176,9 +176,8 @@ class CartController extends AbstractController
                     $detailCommande = new DetailCommande;
                     $detailCommande->setArticle($articles);
                     $detailCommande->setTaille($laTaille);
-                    // $amel = $laTaille->getStock();
-                    // $amel2 = $amel - $quantite;
-                    // $amel2->setStock();
+                    $amel = $laTaille->getStock();
+                    $laTaille->setStock($amel - $quantite);
                     $detailCommande->setQuantite($quantite);
                     $prix = $articles->getPrix();
                     $detailCommande->setPrix($prix);
