@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Category;
 use App\Form\TailleType;
+use App\Service\MailerService;
 use App\Repository\TailleRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CodePromoRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +24,47 @@ class ShopController extends AbstractController
         return $this->render('shop/index.html.twig', [
            'titre' => 'Bienvenue sur ARYHA paris',
         ]);
+    }
+
+    #[Route('/contact', name: 'contact')]
+    public function contact(Request $request, MailerService $mailer): Response
+    {
+        if($request->request->count() > 0 && $request->request->count() == 3 )
+        {
+            if(filter_var($request->request->get("email"), FILTER_VALIDATE_EMAIL)) 
+            {
+                if(strlen($request->request->get("subject")) >= 5)
+                {
+                    if(strlen($request->request->get("content")) >= 10)
+                    {
+                        $email = $request->request->get("email");
+                        $subject = $request->request->get("subject");
+                        $content = $request->request->get("content");
+                        
+                        $mailMessage = '<p>'. $email . ' vous a envoyer un message <br><br>Objet du message : '. $subject. '  <br><br> Contenu du message : '. $content. ' <br> </p>';
+                        $mailer->sendEmail(content: $mailMessage, subject: "Un nouveau message d'un utilisateur !");
+
+                        $this->addFlash('success', "Votre message à bien été envoyé");
+                    } else {
+                        $this->addFlash('danger', "Votre message n'est pas assez long !");
+                    }
+                } else {
+                    $this->addFlash('danger', "Votre objet n'est pas assez long !");
+                }
+            } else {
+                $this->addFlash('danger', "Votre mail n'est pas valide !");
+            }
+
+        }
+        
+
+        // $mailMessage = 'Nouvelle commande n°'.$commande->getId() . ' pour un montant de ' . $commande->getMontant() . ' € !';
+        // $mailer->sendEmail(content: $mailMessage, subject: 'Une nouvelle commande !');
+        
+        
+
+        return $this->render('shop/contact.html.twig');
+    
     }
 
     #[Route('/home', name: 'home')]
@@ -45,25 +87,11 @@ class ShopController extends AbstractController
     }
 
     #[Route('/shop/{id}', name: 'shop_show')]
-    public function ShopShow(Article $article, TailleRepository $repoTaille, Request $request, EntityManagerInterface $manager): Response
+    public function ShopShow(Article $article, TailleRepository $repoTaille, Request $request): Response
     {
-        // dd($taille);
-        
-        // $formTaille->handleRequest($request);
-
-        //     if($formTaille->isSubmitted() && $formTaille->isValid())
-        //     {         
-        //         $manager->persist($taille);
-        //         $manager->flush();
-
-        //         return $this->redirectToRoute('add_panier', [
-        //             'id' => $article->getId(),
-        //             // 'taille' => 
-        //         ]);         
-        //     }        
+             
         if($request->request->count() > 0){
             $taille = $request->request->get("taille");
-            // dump($taille);
 
             return $this->redirectToRoute('add_panier', [
                 'id' => $article->getId(),
@@ -74,40 +102,59 @@ class ShopController extends AbstractController
         $cellules = $repoTaille->findBy(
             ['article' => $article]
         );
+
         return $this->render('shop/fiche-produit.html.twig', [
             'article' => $article,
-            // 'formTaille' => $formTaille->createView(),
             'cellules' => $cellules
         ]);
     }
 
     #[Route('/shop', name: 'shop')]
     #[Route('/shop/category/{id}', name: 'shop_category')]
-    #[Route('/shop/{sexe}', name: 'shop_genre')]
-    public function Shop(SessionInterface $session, ArticleRepository $repoArticle, Category $category = null, $sexe = null): Response
+    public function Shop(SessionInterface $session, ArticleRepository $repoArticle, CodePromoRepository $repoCode, Category $category = null, Request $request): Response
     {
-
         $panier = $session->get("panier", []);
+
+        if($request->request->get("codePromo") !== null )
+        {
+            if($session->get("codePromo") == null)
+            {
+                $code = $request->request->get("codePromo");
+                $codePromo = $repoCode->findOneBy(
+                    ['code' => $code]
+                );
+                $codePro = $codePromo->getId();
+
+                $promoCode = $session->set("codePromo", $codePro);
+                $request->request->set("codePromo", null) ;
+            }
+            $this->addFlash(
+               'danger',
+               'Il y a déja un code promo actif'
+            );    
+        }
+
+        if($session->get("codePromo") != null){
+            $idCodeSession = $session->get("codePromo");
+            $codeSession = $repoCode->find($idCodeSession);
+            // dd($session);
+            $promo = $codeSession->getPromo();
+            $promoFinal = 1 - ($promo/100);
+        } else {
+            $promo = 0;
+        }
+        // dump($promoFinal);
+
 
         // On fabrique les données
         $dataPanier = [];
         $total = 0;
+        $nbPanier = 0;
 
-        // foreach($panier as $id => $quantite)
-        // {
-        //     $article = $repoArticle->find($id);
-        //     $dataPanier[] = [
-        //         "article" => $article,
-        //         "quantite" => $quantite
-        //     ];
-        //     $total += $article->getPrix() * $quantite;
-        //     // dump($dataPanier);
-        // }
         foreach($panier as $id => $taille)
         {
             $article = $repoArticle->find($id);
             foreach($taille as $quantite){
-                // $taille = $tailleRepo->findBy(['article' => $article]);
 
                 $dataPanier[] = [
                     "article" => $article,
@@ -115,24 +162,25 @@ class ShopController extends AbstractController
                     "quantite" => $quantite
                 ];
             $total += $article->getPrix() * $quantite;
+            $nbPanier +=  $quantite;
+
             }
+        }
+        $ancienTotal = $total;
+        if($session->get("codePromo") != null)
+        {
+            $total = $total * $promoFinal ;
+            $codepro = $total - $ancienTotal;
         }
 
         if ($category)
         {
             $articles = $category->getArticle();
-        }
-        // elseif($sexe == "Homme")  {
-        //     $articles = $repoArticle->getCategory();
-        // }
-        // elseif($sexe == "Femme")  {
-        //     $articles = $repoArticle->getCategory();
-        // }
-        else {
+        } else {
             $articles = $repoArticle->findAll();
         }
 
-        return $this->render('shop/shop.html.twig', compact("dataPanier", "total", "articles", "category"));
+        return $this->render('shop/shop.html.twig', compact("dataPanier", "total", "articles", "category", "nbPanier", "promo", "codepro"));
     }
 
 }

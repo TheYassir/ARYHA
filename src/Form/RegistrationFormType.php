@@ -120,7 +120,7 @@ class RegistrationFormType extends AbstractType
                         ]),
                         new Length([
                             'min' => 8,
-                            'minMessage' => "Votre mot de passe doit contenir au minimum 8 caractères"
+                            'minMessage' => "Votre mot de passe est trop court"
                         ])
                     ]
                 ])

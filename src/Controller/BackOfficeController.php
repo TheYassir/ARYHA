@@ -5,18 +5,19 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\Category;
+use App\Entity\CodePromo;
 use App\Entity\Commande;
 use App\Form\ArticleType;
 use App\Form\CategoryType;
 use App\Form\CommandeType;
-use App\Controller\ShopController;
-use App\Entity\DetailCommande;
 use App\Entity\Taille;
+use App\Form\CodePromoType;
 use App\Form\RegistrationFormType;
 use App\Form\TailleType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\CodePromoRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\DetailCommandeRepository;
 use App\Repository\TailleRepository;
@@ -53,7 +54,7 @@ class BackOfficeController extends AbstractController
         // $tab = array("39"=>"10", "40"=>"20", "41"=>"30");
         // foreach($tab as $key => $value)
         // {
-        dump($cellules);
+        // dump($cellules);
         // }
 
         // dd($tab);
@@ -402,6 +403,64 @@ class BackOfficeController extends AbstractController
             'formTaille' => $formTaille->createView(),
             'taille' => $taille,
             'editMode' => $taille->getId(),
+        ]);
+    }
+
+    #[Route('/admin/codePromo', name: 'app_admin_codePromo')]
+    #[Route('/admin/codePromo/{id}/delete', name: 'app_admin_codePromo_delete')]
+    public function adminCodePromo(EntityManagerInterface $manager, CodePromoRepository $repoCode, CodePromo $codeDelete = null): Response
+    {
+        // $colonnes = $manager->getclassMetadata(Category::class)->getFieldNames();
+        $cellules = $repoCode->findAll();
+
+
+        if($codeDelete)
+        {
+            $id = $codeDelete->getId();
+            $manager->remove($codeDelete);
+            $manager->flush();
+
+            $this->addFlash('success', "Le Code Promo n°$id a bien été supprimer avec succès");
+
+            return $this->redirectToRoute('app_admin_codePromo');
+        }
+        return $this->render('back_office/admin_codePromo.html.twig', [
+            // 'colonnes' => $colonnes,
+            'cellules' => $cellules,
+        ]);
+    }
+
+    #[Route('/admin/codePromo/add', name: 'app_admin_codePromo_add')]
+    #[Route('/admin/codePromo/{id}/edit', name: 'app_admin_codePromo_update')]
+    public function adminCodePromoForm(CodePromo $codePromo = null, Request $request, EntityManagerInterface $manager): Response
+    {
+        if(!$codePromo)
+        {
+            $codePromo = new CodePromo;
+        }
+        
+        $formCode = $this->createForm(CodePromoType::class, $codePromo);
+        $formCode->handleRequest($request);
+
+
+        if($formCode->isSubmitted() && $formCode->isValid())
+        {
+            if(!$codePromo->getId())
+                $txt = "enregistré";
+            else
+                $txt = "modifier";
+
+            $manager->persist($codePromo);
+            $manager->flush();
+            $this->addFlash('success', "Le Code Promo a été $txt avec succès !");
+    
+            return $this->redirectToRoute('app_admin_codePromo', [
+                'id' => $codePromo->getId()
+            ]);
+        }
+        return $this->render('back_office/admin_codePromo_form.html.twig', [
+            'formCode' => $formCode->createView(),
+            'editMode' => $codePromo->getId(),
         ]);
     }
 }

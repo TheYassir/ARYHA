@@ -61,9 +61,7 @@
             {% endfor %}
 
 
-        </div>  
-        <div class="text-center mt-5 mb-1"><a href="?top" class="btn btn-sm hova">Remontez en haut</a></div>      
-        
+        </div>        
     </div>
 
 
@@ -75,6 +73,7 @@
             {% if app.user %}
             <h4 class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-primary">Votre Panier</span>
+            <span class="badge bg-primary">{{ nbPanier }}</span>
             </h4>
                 <ul class="list-group mb-3">
                     {% for element in dataPanier  %}
@@ -86,8 +85,22 @@
                             <span class="text-muted">{{element.article.prix * element.quantite}}€</span>
                         </li>
                     {% else %}
-                        
+                        <li class="list-group-item ">
+                            <div class="text-center">
+                            <small class="text-muted ">Continuez vos achats</small>
+                            </div>
+                        </li>
                     {% endfor %}
+                    {% if promo != 0 %}
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                            <h6 class="my-0">Code Promo</h6>
+                            <small class="text-muted">{{ promo }}% sur le panier</small>
+                            </div>
+                            <span class="text-success">{{codepro}}€</span>
+                        </li>
+                        
+                    {% endif %}
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Total (euros €)</span>
                         <strong>{{total}}€</strong>
@@ -99,9 +112,16 @@
                             <button type="submit" class="btn btn-secondary">Utiliser</button>
                         </div>
                     </form>
+
+                    {% for message in app.flashes('danger') %}
+                        <div class="mx-auto text-center alert alert-danger">
+                            {{ message }}
+                        </div>        
+                    {% endfor %}
+
             {% else %}
             <h4 class="align-items-center mb-3">
-            <span class="text-primary">Connectez vous ou Inscrivez-vous</span> <br>
+                <span class="text-primary">Connectez vous ou Inscrivez-vous</span> <br>
             </h4>
             <span class="text-muted">Pour pouvoir remplir votre panier</span>
             

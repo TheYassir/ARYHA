@@ -27,12 +27,12 @@
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                     <li class="nav-link nav-link-ltr"><a href="{{ path('home') }}" class="nav-link me-2 text-white">Home</a></li>
                     <li class="nav-link nav-link-ltr"><a href="{{ path('shop') }}" class="nav-link text-white">Shop</a></li>
-                    <li class="nav-link nav-link-ltr"><a href="#" class="nav-link text-white">Contact</a></li>
+                    <li class="nav-link nav-link-ltr"><a href="{{ path('contact') }}" class="nav-link text-white">Contact</a></li>
                     <li class="nav-link nav-link-ltr"><a href="{{ path('panier') }}" class="nav-link text-white">Panier <i class="bi bi-cart4"></i></a></li>
                 </ul>
 
                 <div class="col-md-3 col-sd-1 text-end me-3">
-                    {% if app.user %} 
+                    {% if app.user %}
                         {% if is_granted('ROLE_ADMIN') %}
                             <a type="button" href="{{ path('app_admin') }}" class="btn btn-sm hova me-2 border-dark">BackOffice</a>
                         {% endif %}

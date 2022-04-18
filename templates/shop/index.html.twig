@@ -12,7 +12,7 @@
         <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
         <meta name="theme-color" content="#7952b3">
         <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/dashboard/">
-        <title>Shop | Home</title>
+        <title>ARYHA paris | Index</title>
 
         <style>
         .bd-placeholder-img {
@@ -38,14 +38,13 @@
                 <a href="{{ path('home') }}" class="h3 marq float-md-start mb-0"><img src="{{ asset('uploads/photos/logo_large.png') }}" alt="logo" style="height: 75px;"></a>
                 <nav class="nav nav-masthead justify-content-center float-md-end">
                     <a class="nav-link text-white" aria-current="page" href="{{ path('home') }}">Home</a>
-                    <a class="nav-link text-white" href="#">Boutique</a>
-                    {# <a class="nav-link text-white" href="#">Contact</a> #}
+                    <a class="nav-link text-white" href="{{ path('shop') }}">Boutique</a>
+                    <a class="nav-link text-white" href="{{ path('contact') }}">Contact</a>
                 </nav>
                 </div>
             </header>
             <main class="px-3">
-                    <h1>Bienvenue sur notre site</h1>
-                    <p class="lead">Quel type d'article recherchez-vous ?</p>
+                    <h1 class="fs-2 my-3">Nous vous souhaitons la bienvenue sur notre boutique !</h1>
                     <p class="lead">
                         <a href="{{ path('home') }}" class="btn hova fw-bold border-white">Entrée sur le site</a>
                     </p>

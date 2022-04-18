@@ -1,0 +1,43 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    Admin | Code Promo
+{% endblock %}
+{% block body %}
+    <h1 class="text-center mt-3 mb-4">Les Codes Promo</h1>
+    {% for message in app.flashes('success') %}
+        <div class="col-6 mx-auto text-center alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="container col-12">
+        <table class="table table-striped mx-2 mb-5" id="table-backoffice-codePromo">
+            <thead>
+                <tr class="entete-comments">
+                    <th class="text-center">Id</th>
+                    <th class="text-center">Code</th>
+                    <th class="text-center">Promo</th>
+                    <th class="text-center">Action</th>
+                </tr> 
+            </thead>
+            <tbody>
+            {% for data in cellules %}                 
+                <tr>
+                    <td class="text-center"> {{ data.id }} </td>
+                    <td class="text-center">{{ data.code }}</td>
+                    <td class="text-center">{{ data.promo }} %</td>
+                    <td>
+                        <div class="text-center d-flex justify-content-center">
+                            <a href="{{ path('app_admin_codePromo_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i></a>
+                            <a href="{{ path('app_admin_codePromo_delete', {'id': data.id}) }}" class="btn btn-danger text-white ms-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer ce Code Promo' ))"><i class="bi bi-trash"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}     
+        </tbody>   
+    </table>
+</div>
+
+
+
+{% endblock %}
