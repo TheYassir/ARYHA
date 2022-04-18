@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Service\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerService $mailer): Response
     {
         if($this->getUser())
         {
@@ -37,10 +38,12 @@ class RegistrationController extends AbstractController
             );
 
             $user->setPassword($hash);
-
             $this->addFlash('success', "Félicitation ! Vous êtes maintenant inscrit sur le site !");
-
+            $mailMessage = $user->getPrenom() . ' ' . $user->getNom() . 'vien de s\'inscrire sur ARHYA';
+            
             $entityManager->persist($user);
+            $mailer->sendEmail(content: $mailMessage, subject: 'Un nouveau inscris !');
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_login');

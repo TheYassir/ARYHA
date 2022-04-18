@@ -5,22 +5,33 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Commande;
 use App\Entity\DetailCommande;
-use App\Repository\ArticleRepository;
-use App\Repository\CommandeRepository;
+use App\Service\MailerService;
 use App\Repository\TailleRepository;
+use App\Repository\ArticleRepository;
+use App\Repository\CodePromoRepository;
+use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CartController extends AbstractController
 {
     #[Route('/panier', name: 'panier')]
-    public function index(SessionInterface $session, ArticleRepository $articleRepo, TailleRepository $tailleRepo, Request $request): Response
+    public function index(SessionInterface $session, ArticleRepository $articleRepo, CodePromoRepository $repoCode, TailleRepository $tailleRepo, Request $request): Response
     {
         $panier = $session->get("panier", []);
+        if($session->get("codePromo") != null){
+            $idCodeSession = $session->get("codePromo");
+            $codeSession = $repoCode->find($idCodeSession);
+            // dd($session);
+            $promo = $codeSession->getPromo();
+            $promoFinal = 1 - ($promo / 100);
+        } else {
+            $promo = 0;
+        }
         // On fabrique les données
         $dataPanier = [];
         $total = 0;
@@ -40,7 +51,27 @@ class CartController extends AbstractController
 
             }
         }
-        return $this->render('cart/index.html.twig',compact("dataPanier", "total"));
+        $ancienTotal = $total;
+        if($session->get("codePromo") != null)
+        {
+            $total = $total * $promoFinal ;
+            $codepro = $total - $ancienTotal;
+        }
+        // if($request->request->get("codePromo") !== null )
+        // {
+        //     if($session->get("codePromo") == null)
+        //     {
+        //     $code = $request->request->get("codePromo");
+        //     $codePromo = $repoCode->findOneBy(
+        //         ['code' => $code]
+        //     );
+        //     $codePro = $codePromo->getId();
+
+        //     $promoCode = $session->set("codePromo", $codePro);
+        //     }
+        // }
+        // dd($session);
+        return $this->render('cart/index.html.twig',compact("dataPanier", "total", "promo","codepro"));
     }
 
 
@@ -124,8 +155,15 @@ class CartController extends AbstractController
     }
     
     #[Route('/panier/achat', name: 'commander')]
-    public function validPanier(SessionInterface $session, EntityManagerInterface $manager, ArticleRepository $articleRepo, TailleRepository $tailleRepo) : Response
+    public function validPanier(SessionInterface $session, EntityManagerInterface $manager, CodePromoRepository $repoCode, ArticleRepository $articleRepo, TailleRepository $tailleRepo, MailerService $mailer) : Response
     {   
+        if($session->get("codePromo") != null){
+            $idCodeSession = $session->get("codePromo");
+            $codeSession = $repoCode->find($idCodeSession);
+            // dd($session);
+            $promo = $codeSession->getPromo();
+            $promoFinal = 1 - ($promo/100);
+        }
         if($session->get("panier", [])){
             $panier = $session->get("panier", []);
             $commande = new Commande;
@@ -144,7 +182,6 @@ class CartController extends AbstractController
             {
                 $article = $articleRepo->find($id);
                 foreach($data as $taille => $quantite){
-                    // $taille = $tailleRepo->findBy(['article' => $article]);
                     $dataPanier[] = [
                         "article" => $article,
                         "taille" => $taille,
@@ -154,15 +191,12 @@ class CartController extends AbstractController
                 }
             }
 
-            // foreach($panier as $id => $quantite)
-            // {
-            //    $article = $articleRepo->find($id);
-            //    $dataPanier[] = [
-            //        "article" => $article,
-            //        "quantite" => $quantite
-            //    ];
-            //    $montant += $article->getPrix() * $quantite;
-            // }
+            if($session->get("codePromo") != null)
+            {
+                $montant = $montant * $promoFinal ;
+                $session->remove('codePromo');
+            }
+
             $commande->setMontant($montant);
             $manager->persist($commande);
 
@@ -188,19 +222,10 @@ class CartController extends AbstractController
 
                 }
             }
+            $manager->flush();     
+            $mailMessage = 'Nouvelle commande n°'.$commande->getId() . ' pour un montant de ' . $commande->getMontant() . ' € !';
+            $mailer->sendEmail(content: $mailMessage, subject: 'Une nouvelle commande !');
 
-            // foreach($panier as $id => $quantite)
-            // {
-            //     $articles = $articleRepo->find($id);
-            //     $detailCommande = new DetailCommande;
-            //     $detailCommande->setArticle($articles);
-            //     $detailCommande->setQuantite($quantite);
-            //     $prix = $articles->getPrix();
-            //     $detailCommande->setPrix($prix);
-            //     $detailCommande->setCommande($commande);
-            //     $manager->persist($detailCommande);
-            // }
-            $manager->flush();        
             // $this->addFlash('success', "Félicitations ! Votre commande a été enregistré avec succès !");
             $session->remove('panier');
             
@@ -219,6 +244,7 @@ class CartController extends AbstractController
     public function validation(CommandeRepository $repoCommande)
     {      
         $commande = $repoCommande->findBy(array(), array('id' => 'desc'),1,0);
+        
         // dd($commande);
         return $this->render('cart/validation.html.twig', [
             'commande' => $commande

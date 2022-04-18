@@ -106,21 +106,33 @@
             &nbsp;Category
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link hoverblue {% if route_name == 'app_admin_codePromo' %} active {% endif %}" href="{{ path('app_admin_codePromo') }}">
+            <i class="bi bi-qr-code-scan"></i>            
+            &nbsp;Code Promo
+            </a>
+          </li>
         </ul>
         <hr>
-        <br><br><br><br><br><br><br>
+        <br><br><br>
         <hr>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
             <a class="nav-link hoverblue {% if route_name == 'app_admin_articles_add' %} active {% endif %}" href="{{ path('app_admin_articles_add') }}">
             <i class="bi bi-file-earmark-plus-fill"></i>
-            &nbsp;Nouvel Article
+            &nbsp;New Article
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link hoverblue {% if route_name == 'app_admin_category_add' %} active {% endif %}" href="{{ path('app_admin_category_add') }}">
             <i class="bi bi-node-plus-fill"></i>
-            &nbsp;Nouvel Category
+            &nbsp;New Category
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link hoverblue {% if route_name == 'app_admin_codePromo_add' %} active {% endif %}" href="{{ path('app_admin_codePromo_add') }}">
+            <i class="bi bi-qr-code"></i>
+            &nbsp;New Code Promo
             </a>
           </li>
           <li class="nav-item">
