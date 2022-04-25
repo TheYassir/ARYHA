@@ -12,8 +12,41 @@ ARYHA paris | Profil
         <p class="text-center text-secondary mb-4">Vous êtes <span class="text-primary">ADMINISTRATEUR</span>  du site</p>
     {% endif %}
 
-    <div class="d-flex justify-content-around my-3">
-        <div class="col-sm-5">
+    <div class="row row-cols-sm-1 row-cols-lg-2 my-3">
+    {% if app.request.query.get('op') == 'modif' %}
+            <div class="col-10 col-sm-10 col-lg-5 mx-auto mb-5">
+                <div class="card border-info">
+                    <div class="card-body">
+                        {{ form_start(formUpdate) }}
+                            <h4 class="text-center my-3">Modifier votre Profil</h4>
+                            <div class="d-flex justify-content-center my-2">
+                                <p class="card-text">{{ form_row(formUpdate.sexe) }}</p>
+                            </div>
+                            <div class="d-flex justify-content-between my-2">
+                                <p class="card-text">{{ form_row(formUpdate.email) }}</p>
+                                <p class="card-text">{{ form_row(formUpdate.pseudo) }}</p>
+                            </div>
+                            <div class="d-flex justify-content-between my-2">
+                                <p class="card-text">{{ form_row(formUpdate.nom) }}</p>
+                                <p class="card-text">{{ form_row(formUpdate.prenom) }}</p>
+                            </div>
+                            <div class="d-flex justify-content-between my-2">
+                                <p class="card-text">{{ form_row(formUpdate.telephone) }}</p>
+                                <p class="card-text">{{ form_row(formUpdate.adresse) }}</p>
+                            </div>
+                            <div class="d-flex justify-content-between my-2">
+                                <p class="card-text">{{ form_row(formUpdate.ville) }}</p>
+                                <p class="card-text">{{ form_row(formUpdate.codePostal) }}</p>
+                            </div>
+                            <div class="text-center mt-4">                                
+                                <button type="submit" class="btn btn-outline-info col-4">Enregistrer</button>
+                            </div>
+                        {{ form_end(formUpdate) }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="col-10 col-sm-10 col-lg-5 mx-auto">
             <div class="card border-secondary">
                 <div class="card-body">
                     <h4 class="text-center my-3">Votre Profil</h4>
@@ -59,38 +92,7 @@ ARYHA paris | Profil
                 </div>
             </div>
         </div>
-        {% if app.request.query.get('op') == 'modif' %}
-            <div class="col-sm-5">
-                <div class="card border-info">
-                    <div class="card-body">
-                        {{ form_start(formUpdate) }}
-                            <h4 class="text-center my-3">Modifier votre Profil</h4>
-                            <div class="d-flex justify-content-center my-2">
-                                <p class="card-text">{{ form_row(formUpdate.sexe) }}</p>
-                            </div>
-                            <div class="d-flex justify-content-between my-2">
-                                <p class="card-text">{{ form_row(formUpdate.email) }}</p>
-                                <p class="card-text">{{ form_row(formUpdate.pseudo) }}</p>
-                            </div>
-                            <div class="d-flex justify-content-between my-2">
-                                <p class="card-text">{{ form_row(formUpdate.nom) }}</p>
-                                <p class="card-text">{{ form_row(formUpdate.prenom) }}</p>
-                            </div>
-                            <div class="d-flex justify-content-between my-2">
-                                <p class="card-text">{{ form_row(formUpdate.telephone) }}</p>
-                                <p class="card-text">{{ form_row(formUpdate.adresse) }}</p>
-                            </div>
-                            <div class="d-flex justify-content-between my-2">
-                                <p class="card-text">{{ form_row(formUpdate.ville) }}</p>
-                                <p class="card-text">{{ form_row(formUpdate.codePostal) }}</p>
-                            </div>
-                            <div class="text-center mt-4">                                
-                                <button type="submit" class="btn btn-outline-info col-4">Enregistrer</button>
-                            </div>
-                        {{ form_end(formUpdate) }}
-                    </div>
-                </div>
-            </div>
+        
         {# {% else %}
             <div class="accordion" id="accordionExample">      
                 <div class="accordion-item">
@@ -131,7 +133,7 @@ ARYHA paris | Profil
                     </div>
                 </div>
             </div> #}
-        {% endif %}
+        
     </div>
 
     {# <div class="container text-center">

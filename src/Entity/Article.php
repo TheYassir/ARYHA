@@ -79,6 +79,11 @@ class Article
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $photo5;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo6;
     
     public function __construct()
     {
@@ -268,6 +273,18 @@ class Article
     public function setPhoto5(?string $photo5): self
     {
         $this->photo5 = $photo5;
+
+        return $this;
+    }
+
+    public function getPhoto6(): ?string
+    {
+        return $this->photo6;
+    }
+
+    public function setPhoto6(?string $photo6): self
+    {
+        $this->photo6 = $photo6;
 
         return $this;
     }

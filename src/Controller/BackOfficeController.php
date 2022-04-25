@@ -84,12 +84,35 @@ class BackOfficeController extends AbstractController
     #[Route('/admin/articles/{id}/edit', name: 'app_admin_articles_update')]
     public function adminArticleForm(Article $article = null, Request $request, EntityManagerInterface $manager, SluggerInterface $slugger): Response
     {
+        // PROBleme ici car NULL en base de donnée a la pace de string les changer
         if($article)
         {
             $photoActuelle = $article->getPhoto();
-            
-        }
+            $photoActuelle2 = $article->getPhoto2();
+            $photoActuelle3 = $article->getPhoto3();
+            $photoActuelle4 = $article->getPhoto4();
+            $photoActuelle5 = $article->getPhoto5();
+            $photoActuelle6 = $article->getPhoto6();
+            if($article->getPhoto() == Null){
+                $article->setPhoto('null');
+            }
+            if($article->getPhoto2() == Null){
+                $article->setPhoto2('null');
+            }
+            if($article->getPhoto3() == Null){
+                $article->setPhoto3('null');
+            }
+            if($article->getPhoto4() == Null){
+                $article->setPhoto4('null');
+            }
+            if($article->getPhoto5() == Null){
+                $article->setPhoto5('null');
+            }
+            if($article->getPhoto6() == Null){
+                $article->setPhoto6('null');
+            }
 
+        }
         if(!$article)
         {
             $article = new Article;
@@ -108,9 +131,16 @@ class BackOfficeController extends AbstractController
                 $txt = "modifier";
           
             $photo = $formArticle->get('photo')->getData();
+            $photo2 = $formArticle->get('photo2')->getData();
+            $photo3 = $formArticle->get('photo3')->getData();
+            $photo4 = $formArticle->get('photo4')->getData();
+            $photo5 = $formArticle->get('photo5')->getData();
+            $photo6 = $formArticle->get('photo6')->getData();
+
 
             if($photo)
             {
+
                 $nomOriginePhoto = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
                 $nouveauNomFichier = $nomOriginePhoto . "-" . uniqid() . '.' . $photo->guessExtension();              
                 try
@@ -133,58 +163,190 @@ class BackOfficeController extends AbstractController
                 else
                     $article->setPhoto("null");
             }
+
+            if($photo2)
+            {
+
+                $nomOriginePhoto2 = pathinfo($photo2->getClientOriginalName(), PATHINFO_FILENAME);
+                $nouveauNomFichier2 = $nomOriginePhoto2 . "-" . uniqid() . '.' . $photo2->guessExtension();              
+                try
+                {
+                    $photo2->move(
+                        $this->getParameter('photo_directory'),
+                        $nouveauNomFichier2
+                    );
+                }
+                catch(FileException $e)
+                {
+
+                }
+                $article->setPhoto2($nouveauNomFichier2);
+            }
+            else
+            {
+                if(isset($photoActuelle2))
+                    $article->setPhoto2($photoActuelle2);
+                else
+                    $article->setPhoto2("null");
+            }
+
+            if($photo3)
+            {
+                $nomOriginePhoto3 = pathinfo($photo3->getClientOriginalName(), PATHINFO_FILENAME);
+                $nouveauNomFichier3 = $nomOriginePhoto3 . "-" . uniqid() . '.' . $photo3->guessExtension();              
+                try
+                {
+                    $photo3->move(
+                        $this->getParameter('photo_directory'),
+                        $nouveauNomFichier3
+                    );
+                }
+                catch(FileException $e)
+                {
+
+                }
+                $article->setPhoto3($nouveauNomFichier3);
+            }
+            else
+            {
+                if(isset($photoActuelle3))
+                    $article->setPhoto3($photoActuelle3);
+                else
+                    $article->setPhoto3("null");
+            }
+
+            if($photo4)
+            {
+                $nomOriginePhoto4 = pathinfo($photo4->getClientOriginalName(), PATHINFO_FILENAME);
+                $nouveauNomFichier4 = $nomOriginePhoto4 . "-" . uniqid() . '.' . $photo4->guessExtension();              
+                try
+                {
+                    $photo4->move(
+                        $this->getParameter('photo_directory'),
+                        $nouveauNomFichier4
+                    );
+                }
+                catch(FileException $e)
+                {
+
+                }
+                $article->setPhoto4($nouveauNomFichier4);
+            }
+            else
+            {
+                if(isset($photoActuelle4))
+                    $article->setPhoto4($photoActuelle4);
+                else
+                    $article->setPhoto4("null");
+            }
+
+            if($photo5)
+            {
+                $nomOriginePhoto5 = pathinfo($photo5->getClientOriginalName(), PATHINFO_FILENAME);
+                $nouveauNomFichier5 = $nomOriginePhoto5 . "-" . uniqid() . '.' . $photo5->guessExtension();              
+                try
+                {
+                    $photo5->move(
+                        $this->getParameter('photo_directory'),
+                        $nouveauNomFichier5
+                    );
+                }
+                catch(FileException $e)
+                {
+
+                }
+                $article->setPhoto5($nouveauNomFichier5);
+            }
+            else
+            {
+                if(isset($photoActuelle5))
+                    $article->setPhoto5($photoActuelle5);
+                else
+                    $article->setPhoto5("null");
+            }
+
+            if($photo6)
+            {
+                $nomOriginePhoto6 = pathinfo($photo6->getClientOriginalName(), PATHINFO_FILENAME);
+                $nouveauNomFichier6 = $nomOriginePhoto6 . "-" . uniqid() . '.' . $photo6->guessExtension();              
+                try
+                {
+                    $photo6->move(
+                        $this->getParameter('photo_directory'),
+                        $nouveauNomFichier6
+                    );
+                }
+                catch(FileException $e)
+                {
+
+                }
+                $article->setPhoto6($nouveauNomFichier6);
+            }
+            else
+            {
+                if(isset($photoActuelle6))
+                    $article->setPhoto6($photoActuelle6);
+                else
+                    $article->setPhoto6("null");
+            }
+
             $manager->persist($article);
-            
-
-            if($article->getCategory()->getGrdCat() == "Souliers")
+            if(!$article->getId())
             {
-                $tab = [37, 38, 39, 40, 41, 42, 43, 44, 45];
-                foreach($tab as $value){
+                if($article->getCategory()->getGrdCat() == "Souliers")
+                {
+                    $tab = [37, 38, 39, 40, 41, 42, 43, 44, 45];
+                    foreach($tab as $value){
+                        $taille = new Taille;
+                        $taille->setTitre($value);
+                        $taille->setStock("0");
+                        $taille->setArticle($article);
+                        $manager->persist($taille);
+                    }
+                } elseif($article->getCategory()->getGrdCat() == "Prêt-à-porter") 
+                {
+                    $tab = ["XS", "S", "M", "L", "XL"];
+
+                    foreach($tab as $value){
+                        $taille = new Taille;
+                        $taille->setTitre($value);
+                        $taille->setStock("0");
+                        $taille->setArticle($article);
+                        $manager->persist($taille);
+                    }
+                } else 
+                {
+                    $this->addFlash('success', "L'article a été $txt avec succès !");
                     $taille = new Taille;
-                    $taille->setTitre($value);
+                    $taille->setTitre("Unique");
                     $taille->setStock("0");
                     $taille->setArticle($article);
                     $manager->persist($taille);
                 }
-                
-
-            } elseif($article->getCategory()->getGrdCat() == "Prêt-à-porter") 
-            {
-                $tab = ["XS", "S", "M", "L", "XL"];
-
-                foreach($tab as $value){
-                    $taille = new Taille;
-                    $taille->setTitre($value);
-                    $taille->setStock("0");
-                    $taille->setArticle($article);
-                    $manager->persist($taille);
-                }
-
-            } else 
-            {
-                
-                $this->addFlash('success', "L'article a été $txt avec succès !");
-                $taille = new Taille;
-                $taille->setTitre("Unique");
-                $taille->setStock("0");
-                $taille->setArticle($article);
-                $manager->persist($taille);
             }
             $manager->flush();
 
-            return $this->redirectToRoute('app_admin_taille', [
-                'id' => $article->getId(),
-            ]);  
-            
-            // return $this->redirectToRoute('app_admin_articles', [
-            //     'id' => $article->getId()
-            // ]); 
-                    
+            if(!$article->getId())
+            {
+                return $this->redirectToRoute('app_admin_taille', [
+                    'id' => $article->getId(),
+                ]); 
+            } else {
+                $this->addFlash('success', "L'article a été $txt avec succès !");
+                return $this->redirectToRoute('app_admin_articles');
+            }
+                
         }
         return $this->render('back_office/admin_articles_form.html.twig', [
             'formArticle' => $formArticle->createView(),
             'editMode' => $article->getId(),
-            'photoActuelle' => $article->getPhoto()
+            'photoActuelle' => $article->getPhoto(),
+            'photoActuelle2' => $article->getPhoto2(),
+            'photoActuelle3' => $article->getPhoto3(),
+            'photoActuelle4' => $article->getPhoto4(),
+            'photoActuelle5' => $article->getPhoto5(),
+            'photoActuelle6' => $article->getPhoto6()
+
         ]);
     }
 

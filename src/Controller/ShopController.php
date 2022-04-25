@@ -103,9 +103,36 @@ class ShopController extends AbstractController
             ['article' => $article]
         );
 
+        $tabPhoto = [];
+        if($article->getPhoto() != Null && $article->getPhoto() != "null" )
+        {
+            $tabPhoto[] = $article->getPhoto();
+        }
+        if($article->getPhoto2() != Null && $article->getPhoto2() != "null" )
+        {
+            $tabPhoto[] = $article->getPhoto2();
+        }
+        if($article->getPhoto3() != Null && $article->getPhoto3() != "null" )
+        {
+            $tabPhoto[] = $article->getPhoto3();
+        }
+        if($article->getPhoto4() != Null && $article->getPhoto4() != "null" )
+        {
+            $tabPhoto[] = $article->getPhoto4();
+        }
+        if($article->getPhoto5() != Null && $article->getPhoto5() != "null" )
+        {
+            $tabPhoto[] = $article->getPhoto5();
+        }
+        if($article->getPhoto6() != Null && $article->getPhoto6() != "null" )
+        {
+            $tabPhoto[] = $article->getPhoto6();
+        }
+
         return $this->render('shop/fiche-produit.html.twig', [
             'article' => $article,
-            'cellules' => $cellules
+            'cellules' => $cellules,
+            'tabPhoto' => $tabPhoto
         ]);
     }
 
@@ -114,7 +141,7 @@ class ShopController extends AbstractController
     public function Shop(SessionInterface $session, ArticleRepository $repoArticle, CodePromoRepository $repoCode, Category $category = null, Request $request): Response
     {
         $panier = $session->get("panier", []);
-
+// dd($panier);
         if($request->request->get("codePromo") !== null )
         {
             if($session->get("codePromo") == null)
@@ -142,6 +169,7 @@ class ShopController extends AbstractController
             $promoFinal = 1 - ($promo/100);
         } else {
             $promo = 0;
+            $codepro = 0;
         }
         // dump($promoFinal);
 

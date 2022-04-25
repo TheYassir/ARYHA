@@ -59,8 +59,93 @@ class ArticleType extends AbstractType
             ])
 
             ->add('photo', FileType::class,[
-                'label' => 'Uploader une photo :', 
-                "mapped" => true,
+                'label' => 'Uploader une première photo :', 
+                "mapped" => false,
+                'required' => false,
+                "data_class" => null,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M', 
+                        'mimeTypes' => [
+                            'image/jpeg', 
+                            'image/png', 
+                            'image/jpg'
+                        ],
+                    "mimeTypesMessage" => 'Format autorisés : jpg/png/jpeg.'
+                    ])
+                ]
+            ])
+            ->add('photo2', FileType::class,[
+                'label' => 'Uploader une seconde photo :', 
+                "mapped" => false,
+                'required' => false,
+                "data_class" => null,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M', 
+                        'mimeTypes' => [
+                            'image/jpeg', 
+                            'image/png', 
+                            'image/jpg'
+                        ],
+                    "mimeTypesMessage" => 'Format autorisés : jpg/png/jpeg.'
+                    ])
+                ]
+            ])
+            ->add('photo3', FileType::class,[
+                'label' => 'Uploader une troisième photo :', 
+                "mapped" => false,
+                'required' => false,
+                "data_class" => null,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M', 
+                        'mimeTypes' => [
+                            'image/jpeg', 
+                            'image/png', 
+                            'image/jpg'
+                        ],
+                    "mimeTypesMessage" => 'Format autorisés : jpg/png/jpeg.'
+                    ])
+                ]
+            ])
+            ->add('photo4', FileType::class,[
+                'label' => 'Uploader une quatrième photo :', 
+                "mapped" => false,
+                'required' => false,
+                "data_class" => null,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M', 
+                        'mimeTypes' => [
+                            'image/jpeg', 
+                            'image/png', 
+                            'image/jpg'
+                        ],
+                    "mimeTypesMessage" => 'Format autorisés : jpg/png/jpeg.'
+                    ])
+                ]
+            ])
+            ->add('photo5', FileType::class,[
+                'label' => 'Uploader une cinquième photo :', 
+                "mapped" => false,
+                'required' => false,
+                "data_class" => null,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M', 
+                        'mimeTypes' => [
+                            'image/jpeg', 
+                            'image/png', 
+                            'image/jpg'
+                        ],
+                    "mimeTypesMessage" => 'Format autorisés : jpg/png/jpeg.'
+                    ])
+                ]
+            ])
+            ->add('photo6', FileType::class,[
+                'label' => 'Uploader une sixième photo :', 
+                "mapped" => false,
                 'required' => false,
                 "data_class" => null,
                 'constraints' => [
@@ -110,40 +195,6 @@ class ArticleType extends AbstractType
                 'class' => Category::class, 
                 'choice_label' => 'titre'
             ])
-
-            // ->add('stock', NumberType::class,[
-            //     "mapped" => false, 
-            //     'label' => 'Stock de l\'article :', 
-            //     'required' => false, 
-            //     'attr' => [
-            //         'placeholder' => "Saisir le stock de l'article",
-            //     ], 
-            //     'constraints' =>[
-            //         New NotBlank([
-            //             'message' => "Merci de saisir un stock."
-            //         ])
-            //     ]
-            // ])
-
-            // ->add('taille', ChoiceType::class,[
-            //     "mapped" => false, 
-            //     'choices' => [ 
-            //         '39' => '39', 
-            //         '40' => '40', 
-            //         '41' => '41', 
-            //         '42' => '42', 
-            //         '43' => '43', 
-            //         '44' => '44', 
-            //         '45' => '45', 
-            //         '46' => '46', 
-            //     ], 
-            //     'expanded' => true, 
-            //     'multiple' => true, 
-            //     'label' => "Définir la taille disponible de l'article",
-            // ])
-
-            // ->add('stock', EntityType::class, ['label' => "Choisir le stock disponible", 'class' => Taille::class])
-
         ;
             // $builder->get('taille')->addEventListener(
             //     FormEvents::POST_SUBMIT,
