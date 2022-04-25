@@ -6,50 +6,64 @@
 {% block body %}
 
 <div class="d-flex w-100 my-5">
-<div class="row row-cols-sm-1">
-    <div class="col-md-5 col-sm-10 h-100 my-3 mx-auto">
+<div class="row row-cols-sm-2">
+    <div class="col-md-5 my-3 mx-auto">
         <div id="carouselExampleIndicators" class="carousel slide carousel-dark" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 6"></button>
 
-            </div>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="{{ asset('uploads/photos/' ~ article.photo) }}" class="d-block w-100" alt="{{article.titre}}">
-                </div>
-                {% set i = 1 %}
-                {% for i in 1..5 %}
-                    <div class="carousel-item">
-                        <img src="{{ asset('uploads/photos/' ~ i ~ article.photo ) }}" class="d-block w-100" alt="...">
-                    </div>
+            <div class="carousel-indicators">
+                {% set a = 0 %}
+                {% for data in tabPhoto %}
+                    {% if a == 0 %}
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    {% else %}
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ a }}" aria-label="Slide {{ a + 1}}"></button>
+                    {% endif %}
+                    {% set a = a + 1 %}
                 {% endfor %}
             </div>
+
+            <div class="carousel-inner">
+                {% set b = 0 %}
+                {% for data in tabPhoto %}
+                    {% if b == 0 %}
+                    <div class="carousel-item active">
+                        <img src="{{ asset('uploads/photos/' ~ data) }}" class="d-block w-100" alt="{{article.titre}}">
+                    </div>                    
+                    {% else %}
+                        <div class="carousel-item">
+                            <img src="{{ asset('uploads/photos/' ~ data ) }}" class="d-block w-100" alt="{{article.titre}} n°{{b}}">
+                        </div>
+                    {% endif %}
+                    {% set b = b + 1 %}
+                {% endfor %}
+            </div>
+
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
+
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        <div class="d-flex justify-content-between">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="border-light" aria-current="true" aria-label="Slide 1"><img src="{{ asset('uploads/photos/' ~ article.photo) }}" class="d-block col-12" style="" alt="{{article.titre}}"></button>
-        {% set f = 1 %}
-        {% for f in 1..5 %}
-        {% set j = f + 1 %}
-            <button type="button" data-bs-target="#carouselExampleIndicators" class="border-light" data-bs-slide-to="{{ f }}" aria-label="Slide {{ j }}"><img src="{{ asset('uploads/photos/' ~ f ~ article.photo) }}" class="d-block col-12" style="" alt="{{article.titre}}"></button>
-        {% endfor %}
+
+        <div class="d-flex justify-content-around">
+            {% set c = 0 %}
+                {% for data in tabPhoto %}
+                    {% if c == 0 %}
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="border-light" aria-current="true" aria-label="Slide 1"><img src="{{ asset('uploads/photos/' ~ data) }}" class="d-block col-12" style="max-height: 100px;" alt="{{article.titre}}"></button>                  
+                    {% else %}
+                        <button type="button" data-bs-target="#carouselExampleIndicators" class="border-light" data-bs-slide-to="{{ c }}" aria-label="Slide {{ c + 1 }}"><img src="{{ asset('uploads/photos/' ~ data) }}" class="d-block col-12" style="max-height: 100px;" alt="{{article.titre}} n°{{c}}"></button>
+                    {% endif %}
+                    {% set c = c + 1 %}
+                {% endfor %}
         </div>
 
     </div>
 
-    <div class="col-md-7 col-sm-10 container">
+    <div class="col-md-7 container">
         <p class="my-3">#{{ article.id}}</p>
         <h1 class="text-center my-3 fw-bold hov">{{article.titre}}</h1>
 

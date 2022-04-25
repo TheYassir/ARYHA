@@ -4,7 +4,7 @@ $(document).ready(function() {
             url: '/js/dataTables.french.json'
         },
         "aoColumnDefs": [
-            { 'bSortable': false, 'aTargets': [ 1,2,7 ] }
+            { 'bSortable': false, 'aTargets': [ 2,5,7,8,9,10,11,12 ] }
         ]
     });
 });

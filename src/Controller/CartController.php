@@ -31,6 +31,8 @@ class CartController extends AbstractController
             $promoFinal = 1 - ($promo / 100);
         } else {
             $promo = 0;
+            $codepro = 0;
+
         }
         // On fabrique les données
         $dataPanier = [];

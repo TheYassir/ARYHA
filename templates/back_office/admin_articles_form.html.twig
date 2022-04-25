@@ -4,7 +4,7 @@
 
     Admin | 
 
- {% if editMode %}    
+    {% if editMode %}    
         Modification de l'article
     {% else %}        
         Nouvel article
@@ -36,36 +36,54 @@
 
         {{ form_row(formArticle.description) }}
         
-
         <div class="d-flex col-12 justify-content-between my-2">
-            <div class="col-4">
-                {{ form_row(formArticle.prix) }}
+            <div class="col-5">
+                {{ form_row(formArticle.photo) }}
+                {{ form_row(formArticle.photo3) }}
+                {{ form_row(formArticle.photo5) }}
             </div>
             <div class="col-5">
-                {# {{ form_row(formArticle.stock) }} #}
-                {{ form_row(formArticle.photo) }}
+                {{ form_row(formArticle.photo2) }}
+                {{ form_row(formArticle.photo4) }}
+                {{ form_row(formArticle.photo6) }}
                 
             </div>
         </div>
 
-        {# {{ form_row(formArticle.taille) }} #}
-        {# {% if editMode %}
-        
-        {% else %}
-            
-        {% endif %} #}
-        {# {{ form_row(formArticle.stock) }} #}
-
-
-        {% if photoActuelle %}
-
-        {# Si photoActuelle retourne TRUE, cela veut dire que l'article possède une photo, c'est une modification, alors on entre dans la condition IF et on affiche la photoactuelle de l'article #}
-        <em>Vous pouvez mettre une autre photo si vous souhaitez la modifier</em>
-        <P class="col-12 d-flex justify-content-around">
-            <img src="{{ asset('uploads/photos/' ~ photoActuelle) }}" alt="" class="img-responsive my-2" style="width: 200px; height: 200px;">
-        </p>
-            
+        <div class="d-flex col-12 justify-content-between my-2">
+            <div class="col-5">
+                {{ form_row(formArticle.prix) }}
+            </div>
+            <div class="col-5">
+                
+                
+            </div>
+        </div>
+        {% if editMode %}    
+            <em>Vous pouvez mettre une autre photo si vous souhaitez la modifier</em>
         {% endif %}
+        <p class="col-12 d-flex justify-content-between">
+            {% if photoActuelle %}
+                1<img src="{{ asset('uploads/photos/' ~ photoActuelle) }}" alt="" class="img-responsive my-2" style="width: 30%;">
+            {% endif %}
+            {% if photoActuelle2 %}
+                2<img src="{{ asset('uploads/photos/' ~ photoActuelle2) }}" alt="" class="img-responsive my-2" style="width: 30%;">
+            {% endif %}
+            {% if photoActuelle3 %}
+                3<img src="{{ asset('uploads/photos/' ~ photoActuelle3) }}" alt="" class="img-responsive my-2" style="width: 30%;">
+            {% endif %}
+        </p>
+        <p class="col-12 d-flex justify-content-between">
+            {% if photoActuelle4 %}
+                4<img src="{{ asset('uploads/photos/' ~ photoActuelle4) }}" alt="" class="img-responsive my-2" style="width: 30%;">
+            {% endif %}
+            {% if photoActuelle5 %}
+                5<img src="{{ asset('uploads/photos/' ~ photoActuelle5) }}" alt="" class="img-responsive my-2" style="width: 30%;">
+            {% endif %}
+            {% if photoActuelle6 %}
+                6<img src="{{ asset('uploads/photos/' ~ photoActuelle6) }}" alt="" class="img-responsive my-2" style="width: 30%;">
+            {% endif %}
+        </p>
 
             <div class="text-center my-5">
                 <button type="submit" class="btn btn-primary col-3">                
