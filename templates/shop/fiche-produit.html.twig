@@ -80,16 +80,25 @@
         
         <p class="mx-3 my-3">Couleur : {{ article.couleur}}</p>
         <form action="" method="post" class="form">
-            <p class="mx-3 my-3">Tailles :  
-                <select name="taille" id="taille" class="col-3">
-                    {% for data in cellules %}
-                        {% if data.stock == 0 %}
-                            <option value="{{ data.titre }}"disabled>{{ data.titre }}</option>
-                        {% else %}
-                            <option value="{{ data.titre }}">{{ data.titre }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
+            <p class="mx-3 my-3 ">Tailles :  
+                {% if cellules|length > 1 %}
+                    <select name="taille" id="taille" class="col-3">
+                    {% set stock = 0 %}
+                        {% for data in cellules %}
+                            {% if data.stock == 0 %}
+                                <option value="{{ data.titre }}"disabled>{{ data.titre }}</option>
+                            {% else %}
+                                <option value="{{ data.titre }}">{{ data.titre }}</option>
+                                {% set stock = data.stock %}
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% if stock < 20  and stock > 0 %}
+                        <strong class="text-warning">Il reste que {{ stock }} articles</strong>        
+                    {% endif %}
+                {% else %}
+                    <strong class="text-danger"> Stock épuisé pour le moment</strong>
+                {% endif %}
             </p>
 
             <p class="text-center my-3">{{ article.description }}</p>
@@ -113,7 +122,13 @@
             </div>
             <div class="text-center mb-5">
                 {% if app.user %}
-                    <button type="submit" class="col-3 btn hova">Ajouter</button>                
+                    {% if cellules|length > 1 %}
+                        <button type="submit" class="col-3 btn hova">Ajouter</button>  
+                    {% else %}
+                        <form>
+                            <input type="button" class="col-3 btn hova" value="Retour" onclick="history.go(-1)">
+                        </form>
+                    {% endif %}          
                 {% else %}
                     <a href="{{ path('app_login')}}" class="col-3 btn hova">Connectez-vous</a>
                 {% endif %}

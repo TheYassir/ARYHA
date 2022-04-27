@@ -7,22 +7,20 @@
 {% set route_name = app.request.attributes.get('_route') %}
 <div class="container-fluid d-flex">
     <div class="w-25 h-100">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
-            {% if route_name == 'shop' %}  
-                <li class="breadcrumb-item active" aria-current="page">Shop</li>
-            {% endif %}
-            {% if route_name == 'shop_category' %}  
-                <li class="breadcrumb-item"><a href="{{ path('shop') }}">Shop</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ category.titre }}</li>
-            {% endif %}
-
-            
-                
-        </ol>
-    </nav>
-    {{ render(controller('App\\Controller\\ShopController::allCategory')) }}
+    <br>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+                {% if route_name == 'shop' %}  
+                    <li class="breadcrumb-item active" aria-current="page">Shop</li>
+                {% endif %}
+                {% if route_name == 'shop_category' %}  
+                    <li class="breadcrumb-item"><a href="{{ path('shop') }}">Shop</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ category.titre }}</li>
+                {% endif %}
+            </ol>
+        </nav>
+        {{ render(controller('App\\Controller\\ShopController::allCategory')) }}
 
     </div>
 
@@ -76,26 +74,29 @@
                 {% endif %}
             {% else %}
         </div>    
-            <div class="text-center d-flex ">
-                <div class="card mx-auto my-3">
-                    <div class="card-body my-3">
-                        <h5 class="card-title">Pas de produit disponible pour cette catégorie !</h5>
-                        <div class="d-flex justify-content-between">
-                        <a href="" class="btn hov">Retournez dans la boutique</a>
-                        </div>
+        <div class="text-center d-flex ">
+            <div class="card mx-auto my-3">
+                <div class="card-body my-3">
+                    <h5 class="card-title">Pas de produit disponible pour cette catégorie !</h5>
+                    <div class="d-flex justify-content-between">
+                    <a href="" class="btn hov">Retournez dans la boutique</a>
                     </div>
                 </div>
+            </div>
             {% endfor %}
-            {% if app.request.query.get('op') == 'more2' %} 
-                <a href="{{ path('shop') }}" class="btn btn-outline-secondary mx-auto text-center my-3">Retour au début</a>
-            {% elseif app.request.query.get('op') == 'more' %}              
-                <a href="?op=more2" class="btn btn-outline-secondary mx-auto text-center my-3">Toujours plus</a>
-            {% else %} 
-                <a href="?op=more" class="btn btn-outline-secondary mx-auto text-center my-3">Encore plus</a>
-            {% endif %}
             
-
-        </div>        
+        </div>
+        {% if articles|length > 20 %}
+            <div class="text-center">
+                {% if app.request.query.get('op') == 'more2' %} 
+                    <a href="{{ path('shop') }}" class="btn btn-outline-secondary mx-auto text-center my-3 col-3">Retour au début</a>
+                {% elseif app.request.query.get('op') == 'more' %}              
+                    <a href="?op=more2" class="btn btn-outline-secondary mx-auto text-center my-3 col-3">Toujours plus</a>
+                {% else %} 
+                    <a href="?op=more" class="btn btn-outline-secondary mx-auto text-center my-3 col-3">Encore plus</a>
+                {% endif %}        
+            </div>
+        {% endif %}
     </div>
 
 
