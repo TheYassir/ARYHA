@@ -52,11 +52,13 @@ class Article
 
     /**
      * @ORM\OneToMany(targetEntity=DetailCommande::class, mappedBy="article")
+     * @ORM\JoinColumn(onDelete="CASCADE") 
      */
     private $detailCommandes;
 
     /**
      * @ORM\OneToMany(targetEntity=Taille::class, mappedBy="article")
+     * @ORM\JoinColumn(onDelete="CASCADE") 
      */
     private $tailles;
 

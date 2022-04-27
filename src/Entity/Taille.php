@@ -28,6 +28,7 @@ class Taille
 
     /**
      * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="tailles")
+     * @ORM\JoinColumn(onDelete="CASCADE") 
      */
     private $article;
 

@@ -332,7 +332,7 @@ class BackOfficeController extends AbstractController
                     'id' => $article->getId(),
                 ]); 
             } else {
-                $this->addFlash('success', "L'article a été $txt avec succès !");
+                // $this->addFlash('success', "L'article a été $txt avec succès !");
                 return $this->redirectToRoute('app_admin_articles');
             }
                 
