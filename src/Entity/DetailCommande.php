@@ -29,7 +29,7 @@ class DetailCommande
 
     /**
      * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="detailCommandes")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE" )
      */
     private $article;
 
@@ -40,6 +40,7 @@ class DetailCommande
 
     /**
      * @ORM\ManyToOne(targetEntity=Taille::class)
+     * @ORM\JoinColumn(onDelete="CASCADE") 
      */
     private $taille;
 

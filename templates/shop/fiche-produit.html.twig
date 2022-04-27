@@ -68,7 +68,7 @@
         <h1 class="text-center my-3 fw-bold hov">{{article.titre}}</h1>
 
         <div class="d-flex justify-content-around">
-         <p class="text-end my-3">{{ article.prix|number_format(2)}} € <small>TTC</small></p>
+            <p class="text-end my-3">{{ article.prix|number_format(2)}} € <small>TTC</small></p>
         {# {% if article.stock > 10 %}
             <p class="text-end my-3">Stock : <strong class="text-success">Disponible</strong></p>
         {% elseif article.stock == 0 %}
@@ -77,11 +77,15 @@
             <p class="text-end my-3">Stock : Il reste seulement <strong class="text-warning">{{article.stock}}</strong> articles</p>
         {% endif %} #}
         </div>
+        {% set stock2 = 0 %}
+        {% for data in cellules %}
+            {% set stock2 = stock2 + data.stock %}
+        {% endfor %}
         
         <p class="mx-3 my-3">Couleur : {{ article.couleur}}</p>
         <form action="" method="post" class="form">
             <p class="mx-3 my-3 ">Tailles :  
-                {% if cellules|length > 1 %}
+                {% if cellules|length > 0 and stock2 != 0 %}
                     <select name="taille" id="taille" class="col-3">
                     {% set stock = 0 %}
                         {% for data in cellules %}
@@ -122,7 +126,7 @@
             </div>
             <div class="text-center mb-5">
                 {% if app.user %}
-                    {% if cellules|length > 1 %}
+                    {% if cellules|length > 0 and stock2 > 0 %}
                         <button type="submit" class="col-3 btn hova">Ajouter</button>  
                     {% else %}
                         <form>

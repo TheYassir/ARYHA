@@ -33,7 +33,7 @@
                         {% endif %}
                     {% endif %}
                 {% endfor %}
-                <th class="text-center">Taille | Stock</th>
+                <th class="text-center">Taille&nbsp;|&nbsp;Stock</th>
                 <th class="text-center">Catégorie</th>
                 <th class="text-center">Photo 1</th>
                 <th class="text-center">Photo 2</th>
@@ -56,11 +56,19 @@
                     <td> {{ data.description|slice(0, 50)|striptags }}[...] </td> 
                                        
                     <td class="text-center"> {{ data.prix }}&nbsp;€</td>
-                    <td class="text-center"> {{ data.couleur }}</td>
+                    <td class="text-center"> {{ data.couleur|capitalize }}</td>
                     <td class="text-center">
                         {% for tail in toutTail %}
                             {% if data.id == tail.article.id %}
-                                {{tail.titre}}&nbsp;|&nbsp;{{tail.stock}}<br>
+                                {{tail.titre}}&nbsp;|&nbsp;
+                                {% if tail.stock == 0 %}
+                                    <strong class="text-danger">{{tail.stock}}</strong>
+                                {% elseif tail.stock <= 10 %}
+                                    <strong class="text-warning">{{tail.stock}}</strong>
+                                {% else %}
+                                {{tail.stock}}
+                                {% endif %}
+                                <br>
                             {% endif %}
                         {% endfor %} 
                     </td>

@@ -176,7 +176,8 @@ class ArticleType extends AbstractType
 
             ->add('couleur', ChoiceType::class,[
                 'choices' => [
-                    'Noir' => 'Noir', 
+                    'Noir' => 'Noir',
+                    'Blanc' => 'blanc', 
                     'Rouge' => 'rouge', 
                     'Vert' => 'vert', 
                     'Bleu' => 'bleu', 
@@ -184,6 +185,10 @@ class ArticleType extends AbstractType
                     'Violet' => 'Violet', 
                     'Rose' => 'Rose', 
                     'Bordeaux' => 'Bordeaux',
+                    'Gris' => 'Gris',
+                    'Marron' => 'Marron',
+                    'Beige' => 'Beige',
+
                 ], 
                 'expanded' => false, 
                 'multiple' => false, 
