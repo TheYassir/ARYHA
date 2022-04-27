@@ -213,7 +213,12 @@ class CartController extends AbstractController
                     $detailCommande->setArticle($articles);
                     $detailCommande->setTaille($laTaille);
                     $amel = $laTaille->getStock();
-                    $laTaille->setStock($amel - $quantite);
+                    if($amel - $quantite >= 0){
+                        $laTaille->setStock($amel - $quantite);
+                    } else {
+                        $this->addFlash('danger', "La quantité disponible de l'article ". $article->getTitre() . " est inférieur à celle demandée !( Stock : " . $amel ." )");
+                        return $this->redirectToRoute("panier");
+                    }
                     $detailCommande->setQuantite($quantite);
                     $prix = $articles->getPrix();
                     $detailCommande->setPrix($prix);

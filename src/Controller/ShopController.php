@@ -128,6 +128,7 @@ class ShopController extends AbstractController
         {
             $tabPhoto[] = $article->getPhoto6();
         }
+        dump($cellules);
 
         return $this->render('shop/fiche-produit.html.twig', [
             'article' => $article,
