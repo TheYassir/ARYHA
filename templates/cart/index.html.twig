@@ -1,0 +1,110 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    ARYHA paris | Panier
+{% endblock %}
+{% block body %}
+<br><br><br>
+    <h1 class="text-center hov">Votre panier</h1>
+    {% for message in app.flashes('danger') %}
+        <div class="col-6 mx-auto text-center alert alert-danger">
+            {{ message }}
+        </div>        
+    {% endfor %}
+    <div class="container my-5">
+    <div class="row row-cols-lg-2 mx-auto">
+        <div class="col-lg-8 mb-5">
+            <table class="table">
+                <thead>
+                    <tr class="hova">
+                        <th class="text-center">Article</th>
+                        <th class="text-center">Photo</th>
+                        <th class="text-end">Prix</th>
+                        <th class="text-end">Taille</th>
+                        <th class="text-end">Quantité</th>
+                        <th class="text-end">Total</th>
+                        <th class="text-end">Actions</th>        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for element in dataPanier %}
+                        <tr>
+                            <td class="text-center"><a href="{{ path('shop_show', {'id': element.article.id}) }}" class="hov link-secondary">{{ element.article.titre}}</a></td>
+                            <td class="text-center"><a href="{{ path('shop_show', {'id': element.article.id}) }}"><img src="{{ asset('uploads/photos/' ~ element.article.photo ) }}" alt="" style=" width: 50%; height:50% ;max-width:100px; max-height:100px;"></a></td>
+                            <td class="text-end"> {{ element.article.prix}} €</td>
+                            <td class="text-end"> {{ element.taille}} </td>
+                            <td class="text-end">
+                                {{ element.quantite}}
+                                {# <br> 
+                                {% if condition %}
+                                {% endif %} #}
+                            </td>
+                            <td class="text-end"> {{ element.article.prix * element.quantite}} €</td>
+                            <td class="text-end">  
+                                {# <a href="?modif=1" class="btn btn-success"><i class="bi bi-cart-plus"></i></a> #}
+                                <a href="{{ path('add_panier',  {'id': element.article.id , 'taille': element.taille}) }}" class="btn btn-success"><i class="bi bi-cart-plus"></i></a>
+                                <a href="{{ path('remove_panier', {'id': element.article.id , 'taille': element.taille}) }}" class="btn btn-warning"><i class="bi bi-cart-dash"></i></a>
+                                <a href="{{ path('delete_panier', {'id': element.article.id}) }}" class="btn btn-danger"><i class="bi bi-cart-x"></i></a>                        
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {% if promo != 0 %}
+                            <tr class="text-danger">
+                                <td colspan="5">Code Promo</td>
+                                <td colspan="1" class="text-end"> {{ codepro }} €</td>
+                            </tr>
+                        {% endif %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5">Total</td>
+                        <td colspan="1" class="text-end">{{ total }} €</td>
+                        <td colspan="1" class="text-end">
+                            Vider le panier <a href="{{ path('delete_all_panier') }}" class="btn btn-danger"><i class="bi bi-cart-x"></i></a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="shadow-sm  bg-light rounded mx-auto col-lg-4">
+            <form action="" method="post">
+                <h6 class="text-center">Choisissez votre mode de livraison</h6>
+                <div class="list-group mx-0">
+                    <label class="list-group-item d-flex gap-2">
+                    <input class="form-check-input flex-shrink-0" type="radio" name="livraison" id="listGroupRadios1" value="dom" checked="">
+                    <span>
+                        Livraison à domicile
+                        <small class="d-block text-muted">Supplément de 5 €</small>
+                    </span>
+                    </label>
+                    <label class="list-group-item d-flex gap-2">
+                    <input class="form-check-input flex-shrink-0" type="radio" name="livraison" id="listGroupRadios2" value="rel">
+                    <span>
+                        En Point Relais
+                        <small class="d-block text-muted">Gratuit</small>
+                    </span>
+                    </label>
+                    <label class="list-group-item d-flex gap-2">
+                    <input class="form-check-input flex-shrink-0" type="radio" name="livraison" id="listGroupRadios3" value="lok">
+                    <span>
+                        En Locker
+                        <small class="d-block text-muted">Supplément de 2 €</small>
+                    </span>
+                    </label>
+                </div>
+            
+                <input type="text"  class="form-control my-3" placeholder="Code Promo ?" name="codePromo">
+
+                <div class="text-center">
+                    <a href="{{ path('commander') }}" type="submit" class="btn hova">Commander</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    <div class="w-50 mx-auto">
+        
+    </div>
+
+{% endblock %}

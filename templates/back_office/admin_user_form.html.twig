@@ -1,0 +1,63 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+
+    Blog Symfony | Commentaires
+
+    Modification du commentaire
+
+{% endblock %}
+
+{% block body %}
+<form>
+  <input type="button" class="btn btn-outline-secondary" value="Retour" onclick="history.go(-1)">
+</form>
+<div class="ajout-article-admin rounded my-5">
+    <div class="card text-center col-9 mx-auto border-success">
+        <div class="card-header border-success">
+            <h3 class="text-center">Utilisateur n°{{user.id}}</h3>        
+        </div>
+        <div class="card-body col-7 mx-auto">
+            <div class="mx-auto">
+                {{ form_start(formAdminUser) }}
+                {{ form_row(formAdminUser.roles) }}
+            </div>
+            <div class="d-flex justify-content-between">
+                <p class="card-text">Nom :</p>
+                <p class="card-text">{{ user.nom }}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p class="card-text">Prénom :</p>
+                <p class="card-text">{{ user.prenom }}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p class="card-text">Email :</p>
+                <p class="card-text">{{ user.email }}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p class="card-text">Adresse :</p>
+                <p class="card-text">{{ user.adresse }}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p class="card-text">Ville :</p>
+                <p class="card-text">{{ user.ville }}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p class="card-text">Code Postale :</p>
+                <p class="card-text">{{ user.codepostal }}</p>
+            </div>
+        </div>
+        <div class="card-footer text-muted border-success">
+            <button type="submit" class="btn btn-outline-success col-3">                
+                Enregistrer              
+            </button>      
+            {{ form_end(formAdminUser) }}        
+         </div>
+    </div>
+    <div class="">
+        
+    </div>  
+
+</div>
+    
+{% endblock %}

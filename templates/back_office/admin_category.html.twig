@@ -1,0 +1,513 @@
+{% extends "base_admin.html.twig" %}
+
+{% block title %}
+    Admin | Gestions des Category
+{% endblock %}
+{% block body %}
+<form>
+  <input type="button" class="btn btn-outline-secondary" value="Retour" onclick="history.go(-1)">
+</form>
+<h1 class="text-center my-5">Liste des Catégory</h1>
+
+{% for message in app.flashes('success') %}
+    <div class="col-6 mx-auto text-center alert alert-success">
+        {{ message }}
+    </div>        
+{% endfor %}
+
+    <div class="d-flex mx-auto justify-content-around my-4">
+        <div class="text-center mx-auto"><a href="{{ path('app_admin_category') }}" class="btn bg-primary text-white"><i class="bi bi-bookmarks-fill"></i></a><p class="text-center">Toute les Category</p></div>
+        <div class="text-center mx-auto"><a href="?gen=hom" class="btn bgBleu text-white"><i class="bi bi-bookmark-heart-fill"></i></a><p class="text-center">Homme</p></div>
+        <div class="text-center mx-auto"><a href="?gen=fem" class="btn bgRose text-white"><i class="bi bi-bookmark-heart-fill"></i></a><p class="text-center">Femme</p></div>
+        <div class="text-center mx-auto"><a href="?op=sacs" class="btn bg-primary text-white"><i class="bi bi-bookmark-star-fill"></i></a><p class="text-center">Sacs</p></div>
+        <div class="text-center mx-auto"><a href="?op=vet" class="btn bg-primary text-white"><i class="bi bi-bookmark-star-fill"></i></a><p class="text-center">Prêt-à-porter</p></div>
+        <div class="text-center mx-auto"><a href="?op=acc" class="btn bg-primary text-white"><i class="bi bi-bookmark-star-fill"></i></a><p class="text-center">Accessoires</p></div>
+        <div class="text-center mx-auto"><a href="?op=soul" class="btn bg-primary text-white"><i class="bi bi-bookmark-star-fill"></i></a><p class="text-center">Souliers</p></div>
+        <div class="text-center mx-auto"><a href="?op=parf" class="btn bg-primary text-white"><i class="bi bi-bookmark-star-fill"></i></a><p class="text-center">Parfums</p></div>
+        <div class="text-center mx-auto"><a href="?op=por" class="btn bg-primary text-white"><i class="bi bi-bookmark-star-fill"></i></a><p class="text-center">Portefeuilles</p></div>
+        <div class="text-center mx-auto"><a href="?op=mon" class="btn bg-primary text-white"><i class="bi bi-bookmark-star-fill"></i></a><p class="text-center">Horlogerie / Joaillerie</p></div>
+    
+    
+    </div>
+
+<div class="container col-12">
+    <table class="table table-striped mx-2 mb-5" id="table-backoffice-category">
+        <thead>
+            <tr class="entete-comments border dark">
+                <th class="text-center">Identifiant</th>
+                <th class="text-center">Titre</th>
+                <th class="text-center">Grande Category</th>
+                <th class="text-center">Action</th>
+                <th class="text-center">Genre</th>
+
+            </tr>
+        </thead>
+        <tbody>        
+            {% for data in cellules %} 
+
+                {% if app.request.query.get('gen') == 'hom' %}
+                    {% if data.sexe == "Homme" %}
+                        {% if app.request.query.get('op') == 'sacs' %}
+                            {% if data.grdCat == "Sacs" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td>
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                    
+                                </tr> 
+                            {% endif %}
+                        {% elseif app.request.query.get('op') == 'vet' %}
+                            {% if data.grdCat == "Prêt-à-porter" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td> 
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                   
+                                </tr> 
+                            {% endif %}
+                        {% elseif app.request.query.get('op') == 'acc' %}
+                            {% if data.grdCat == "Accessoires" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td> 
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                   
+                                </tr> 
+                            {% endif %}
+                        {% elseif app.request.query.get('op') == 'soul' %}
+                            {% if data.grdCat == "Souliers" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td> 
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                  
+                                </tr> 
+                            {% endif %}
+                        {% elseif app.request.query.get('op') == 'parf' %}
+                            {% if data.grdCat == "Parfums" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td> 
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                   
+                                </tr> 
+                            {% endif %}
+                        {% elseif app.request.query.get('op') == 'por' %}
+                            {% if data.grdCat == "Portefeuilles" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td> 
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                    
+                                </tr> 
+                            {% endif %}
+                        {% elseif app.request.query.get('op') == 'mon' %}
+                            {% if data.grdCat == "Horlogerie et joaillerie" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td> 
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                        
+                                </tr> 
+                            {% endif %}
+                        {% else %}
+                            <tr>
+                                <td class="text-center"> {{ data.id }}</td>
+                                <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                <td class="text-center"> {{ data.grdCat }}</td>
+                                <td>
+                                    <div class="text-center">
+                                        <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                        <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                    <div>
+                                </td>
+                                {% if data.sexe == "Homme" %}
+                                    <td class="text-center text-primary">H</td>    
+                                {% else %}
+                                    <td class="text-center text-danger">F</td>    
+                                {% endif %}
+                            </tr>      
+                        {% endif %}
+                    {% endif %}
+                {% elseif app.request.query.get('gen') == 'fem' %}  
+                    {% if data.sexe == "Femme" %}
+                        {% if app.request.query.get('op') == 'sacs' %}
+                            {% if data.grdCat == "Sacs" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td>
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                    
+                                </tr> 
+                            {% endif %}
+                        {% elseif app.request.query.get('op') == 'vet' %}
+                            {% if data.grdCat == "Prêt-à-porter" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td> 
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                   
+                                </tr> 
+                            {% endif %}
+                        {% elseif app.request.query.get('op') == 'acc' %}
+                            {% if data.grdCat == "Accessoires" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td> 
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                   
+                                </tr> 
+                            {% endif %}
+                        {% elseif app.request.query.get('op') == 'soul' %}
+                            {% if data.grdCat == "Souliers" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td> 
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                  
+                                </tr> 
+                            {% endif %}
+                        {% elseif app.request.query.get('op') == 'parf' %}
+                            {% if data.grdCat == "Parfums" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td> 
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                   
+                                </tr> 
+                            {% endif %}
+                        {% elseif app.request.query.get('op') == 'por' %}
+                            {% if data.grdCat == "Portefeuilles" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td> 
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                    
+                                </tr> 
+                            {% endif %}
+                        {% elseif app.request.query.get('op') == 'mon' %}
+                            {% if data.grdCat == "Horlogerie et joaillerie" %}
+                                <tr>
+                                    <td class="text-center"> {{ data.id }}</td>
+                                    <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                    <td class="text-center"> {{ data.grdCat }}</td> 
+                                    <td>
+                                        <div class=" text-center">
+                                            <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                            <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                        <div>
+                                    </td>
+                                    {% if data.sexe == "Homme" %}
+                                        <td class="text-center text-primary">H</td>    
+                                    {% else %}
+                                        <td class="text-center text-danger">F</td>    
+                                    {% endif %}                        
+                                </tr> 
+                            {% endif %}
+                        {% else %}
+                            <tr>
+                                <td class="text-center"> {{ data.id }}</td>
+                                <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                <td class="text-center"> {{ data.grdCat }}</td>
+                                <td>
+                                    <div class="text-center">
+                                        <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                        <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                    <div>
+                                </td>
+                                {% if data.sexe == "Homme" %}
+                                    <td class="text-center text-primary">H</td>    
+                                {% else %}
+                                    <td class="text-center text-danger">F</td>    
+                                {% endif %}
+                            </tr>      
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    {% if app.request.query.get('op') == 'sacs' %}
+                        {% if data.grdCat == "Sacs" %}
+                            <tr>
+                                <td class="text-center"> {{ data.id }}</td>
+                                <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                <td class="text-center"> {{ data.grdCat }}</td>
+                                <td>
+                                    <div class=" text-center">
+                                        <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                        <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                    <div>
+                                </td>
+                                {% if data.sexe == "Homme" %}
+                                    <td class="text-center text-primary">H</td>    
+                                {% else %}
+                                    <td class="text-center text-danger">F</td>    
+                                {% endif %}                    
+                            </tr> 
+                        {% endif %}
+                    {% elseif app.request.query.get('op') == 'vet' %}
+                        {% if data.grdCat == "Prêt-à-porter" %}
+                            <tr>
+                                <td class="text-center"> {{ data.id }}</td>
+                                <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                <td class="text-center"> {{ data.grdCat }}</td> 
+                                <td>
+                                    <div class=" text-center">
+                                        <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                        <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                    <div>
+                                </td>
+                                {% if data.sexe == "Homme" %}
+                                    <td class="text-center text-primary">H</td>    
+                                {% else %}
+                                    <td class="text-center text-danger">F</td>    
+                                {% endif %}                   
+                            </tr> 
+                        {% endif %}
+                    {% elseif app.request.query.get('op') == 'acc' %}
+                        {% if data.grdCat == "Accessoires" %}
+                            <tr>
+                                <td class="text-center"> {{ data.id }}</td>
+                                <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                <td class="text-center"> {{ data.grdCat }}</td> 
+                                <td>
+                                    <div class=" text-center">
+                                        <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                        <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                    <div>
+                                </td>
+                                {% if data.sexe == "Homme" %}
+                                    <td class="text-center text-primary">H</td>    
+                                {% else %}
+                                    <td class="text-center text-danger">F</td>    
+                                {% endif %}                   
+                            </tr> 
+                        {% endif %}
+                    {% elseif app.request.query.get('op') == 'soul' %}
+                        {% if data.grdCat == "Souliers" %}
+                            <tr>
+                                <td class="text-center"> {{ data.id }}</td>
+                                <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                <td class="text-center"> {{ data.grdCat }}</td> 
+                                <td>
+                                    <div class=" text-center">
+                                        <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                        <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                    <div>
+                                </td>
+                                {% if data.sexe == "Homme" %}
+                                    <td class="text-center text-primary">H</td>    
+                                {% else %}
+                                    <td class="text-center text-danger">F</td>    
+                                {% endif %}                  
+                            </tr> 
+                        {% endif %}
+                    {% elseif app.request.query.get('op') == 'parf' %}
+                        {% if data.grdCat == "Parfums" %}
+                            <tr>
+                                <td class="text-center"> {{ data.id }}</td>
+                                <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                <td class="text-center"> {{ data.grdCat }}</td> 
+                                <td>
+                                    <div class=" text-center">
+                                        <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                        <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                    <div>
+                                </td>
+                                {% if data.sexe == "Homme" %}
+                                    <td class="text-center text-primary">H</td>    
+                                {% else %}
+                                    <td class="text-center text-danger">F</td>    
+                                {% endif %}                   
+                            </tr> 
+                        {% endif %}
+                    {% elseif app.request.query.get('op') == 'por' %}
+                        {% if data.grdCat == "Portefeuilles" %}
+                            <tr>
+                                <td class="text-center"> {{ data.id }}</td>
+                                <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                <td class="text-center"> {{ data.grdCat }}</td> 
+                                <td>
+                                    <div class=" text-center">
+                                        <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                        <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                    <div>
+                                </td>
+                                {% if data.sexe == "Homme" %}
+                                    <td class="text-center text-primary">H</td>    
+                                {% else %}
+                                    <td class="text-center text-danger">F</td>    
+                                {% endif %}                    
+                            </tr> 
+                        {% endif %}
+                    {% elseif app.request.query.get('op') == 'mon' %}
+                        {% if data.grdCat == "Horlogerie et joaillerie" %}
+                            <tr>
+                                <td class="text-center"> {{ data.id }}</td>
+                                <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                                <td class="text-center"> {{ data.grdCat }}</td> 
+                                <td>
+                                    <div class=" text-center">
+                                        <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                        <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                    <div>
+                                </td>
+                                {% if data.sexe == "Homme" %}
+                                    <td class="text-center text-primary">H</td>    
+                                {% else %}
+                                    <td class="text-center text-danger">F</td>    
+                                {% endif %}                        
+                            </tr> 
+                        {% endif %}
+                    {% else %}
+                        <tr>
+                            <td class="text-center"> {{ data.id }}</td>
+                            <td class="text-center"> <a  href="" class="link-secondary">{{ data.titre}} </a></td>
+                            <td class="text-center"> {{ data.grdCat }}</td>
+                            <td>
+                                <div class="text-center">
+                                    <a href="{{ path('app_admin_category_delete', {'id': data.id}) }}" class="btn btn-danger text-white me-1" onclick="return(confirm('Etes-vous sur de vouloir supprimer cet category : {{ data.id }} - {{ data.titre }}' ))"><i class="bi bi-trash"></i></a>
+                                    <a href="{{ path('app_admin_category_update', {'id': data.id}) }}" class="btn btn-success text-white"><i class="bi bi-pencil-square"></i>
+                                <div>
+                            </td>
+                            {% if data.sexe == "Homme" %}
+                                <td class="text-center text-primary">H</td>    
+                            {% else %}
+                                <td class="text-center text-danger">F</td>    
+                            {% endif %}
+                        </tr>      
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

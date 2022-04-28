@@ -1,0 +1,172 @@
+.nav-link:hover {
+  opacity: 1;
+}
+.coul {
+  color: rgb(155, 4, 4) !important;
+}
+.nav-link{
+  display: inline-block;
+  position: relative;
+  opacity: 0.75;
+  padding: 8px 0px !important;
+  margin: 0px 10px !important;
+}
+.nav-link::before {
+  transition: 1000ms;
+  height: 5px;
+  content: "";
+  position: absolute;
+  background-color: #550505;
+}
+
+.nav-link-ltr::before {
+  width: 0%;
+  bottom: 10px;
+}
+
+.nav-link-ltr:hover::before {
+  width: 100%;
+}
+
+
+/* GLOBAL STYLES
+-------------------------------------------------- */
+/* Padding below the footer and lighter body text */
+
+body {
+  color: #5a5a5a;
+}
+
+
+/* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
+
+/* Carousel base class */
+.carousel {
+  margin-bottom: 4rem;
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  bottom: 3rem;
+  z-index: 10;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel-item {
+  height: 32rem;
+}
+.carousel-item > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 32rem;
+}
+
+
+/* MARKETING CONTENT
+-------------------------------------------------- */
+
+/* Center align the text within the three columns below the carousel */
+.marketing .col-lg-4 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.marketing h2 {
+  font-weight: 400;
+}
+/* rtl:begin:ignore */
+.marketing .col-lg-4 p {
+  margin-right: .75rem;
+  margin-left: .75rem;
+}
+/* rtl:end:ignore */
+
+
+/* Featurettes
+------------------------- */
+
+.featurette-divider {
+  margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+}
+
+/* Thin out the marketing headings */
+.featurette-heading {
+  font-weight: 300;
+  line-height: 1;
+  /* rtl:remove */
+  letter-spacing: -.05rem;
+}
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media (min-width: 40em) {
+  /* Bump up size of carousel content */
+  .carousel-caption p {
+    margin-bottom: 1.25rem;
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  .featurette-heading {
+    font-size: 50px;
+  }
+}
+
+@media (min-width: 62em) {
+  .featurette-heading {
+    margin-top: 7rem;
+  }
+}
+
+.tail {
+  height: 600px;
+}
+.tai {
+  height: 400px;
+}
+.espace {
+  width: 100%;
+}
+.ico {
+  text-decoration: none;
+  color: #706d6d;
+}
+.ico:hover{
+  color: #790808;
+}
+.hov:hover{
+  color: #790808;
+}
+.hova{
+  color: #d8d8d8;
+  background-color: #5a5a5a;
+}
+.hova:hover{
+  color: #d8d8d8;
+  background-color: #550505;
+}
+.hovab{
+  color: #d8d8d8;
+  background-color: #550505;
+  
+}
+.hovab:hover{
+  color: #d8d8d8;
+  background-color: #5a5a5a;
+}
+.hiv {
+  text-decoration: none;
+  color: #790808;
+}
+.hiv:hover{
+  color: #081079;
+}
+.huv {
+  text-decoration: none;
+  color: #790808;
+}
+.huv:hover{
+  color: #087917;
+}

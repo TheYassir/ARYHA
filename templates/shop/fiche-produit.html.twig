@@ -1,0 +1,281 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    ARYHA paris | Fiche Produit
+{% endblock %}
+{% block body %}
+
+<div class="d-flex w-100 my-5">
+<div class="row row-cols-sm-2">
+    <div class="col-md-5 my-3 mx-auto">
+        <div id="carouselExampleIndicators" class="carousel slide carousel-dark" data-bs-ride="carousel">
+
+            <div class="carousel-indicators">
+                {% set a = 0 %}
+                {% for data in tabPhoto %}
+                    {% if a == 0 %}
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    {% else %}
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ a }}" aria-label="Slide {{ a + 1}}"></button>
+                    {% endif %}
+                    {% set a = a + 1 %}
+                {% endfor %}
+            </div>
+
+            <div class="carousel-inner">
+                {% set b = 0 %}
+                {% for data in tabPhoto %}
+                    {% if b == 0 %}
+                    <div class="carousel-item active">
+                        <img src="{{ asset('uploads/photos/' ~ data) }}" class="d-block w-100" alt="{{article.titre}}">
+                    </div>                    
+                    {% else %}
+                        <div class="carousel-item">
+                            <img src="{{ asset('uploads/photos/' ~ data ) }}" class="d-block w-100" alt="{{article.titre}} n°{{b}}">
+                        </div>
+                    {% endif %}
+                    {% set b = b + 1 %}
+                {% endfor %}
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <div class="d-flex justify-content-around">
+            {% set c = 0 %}
+                {% for data in tabPhoto %}
+                    {% if c == 0 %}
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="border-light" aria-current="true" aria-label="Slide 1"><img src="{{ asset('uploads/photos/' ~ data) }}" class="d-block col-12" style="max-height: 100px;" alt="{{article.titre}}"></button>                  
+                    {% else %}
+                        <button type="button" data-bs-target="#carouselExampleIndicators" class="border-light" data-bs-slide-to="{{ c }}" aria-label="Slide {{ c + 1 }}"><img src="{{ asset('uploads/photos/' ~ data) }}" class="d-block col-12" style="max-height: 100px;" alt="{{article.titre}} n°{{c}}"></button>
+                    {% endif %}
+                    {% set c = c + 1 %}
+                {% endfor %}
+        </div>
+
+    </div>
+
+    <div class="col-md-7 container">
+        <p class="my-3">#{{ article.id}}</p>
+        <h1 class="text-center my-3 fw-bold hov">{{article.titre}}</h1>
+
+        <div class="d-flex justify-content-around">
+            <p class="text-end my-3">{{ article.prix|number_format(2)}} € <small>TTC</small></p>
+        {# {% if article.stock > 10 %}
+            <p class="text-end my-3">Stock : <strong class="text-success">Disponible</strong></p>
+        {% elseif article.stock == 0 %}
+            <p class="text-end my-3">Stock : <strong class="text-danger">Epuisée</strong></p>
+        {% else %}
+            <p class="text-end my-3">Stock : Il reste seulement <strong class="text-warning">{{article.stock}}</strong> articles</p>
+        {% endif %} #}
+        </div>
+        {% set stock2 = 0 %}
+        {% for data in cellules %}
+            {% set stock2 = stock2 + data.stock %}
+        {% endfor %}
+        
+        <p class="mx-3 my-3">Couleur : {{ article.couleur}}</p>
+        <form action="" method="post" class="form">
+            <p class="mx-3 my-3 ">Tailles :  
+                {% if cellules|length > 0 and stock2 != 0 %}
+                    <select name="taille" id="taille" class="col-3">
+                    {% set stock = 0 %}
+                        {% for data in cellules %}
+                            {% if data.stock == 0 %}
+                                <option value="{{ data.titre }}"disabled>{{ data.titre }}</option>
+                            {% else %}
+                                <option value="{{ data.titre }}">{{ data.titre }}</option>
+                                {% set stock = data.stock %}
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% if stock < 20  and stock > 0 %}
+                        <strong class="text-warning">Il reste que {{ stock }} articles</strong>        
+                    {% endif %}
+                {% else %}
+                    <strong class="text-danger"> Stock épuisé pour le moment</strong>
+                {% endif %}
+            </p>
+
+            <p class="text-center my-3">{{ article.description }}</p>
+            <div class="d-flex justify-content-around my-5">
+                <a type="button" class="text-center ico" data-bs-toggle="modal" data-bs-target="#modal1">
+                    <p><i class="bi bi-credit-card fs-3"></i></p>
+                    <p>Paiement Sécurisée</p>
+                </a>
+                <a type="button" class="text-center ico" data-bs-toggle="modal" data-bs-target="#modal2">
+                    <p><i class="fas fa-truck fs-3"></i></p>
+                    <p>Livraison Offerte</p>
+                </a>
+                <a type="button" class="text-center ico" data-bs-toggle="modal" data-bs-target="#modal3">
+                    <p><i class="bi bi-arrow-repeat fs-3"></i></p>
+                    <p>Retour Sans Frais</p>
+                </a>
+                <a type="button" class="text-center ico" data-bs-toggle="modal" data-bs-target="#modal4">
+                    <p><i class="bi bi-bag-check fs-3"></i></p>
+                    <p>Click & Collect</p>
+                </a>
+            </div>
+            <div class="text-center mb-5">
+                {% if app.user %}
+                    {% if cellules|length > 0 and stock2 > 0 %}
+                        <button type="submit" class="col-3 btn hova">Ajouter</button>  
+                    {% else %}
+                        <form>
+                            <input type="button" class="col-3 btn hova" value="Retour" onclick="history.go(-1)">
+                        </form>
+                    {% endif %}          
+                {% else %}
+                    <a href="{{ path('app_login')}}" class="col-3 btn hova">Connectez-vous</a>
+                {% endif %}
+                
+            </div>
+        </form>
+
+    </div>
+
+</div>
+</div>
+    
+
+{# ############################################## MODAL ################################################################## #}
+<div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark fw-bold my-2" id="modal1">PAIEMENT SÉCURISÉ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Vous pouvez effectuer votre paiement par carte bancaire (Visa, Mastercard et American Express), Paypal ou ApplePay avec une adresse de facturation et de livraison valide.</p>
+                <p class="text-center">Toutes les transactions effectuées sur notre site sont sécurisées.</p>
+                <p class="text-center">En fonction de votre banque, votre paiement peut faire l'objet d'une vérification 3D Secure.</p>
+                <p class="text-center">Pour toute information supplémentaire, nos conseillers du Service Clients sont à votre écoute au 09 77 40 40 77 :</p>
+                <p class="text-center">Lundi au Samedi : 9h30 20h </p>
+                <p class="text-center">Dimanche : 9h30 17h30</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black fw-bold my-2" id="modal2">LIVRAISON OFFERTE</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            LIVRAISON STANDARD
+                        </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <p> 
+                                    Livraison UPS offerte dans un délai de 2 à 3 jours ouvrés (du lundi au vendredi entre 8h et 18h) à l’exception de la Corse livrée en 6 à 8 jours ouvrés. <br>
+                                    Si votre commande comprend plusieurs produits, la livraison est susceptible de vous parvenir en plusieurs envois et numéros de suivi. <br>
+                                    Vous recevrez plusieurs factures correspondant à chacun des envois. <br>
+                                    Nous vous prions de bien vouloir préparer votre carte d'identité, notre transporteur vous la demandera et prendra note des trois derniers chiffres du numéro d'identification. <br>
+                                    Ces données seront utilisées afin de pouvoir prouver la livraison, conformément à la législation en matière de protection des données. <br>
+                                </p>                    
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            LIVRAISON SUR-MESURE
+                        </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <p class="my-1">
+                                Livraison sur-mesure offerte à Paris (75), dans les départements des Hauts-de-Seine (92) et une partie des Yvelines (78) du lundi au samedi entre 09h00 et 21h00. <br> Un coursier vous livrera votre commande sur le créneau de votre choix. <br>
+                                Ce service vous permet d’être livré dès le lendemain. <br> Pour davantage de flexibilité, vous pouvez également être rappelé afin d’organiser une livraison dans les jours suivants. <br>
+                                Nous vous prions de bien vouloir préparer votre carte d'identité, notre transporteur vous la demandera et prendra note des trois derniers chiffres du numéro d'identification. <br> Ces données seront utilisées afin de pouvoir prouver la livraison, conformément à la législation en matière de protection des données. <br>
+                                </p> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="modal3" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark fw-bold my-2" id="modal3">RETOURS SANS FRAIS</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <p>SAISON DES FÊTES ! Les achats réalisés à partir du 1er novembre 2021 sont échangeables ou remboursables jusqu'au 31 janvier 2022.
+                </p>
+                <h6 class="text-center fw-bold">POUR RETOURNER VOTRE PRODUIT, VOUS AVEZ TROIS OPTIONS : </h6>
+                <ol>
+                    <li>Rendez-vous dans l’un des magasins Louis Vuitton en France métropolitaine, échange uniquement.</li> <br>
+                    <li>Connectez-vous à votre espace personnel My LV afin d’activer l’étiquette de retour UPS prépayée présente dans votre colis et déposez votre colis en point relais UPS ou contactez notre Service Clients par téléphone au +33 9 77 40 40 77 afin de programmer votre retour.</li> <br>
+                    <li>Si vous avez bénéficié d’une livraison sur créneaux, veuillez contacter notre Service Clients par téléphone au +33 9 77 40 40 77 afin de définir l’heure, la date et le lieu de retrait de votre colis. </li>
+                    <br>
+                </ol>        
+
+                <h6 class="text-center fw-bold">CONDITIONS D’ÉCHANGES ET REMBOURSEMENTS : </h6>
+                <p class="text-center"> 
+                    Les articles doivent être retournés en parfait état, dans leur emballage d’origine, avec le reçu et tous leurs  accessoires : boîtes, livrets, étiquettes, protections, etc. <br> <br> L’étui du parfum doit être toujours scellé. <br> <br>
+                    Aucun échange ni remboursement ne sera accepté sur les produits personnalisés, gravés ou sur-mesure. <br> <br>
+                    Le remboursement est au bénéfice exclusif de l’acheteur initial sur le moyen de paiement utilisé pour l’achat initial. <br> <br> Le temps de traitement d’un remboursement peut prendre jusqu’à 14 jours à partir de la réception du produit retourné.
+                    <br> <br>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal4" tabindex="-1" aria-labelledby="modal4" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold my-2 text-dark" id="modal4">CLICK & COLLECT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p> Ce service est offert et disponible dans l’ensemble de nos magasins à l’exception des Galeries Lafayette, du Printemps Haussmann et de la Samaritaine. <br> Veuillez noter que ce service est temporairement indisponible pour le magasin de Marseille. <br>
+                Livraison offerte, estimée dans un délai d'environ 2 à 3 jours ouvrés après votre commande effectuée. <br>
+                La date de mise à disposition dans nos magasins est indiquée à l’étape « Livraison » de votre commande sur votre espace My LV. <br><br>
+                </p>
+                <h6 class="fst-italic text-end">Lors du retrait de l’article:</h6>
+                <p class="text-end">Présentez l’email ou le SMS ainsi qu’une pièce d’identité en cours de validité. <br>
+                    Le magasin se réserve le droit de vérifier la carte de paiement utilisée pour le paiement de la commande. <br>
+                    L’article acheté sera remis au client contre signature d’un bon de retrait. <br>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

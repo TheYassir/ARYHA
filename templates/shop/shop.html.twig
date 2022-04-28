@@ -1,0 +1,182 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    ARYHA paris | Shop
+{% endblock %}
+{% block body %}
+{% set route_name = app.request.attributes.get('_route') %}
+<div class="container-fluid d-flex">
+    <div class="w-25 h-100">
+    <br>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+                {% if route_name == 'shop' %}  
+                    <li class="breadcrumb-item active" aria-current="page">Shop</li>
+                {% endif %}
+                {% if route_name == 'shop_category' %}  
+                    <li class="breadcrumb-item"><a href="{{ path('shop') }}">Shop</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ category.titre }}</li>
+                {% endif %}
+            </ol>
+        </nav>
+        {{ render(controller('App\\Controller\\ShopController::allCategory')) }}
+
+    </div>
+
+    <div class="w-50 h-100 container">
+        <div class="row row-cols-1 row-cols-lg-2 g-4 my-3">
+            {% set i = 0 %}
+            {% for data in articles %}
+                {% set i = i + 1 %}
+                {% if i in 0..20 and app.request.query.get('op') == ''%} 
+                    <div class="col">
+                        <div class="card h-100">
+                        <a href="{{ path('shop_show', {'id': data.id}) }}"><img src="{{ asset('uploads/photos/' ~ data.photo) }}" class="card-img-top img-fluid" alt="..."></a>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">{{data.titre}}</h5>
+                            <div class="d-flex justify-content-between">
+                            <p class="card-text">{{ data.description|slice(0,50)|striptags }}[...]</p>
+                            <p class="text-muted">{{data.prix}}&nbsp;€</p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                {% elseif app.request.query.get('op') == 'more' and i in 21..40  %}
+                    <div class="col">
+                        <div class="card h-100">
+                        <a href="{{ path('shop_show', {'id': data.id}) }}"><img src="{{ asset('uploads/photos/' ~ data.photo) }}" class="card-img-top img-fluid" alt="..."></a>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">{{data.titre}}</h5>
+                            <div class="d-flex justify-content-between">
+                            <p class="card-text">{{ data.description|slice(0,50)|striptags }}[...]</p>
+                            <p class="text-muted">{{data.prix}}&nbsp;€</p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                {% elseif app.request.query.get('op') == 'more2' and i in 41..60  %}
+                    <div class="col">
+                        <div class="card h-100">
+                        <a href="{{ path('shop_show', {'id': data.id}) }}"><img src="{{ asset('uploads/photos/' ~ data.photo) }}" class="card-img-top img-fluid" alt="..."></a>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">{{data.titre}}</h5>
+                            <div class="d-flex justify-content-between">
+                            <p class="card-text">{{ data.description|slice(0,50)|striptags }}[...]</p>
+                            <p class="text-muted">{{data.prix}}&nbsp;€</p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+        </div>    
+        <div class="text-center d-flex ">
+            <div class="card mx-auto my-3">
+                <div class="card-body my-3">
+                    <h5 class="card-title">Pas de produit disponible pour cette catégorie !</h5>
+                    <div class="d-flex justify-content-between">
+                    <a href="{{ path('shop') }}" class="btn hov">Retournez dans la boutique</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+        {% if articles|length > 20 %}
+            <div class="text-center">
+                {% if app.request.query.get('op') == 'more2' %} 
+                    <a href="{{ path('shop') }}" class="btn btn-outline-secondary mx-auto text-center my-3 col-3">Retour au début</a>
+                {% elseif app.request.query.get('op') == 'more' %}              
+                    <a href="?op=more2" class="btn btn-outline-secondary mx-auto text-center my-3 col-3">Toujours plus</a>
+                {% else %} 
+                    <a href="?op=more" class="btn btn-outline-secondary mx-auto text-center my-3 col-3">Encore plus</a>
+                {% endif %}        
+            </div>
+        {% endif %}
+    </div>
+
+
+
+
+    <div class="w-25 h-100"> 
+        <div class="col-10 mx-auto order-md-last mt-5">
+            
+            {% if app.user %}
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-primary">Votre Panier</span>
+                <span class="badge bg-primary">{{ nbPanier }}</span>
+                </h4>
+
+                <ul class="list-group mb-3">
+                    {% for element in dataPanier  %}
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                            <h6 class="my-0">{{element.article.titre}}</h6>
+                            <small class="text-muted">Quantité : {{element.quantite}}</small>
+                            </div>
+                            <span class="text-muted">{{element.article.prix * element.quantite}}€</span>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item ">
+                            <div class="text-center">
+                            <small class="text-muted ">Continuez vos achats</small>
+                            </div>
+                        </li>
+                    {% endfor %}
+                    {% if promo != 0 %}
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                            <h6 class="my-0">Code Promo</h6>
+                            <small class="text-muted">{{ promo }}% sur le panier</small>
+                            </div>
+                            <span class="text-success">{{codepro}}€</span>
+                        </li>
+                        
+                    {% endif %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (euros €)</span>
+                        <strong>{{total}}€</strong>
+                    </li>
+                </ul>
+
+                   
+                    <form method="post" class="card p-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Code Promo" name="codePromo">
+                            <button type="submit" class="btn btn-secondary">Utiliser</button>
+                        </div>
+                    </form>
+
+                    {% for message in app.flashes('danger') %}
+                        <div class="mx-auto text-center alert alert-danger">
+                            {{ message }}
+                        </div>        
+                    {% endfor %}
+
+                     <div class="text-center">                    
+                        <a href="{{ path('panier') }}" class="btn hova my-2">Passez la commande</a>
+                    </div>
+
+            {% else %}
+                <h4 class="align-items-center mb-3">
+                    <span class="text-primary">Connectez vous ou Inscrivez-vous</span> <br>
+                </h4>
+                <span class="text-muted">Pour pouvoir remplir votre panier</span>
+                
+                <div class="d-flex justify-content-around">
+
+                </div>
+            {% endif %}
+        
+        </div>
+    </div>
+
+
+</div>
+    
+
+{% endblock %}

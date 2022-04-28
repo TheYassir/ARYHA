@@ -1,0 +1,73 @@
+/*
+ * Globals
+ */
+
+
+/* Custom default button */
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus {
+  color: #333;
+  text-shadow: none; /* Prevent inheritance from `body` */
+}
+
+
+/*
+ * Base structure
+ */
+
+body {
+  text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+  box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
+}
+
+.cover-container {
+  max-width: 42em;
+}
+
+
+/*
+ * Header
+ */
+
+.nav-masthead .nav-link {
+  padding: .25rem 0;
+  font-weight: 700;
+  color: rgba(255, 255, 255, .5);
+  background-color: transparent;
+  border-bottom: .25rem solid transparent;
+}
+
+.nav-masthead .nav-link:hover,
+.nav-masthead .nav-link:focus {
+  border-bottom-color: rgb(100, 5, 5);
+}
+
+.nav-masthead .nav-link + .nav-link {
+  margin-left: 1rem;
+}
+
+.nav-masthead .active {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+.nav-link:hover{
+  color: rgb(126, 126, 126) !important;
+}
+.hova{
+  color: #d8d8d8;
+  background-color: #5a5a5a;
+}
+.hova:hover{
+  color: #d8d8d8;
+  background-color: #550505;
+}
+.hovab{
+  color: #d8d8d8;
+  background-color: #550505;
+  
+}
+.hovab:hover{
+  color: #d8d8d8;
+  background-color: #5a5a5a;
+}

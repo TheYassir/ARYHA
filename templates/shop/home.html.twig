@@ -1,0 +1,123 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+ARYHA paris | Home
+{% endblock %}
+
+{% block body %}
+<section class="m-0 p-0 w-100" style="background: url({{ asset('uploads/photos/fond.jpg') }}) no-repeat center fixed; background-size: cover; height: 500px;">
+</section>
+
+<div class="espace bg-light border">
+  <h1 class="text-center my-5">Que recherchez-vous ?</h1>
+</div>
+  
+<div class="row align-items-md-stretch tail border">
+  <div class="col-md-6 pe-0 ">
+    <div class="h-100 p-5 text-secondary bg-light rounded-3 d-flex">
+      <div class="text-center row align-self-center">
+        <h2>Sacs à main / Sac à dos</h2>
+        <p>A partir de 100 €</p>
+        <div>
+          <a href="{{ path('shop_category', {'id': 42}) }}" class="btn btn-outline-secondary" type="button">Pour elle</a>
+          <a href="{{ path('shop_category', {'id': 64}) }}" class="btn btn-outline-secondary" type="button">Pour lui</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 ps-0">
+    <div class="h-100 p-5 bg-light border rounded-3" style="background: url({{ asset('uploads/photos/sacamain.jpg') }}) no-repeat center ; background-size: cover;">
+    </div>
+  </div>
+</div>
+
+<div class="row align-items-md-stretch tail">
+  <div class="col-md-6 pe-0">
+    <div class="h-100 p-5 bg-light border rounded-3" style="background: url({{ asset('uploads/photos/bonneth.jpg') }}) no-repeat center ; background-size: cover;">
+    </div>
+  </div>
+  <div class="col-md-6 ps-0 ">
+    <div class="h-100 p-5 text-secondary bg-light rounded-3 d-flex">
+      <div class="text-center row align-self-center">
+        <h2>Bonnets / Gants / Ceintures</h2>
+        <p>A partir de 20 €</p>
+        <div>
+          <a href="{{ path('shop_category', {'id': 75}) }}" class="btn btn-outline-secondary" type="button">Pour elle</a>
+          <a href="{{ path('shop_category', {'id': 49}) }}" class="btn btn-outline-secondary" type="button">Pour lui</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row align-items-md-stretch tail">
+  <div class="col-md-6 pe-0 ">
+    <div class="h-100 p-5 text-secondary bg-light rounded-3 d-flex">
+      <div class="text-center row align-self-center">
+        <h2>Sneakers / Escarpins / Mocassins</h2>
+        <p>A partir de 120 €</p>
+        <div>
+          <a href="{{ path('shop_category', {'id': 77}) }}" class="btn btn-outline-secondary" type="button">Pour elle</a>
+          <a href="{{ path('shop_category', {'id': 50}) }}" class="btn btn-outline-secondary" type="button">Pour lui</a>
+        </div>      
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 ps-0">
+    <div class="h-100 p-5 bg-light border rounded-3" style="background: url({{ asset('uploads/photos/chaussureh2.jpeg') }}) no-repeat center ; background-size: cover;">
+    </div>
+  </div>
+</div>
+
+<div class="row align-items-md-stretch tail">
+  <div class="col-md-6 pe-0">
+    <div class="h-100 p-5 bg-light border rounded-3" style="background: url({{ asset('uploads/photos/sweat.jpg') }}) no-repeat ; background-size: cover;">
+    </div>
+  </div>
+  <div class="col-md-6 ps-0 ">
+    <div class="h-100 p-5 text-secondary bg-light rounded-3 d-flex">
+      <div class="text-center row align-self-center">
+        <h2>Chemises / Sweats / Robes</h2>
+        <p>A partir de 75 €</p>
+        <div>
+          <a href="{{ path('shop_category', {'id': 81}) }}" class="btn btn-outline-secondary" type="button">Pour elle</a>
+          <a href="{{ path('shop_category', {'id': 64}) }}" class="btn btn-outline-secondary" type="button">Pour lui</a>
+        </div>      
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="row align-items-md-stretch tail">
+  <div class="col-md-6 pe-0 ">
+    <div class="h-100 p-5 text-secondary bg-light rounded-3 d-flex">
+      <div class="text-center row align-self-center">
+        <h2>Montres / Colliers / Bagues</h2>
+        <p>A partir de 50 €</p>
+        <div>
+          <a href="{{ path('shop_category', {'id': 89}) }}" class="btn btn-outline-secondary" type="button">Pour elle</a>
+          <a href="{{ path('shop_category', {'id': 59}) }}" class="btn btn-outline-secondary" type="button">Pour lui</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 ps-0">
+    <div class="h-100 p-5 bg-light border rounded-3" style="background: url({{ asset('uploads/photos/joa2.jpg') }}) no-repeat bottom ; background-size: cover;">
+    </div>
+  </div>
+</div>
+
+<div class="text-center text-white w-100 tai py-5 bg-dark border-bottom">
+  <br>
+  <h2>Nos Partenaires</h2>
+  <h5>ARYHA paris est fière de s'associer à ces marques</h5>
+  <br>
+  <div class="d-flex justify-content-around my-5">
+    <img src="{{ asset('uploads/photos/lv.png') }}" alt="" class="img-fluid" style="width: 100px; height: 100px;">
+    <img src="{{ asset('uploads/photos/dior.jpg') }}" alt="" class="img-fluid" style="width: 100px; height: 100px;">
+    <img src="{{ asset('uploads/photos/burberry.png') }}" alt="" class="img-fluid" style="width: 100px; height: 100px;">
+    <img src="{{ asset('uploads/photos/dior.jpg') }}" alt="" class="img-fluid" style="width: 100px; height: 100px;">
+    <img src="{{ asset('uploads/photos/gucci.jpg') }}" alt="" class="img-fluid" style="width: 100px; height: 100px;">
+  </div>
+</div>
+{% endblock %}
