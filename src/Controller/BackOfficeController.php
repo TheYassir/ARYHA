@@ -77,7 +77,7 @@ class BackOfficeController extends AbstractController
     #[Route('/admin/articles/{id}/edit', name: 'app_admin_articles_update')]
     public function adminArticleForm(Article $article = null, Request $request, EntityManagerInterface $manager, SluggerInterface $slugger): Response
     {
-        // Probleme ici car NULL en base de donnée a la pace de string les changer
+        // Récupération des images en bdd et si vide donner la valeur "null" en string
         if($article)
         {
             $photoActuelle = $article->getPhoto();
@@ -111,18 +111,23 @@ class BackOfficeController extends AbstractController
             $article = new Article;
             
         }
-        
+        // Création du formulaire
         $formArticle = $this->createForm(ArticleType::class, $article);
+        // On récupère toute les données du formulaire
         $formArticle->handleRequest($request);
 
-        
+        // On vérifie qu'il n'y est pas d'erreur 
         if($formArticle->isSubmitted() && $formArticle->isValid())
         {
+            // Si c'est une mofif ou un ajout
             if(!$article->getId())
+            {
                 $txt = "enregistré";
-            else
+                $ajout = true;
+            } else {
                 $txt = "modifier";
-          
+            }
+                
             $photo = $formArticle->get('photo')->getData();
             $photo2 = $formArticle->get('photo2')->getData();
             $photo3 = $formArticle->get('photo3')->getData();
@@ -131,6 +136,7 @@ class BackOfficeController extends AbstractController
             $photo6 = $formArticle->get('photo6')->getData();
 
 
+            // Pour chaque photo, on verifie qu'il n'est pas vide et on l'enregistre dans le dossier upload avant de d'insérer la nouvelle valeur dans le setPhoto associé
             if($photo)
             {
 
@@ -283,11 +289,14 @@ class BackOfficeController extends AbstractController
                     $article->setPhoto6("null");
             }
 
+            // On persiste, cela consiste à garder les données en mémoires  
             $manager->persist($article);
+
             if(!$article->getId())
             {
                 if($article->getCategory()->getGrdCat() == "Souliers")
                 {
+                    // Si c'est un ajout et que l'article est de la category Souliers on crée chaque taille du tableau suivant avec comme stock 0
                     $tab = [37, 38, 39, 40, 41, 42, 43, 44, 45];
                     foreach($tab as $value){
                         $taille = new Taille;
@@ -309,7 +318,6 @@ class BackOfficeController extends AbstractController
                     }
                 } else 
                 {
-                    $this->addFlash('success', "L'article a été $txt avec succès !");
                     $taille = new Taille;
                     $taille->setTitre("Unique");
                     $taille->setStock("0");
@@ -318,14 +326,14 @@ class BackOfficeController extends AbstractController
                 }
             }
             $manager->flush();
+            $this->addFlash('success', "L'article a été $txt avec succès !");
 
-            if(!$article->getId())
+            if($ajout)
             {
                 return $this->redirectToRoute('app_admin_taille', [
                     'id' => $article->getId(),
                 ]); 
             } else {
-                // $this->addFlash('success', "L'article a été $txt avec succès !");
                 return $this->redirectToRoute('app_admin_articles');
             }
                 
