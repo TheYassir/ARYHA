@@ -51,13 +51,6 @@ class BackOfficeController extends AbstractController
 
         $toutTailles = $repoTail->findAll();
 
-        // $tab = array("39"=>"10", "40"=>"20", "41"=>"30");
-        // foreach($tab as $key => $value)
-        // {
-        // dump($cellules);
-        // }
-
-        // dd($tab);
         // Si un ID est envoyer en URL, il est récuperer automatiquement dans la variable artDelete
         if($artDelete)
         {
@@ -84,7 +77,7 @@ class BackOfficeController extends AbstractController
     #[Route('/admin/articles/{id}/edit', name: 'app_admin_articles_update')]
     public function adminArticleForm(Article $article = null, Request $request, EntityManagerInterface $manager, SluggerInterface $slugger): Response
     {
-        // PROBleme ici car NULL en base de donnée a la pace de string les changer
+        // Probleme ici car NULL en base de donnée a la pace de string les changer
         if($article)
         {
             $photoActuelle = $article->getPhoto();
@@ -395,10 +388,11 @@ class BackOfficeController extends AbstractController
     #[Route('/admin/commande/{id}/edit', name: 'app_admin_commande_update')]
     public function adminCommandeForm(Commande $commande, Request $request, EntityManagerInterface $manager, DetailCommandeRepository $repoDet): Response
     {
+        $etatCom = $commande->getEtat();
         $detailCommande = $repoDet->findAll();
         $formEtatCom = $this->createForm(CommandeType::class, $commande);
         $formEtatCom->handleRequest($request);
-        $etatCom = $commande->getEtat();
+        
 
 
             if($formEtatCom->isSubmitted() && $formEtatCom->isValid())

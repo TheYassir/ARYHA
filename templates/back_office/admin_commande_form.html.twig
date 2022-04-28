@@ -24,10 +24,7 @@
                 <p class="card-text my-auto">Infos Article :</p>
                     {% for det in detailCommande %}
                         {% if commande.id == det.commande.id %}
-                            <pre>
-                            {{ dump(det.article) }}
-                        </pre>
-                            {# <p class="card-text">{{ det.article.titre }} <br> Au prix de {{ det.prix }} € / article <br>Il en reste {{ det.article.tailles.stock }} pièces</p> #}
+                            <p class="card-text">{{ det.article.titre }} <br> Au prix de {{ det.prix }} € / article <br></p>
                         {% endif %}
                     {% endfor %}
             </div>
