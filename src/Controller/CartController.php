@@ -59,20 +59,7 @@ class CartController extends AbstractController
             $total = $total * $promoFinal ;
             $codepro = $total - $ancienTotal;
         }
-        // if($request->request->get("codePromo") !== null )
-        // {
-        //     if($session->get("codePromo") == null)
-        //     {
-        //     $code = $request->request->get("codePromo");
-        //     $codePromo = $repoCode->findOneBy(
-        //         ['code' => $code]
-        //     );
-        //     $codePro = $codePromo->getId();
-
-        //     $promoCode = $session->set("codePromo", $codePro);
-        //     }
-        // }
-        // dd($session);
+       
         return $this->render('cart/index.html.twig',compact("dataPanier", "total", "promo","codepro"));
     }
 

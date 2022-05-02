@@ -151,15 +151,23 @@ class ShopController extends AbstractController
                 $codePromo = $repoCode->findOneBy(
                     ['code' => $code]
                 );
-                $codePro = $codePromo->getId();
-
-                $promoCode = $session->set("codePromo", $codePro);
-                $request->request->set("codePromo", null) ;
+                if($codePromo){
+                    $codePro = $codePromo->getId();
+                    $promoCode = $session->set("codePromo", $codePro);
+                    $request->request->set("codePromo", null) ;
+                    $this->addFlash(
+                        'danger',
+                        'Il y a déja un code promo actif'
+                     ); 
+                } else {
+                    $this->addFlash(
+                        'danger',
+                        'Ce code promo n\'existe pas'
+                     );  
+                }
+                
             }
-            $this->addFlash(
-               'danger',
-               'Il y a déja un code promo actif'
-            );    
+               
         }
 
         if($session->get("codePromo") != null){
