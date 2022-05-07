@@ -69,7 +69,6 @@ class CartController extends AbstractController
     {
         $taille = $request->attributes->get("taille");
 
-        // dd($taille);
         // On récupere le panier actuel
         $panier = $session->get('panier', []);
         $id = $article->getId();
