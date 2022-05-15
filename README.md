@@ -13,4 +13,4 @@ Ouvrir le terminal dans le dossier ARYHA puis taper :
   $ composer install
   
 Ouvrir PhpMyAdmin et créer un projet du nom de ARYHA
-
+Importer le fichier .sql mis à disposition dans le projet.
