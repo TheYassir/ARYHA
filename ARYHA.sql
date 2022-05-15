@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : jeu. 28 avr. 2022 à 01:57
+-- Généré le : dim. 15 mai 2022 à 19:48
 -- Version du serveur : 10.4.21-MariaDB
 -- Version de PHP : 8.0.12
 
@@ -202,33 +202,11 @@ CREATE TABLE `commande` (
 --
 
 INSERT INTO `commande` (`id`, `montant`, `date`, `etat`, `user_id`) VALUES
-(13, 5010, '2022-01-05 20:34:08', 'Livrée', 21),
-(14, 0, '2022-01-05 20:34:16', 'En cours de traitement', 21),
-(15, 1516.92, '2022-01-05 20:36:19', 'En cours de traitement', 21),
-(16, 4214.95, '2022-01-05 20:37:03', 'En cours de traitement', 21),
-(17, 7200, '2022-01-06 09:28:01', 'En cours de traitement', 22),
-(25, 1380, '2022-01-06 12:50:18', 'En cours de traitement', 25),
-(26, 3800, '2022-01-06 13:04:14', 'En cours de traitement', 21),
-(27, 9500, '2022-01-06 13:05:40', 'En cours de traitement', 21),
-(28, 6900, '2022-02-03 13:15:19', 'En cours de traitement', 21),
-(29, 458.97, '2022-02-07 22:10:05', 'En cours de traitement', 21),
-(30, 0, '2022-03-22 14:22:33', 'En cours de traitement', 26),
-(31, 132, '2022-03-31 17:42:35', 'En cours de traitement', 21),
-(32, 105, '2022-03-31 17:49:59', 'En cours de traitement', 21),
-(33, 90, '2022-04-01 16:50:54', 'En cours de traitement', 21),
-(34, 95, '2022-04-06 16:16:18', 'En cours de traitement', 27),
-(35, 10, '2022-04-06 16:18:11', 'En cours de traitement', 27),
-(36, 50, '2022-04-13 14:29:40', 'En cours de traitement', 21),
-(37, 27, '2022-04-15 17:28:31', 'En cours de traitement', 34),
-(38, 7.2, '2022-04-15 17:34:51', 'En cours de traitement', 34),
-(39, 5, '2022-04-15 18:04:14', 'En cours de traitement', 34),
-(40, 14.4, '2022-04-17 20:31:00', 'En cours de traitement', 21),
-(41, 25, '2022-04-17 20:40:52', 'En cours de traitement', 21),
-(42, 10, '2022-04-19 18:05:17', 'En cours de traitement', 21),
-(43, 300, '2022-04-25 14:31:44', 'En cours de traitement', 21),
-(44, 4000, '2022-04-27 13:59:51', 'En cours de traitement', 21),
-(45, 1000, '2022-04-27 14:15:03', 'En cours de traitement', 21),
-(46, 187.5, '2022-04-27 23:52:15', 'En cours de traitement', 21);
+(46, 187.5, '2022-04-27 23:52:15', 'Livrée', 21),
+(47, 120, '2022-04-28 14:47:13', 'En cours de traitement', 21),
+(48, 50, '2022-04-28 14:48:15', 'En cours de traitement', 21),
+(49, 52.5, '2022-04-28 14:48:59', 'En cours de traitement', 21),
+(50, 750, '2022-05-11 15:17:31', 'En cours de traitement', 35);
 
 -- --------------------------------------------------------
 
@@ -251,7 +229,11 @@ CREATE TABLE `detail_commande` (
 
 INSERT INTO `detail_commande` (`id`, `quantite`, `prix`, `article_id`, `commande_id`, `taille_id`) VALUES
 (38, 1, 120, 132, 46, 103),
-(39, 1, 255, 174, 46, 246);
+(39, 1, 255, 174, 46, 246),
+(40, 1, 120, 132, 47, 96),
+(41, 2, 25, 141, 48, 153),
+(42, 1, 105, 150, 49, 162),
+(43, 1, 1500, 175, 50, 247);
 
 -- --------------------------------------------------------
 
@@ -291,7 +273,7 @@ CREATE TABLE `taille` (
 --
 
 INSERT INTO `taille` (`id`, `titre`, `stock`, `article_id`) VALUES
-(96, '37', 10, 132),
+(96, '37', 8, 132),
 (97, '38', 17, 132),
 (98, '39', 188, 132),
 (99, '40', 19, 132),
@@ -348,7 +330,7 @@ INSERT INTO `taille` (`id`, `titre`, `stock`, `article_id`) VALUES
 (150, 'Unique', 1, 138),
 (151, 'Unique', 100, 139),
 (152, 'Unique', 67, 140),
-(153, 'Unique', 89, 141),
+(153, 'Unique', 87, 141),
 (154, 'Unique', 34, 142),
 (155, 'Unique', 54, 143),
 (156, 'Unique', 2, 144),
@@ -357,7 +339,7 @@ INSERT INTO `taille` (`id`, `titre`, `stock`, `article_id`) VALUES
 (159, 'Unique', 19, 147),
 (160, 'Unique', 90, 148),
 (161, 'Unique', 687, 149),
-(162, 'Unique', 11, 150),
+(162, 'Unique', 10, 150),
 (163, 'Unique', 1000, 151),
 (164, 'Unique', 11, 152),
 (165, 'Unique', 2, 153),
@@ -432,7 +414,7 @@ INSERT INTO `taille` (`id`, `titre`, `stock`, `article_id`) VALUES
 (244, 'Unique', 18, 172),
 (245, 'Unique', 14, 173),
 (246, 'Unique', 10, 174),
-(247, 'Unique', 5, 175);
+(247, 'Unique', 4, 175);
 
 -- --------------------------------------------------------
 
@@ -473,13 +455,14 @@ INSERT INTO `user` (`id`, `email`, `roles`, `password`, `pseudo`, `nom`, `prenom
 (25, 'miaou78@gmail.com', '[]', '$2y$13$EOiTYLFqTYT4pmL.OWvFL.0SH9a.L.ABdx1m2maM04pDVWHIvkgvi', 'miaou.miaou', 'MIAOU', 'Miaou', 'Homme', 678787878, '5667 rue de la porte', 'izi', 78377),
 (26, 'test1@gmail.com', '[]', '$2y$13$F2ZdYY07WG1IdREOcL.qH.HrOrRHj57LTI3PIkj56sJ7EoRE16Ccy', 'test1', 'untest', 'ceciest', 'Femme', 111111111, '10 des rue de Pierre', 'Mureaux', 78300),
 (27, 'chiesa@gmail.com', '[]', '$2y$13$wAN8q58ib.V9lY4sphw83.VbfStXEWlWl4lZ.ediXvSwXyyRKVJAG', 'chiesa7', 'hgdhgh', 'jsbx', 'Homme', 897867564, 'gdadg. des oliviers', 'Poissy', 78654),
-(28, 'chiesa2@gmail.com', '[]', '$2y$13$UlkaBwQ6nn3hGXTjVTKSxOQeF4F26a7JtBaU6ZEUbX73Opl8qfzOa', 'chiesa7', 'hgdhgh', 'jsbx', 'Homme', 897867564, 'gdadg. des oliviers', 'Poissy', 78654),
+(28, 'chiesa2@gmail.com', '[\"\"]', '$2y$13$UlkaBwQ6nn3hGXTjVTKSxOQeF4F26a7JtBaU6ZEUbX73Opl8qfzOa', 'chiesa7', 'hgdhgh', 'jsbx', 'Homme', 897867564, 'gdadg. des oliviers', 'Poissy', 78654),
 (29, 'nihjhjeduh@nndnejcom', '[]', '$2y$13$e7EoOA3OwjnQtJKI.cAXLO8/ws43sFAk8EAho1Zd2HSA5zLOIwSWO', 'bv hv vhbjh', 'hgdhgh', 'jsbx', 'Homme', 897867564, 'gdadg. des oliviers', 'Poissy', 786543),
 (30, 'nihjhjeduh@nndjjjjjnejcom', '[]', '$2y$13$Dh6f/ZllWDf7aocHMMgqLuw.j0lx4HfFqxSNfRLgMZfrkFY44elN.', 'bv hv v, bjbhbjh', 'hgdhgh', 'jsbx', 'Homme', 897867564, 'gdadg. des oliviers', 'Poissy', 786543),
 (31, 'niedhghguh@nndnejcom', '[]', '$2y$13$ztZ9aVbUpMBuGWhluhA3LeYrrYHWnE/m53RILzzWnBPNr2/EPZ5OO', 'jouou', 'hgdhgh', 'jsbx', 'Homme', 897867564, 'gdadg. des oliviers', 'Poissy', 786543),
 (32, 'niedkoukouuh@nndnej.comi', '[]', '$2y$13$WtkdgsdRfwt/VLlbv5kPVuiZUsOgf.2RjXOZYQdfDyDj9.xVRimTS', 'kouikoui', 'hgdhgh', 'jsbx', 'Homme', 897867564, 'gdadg. des oliviers', 'Poissy', 78654),
 (33, 'niedjsjsuh@nndnej.com', '[]', '$2y$13$K/zSSltQOe5BoyBAB7kkk.1ZQHml2JmX0uQO1Ck7iXFpe/QdF2BEK', 'jszjsj', 'hgdhgh', 'jsbx', 'Homme', 897867564, 'gdadg. des oliviers', 'Poissy', 78654),
-(34, 'miaaaaaou@gmail.com', '[]', '$2y$13$wIRZP2IsciEK79eY5jWPhOxv2BSJfqQ2Z9xbC1YTVboGF39PhzsWW', 'miaaaaaaou', 'hgdhgh', 'jsbx', 'Homme', 897867564, 'gdadg. des oliviers', 'Poissy', 78654);
+(34, 'miaaaaaou@gmail.com', '[]', '$2y$13$wIRZP2IsciEK79eY5jWPhOxv2BSJfqQ2Z9xbC1YTVboGF39PhzsWW', 'miaaaaaaou', 'hgdhgh', 'jsbx', 'Homme', 897867564, 'gdadg. des oliviers', 'Poissy', 78654),
+(35, 'ansufati@gmail.com', '[]', '$2y$13$3890tYXEsVTY8dfr4okjGe5dGrsN3oQnbqnqYJSORhfMyRhlmATSy', 'fati10', 'Ansu', 'Fati', 'Homme', 798976345, '10 rue de barcelone', 'Quebec', 67890);
 
 --
 -- Index pour les tables déchargées
@@ -567,13 +550,13 @@ ALTER TABLE `code_promo`
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT pour la table `detail_commande`
 --
 ALTER TABLE `detail_commande`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT pour la table `taille`
@@ -585,7 +568,7 @@ ALTER TABLE `taille`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- Contraintes pour les tables déchargées

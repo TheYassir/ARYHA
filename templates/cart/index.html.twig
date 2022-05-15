@@ -35,13 +35,9 @@
                             <td class="text-end"> {{ element.taille}} </td>
                             <td class="text-end">
                                 {{ element.quantite}}
-                                {# <br> 
-                                {% if condition %}
-                                {% endif %} #}
                             </td>
                             <td class="text-end"> {{ element.article.prix * element.quantite}} €</td>
                             <td class="text-end">  
-                                {# <a href="?modif=1" class="btn btn-success"><i class="bi bi-cart-plus"></i></a> #}
                                 <a href="{{ path('add_panier',  {'id': element.article.id , 'taille': element.taille}) }}" class="btn btn-success"><i class="bi bi-cart-plus"></i></a>
                                 <a href="{{ path('remove_panier', {'id': element.article.id , 'taille': element.taille}) }}" class="btn btn-warning"><i class="bi bi-cart-dash"></i></a>
                                 <a href="{{ path('delete_panier', {'id': element.article.id}) }}" class="btn btn-danger"><i class="bi bi-cart-x"></i></a>                        

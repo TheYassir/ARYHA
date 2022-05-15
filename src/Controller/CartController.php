@@ -26,7 +26,6 @@ class CartController extends AbstractController
         if($session->get("codePromo") != null){
             $idCodeSession = $session->get("codePromo");
             $codeSession = $repoCode->find($idCodeSession);
-            // dd($session);
             $promo = $codeSession->getPromo();
             $promoFinal = 1 - ($promo / 100);
         } else {
@@ -69,7 +68,6 @@ class CartController extends AbstractController
     {
         $taille = $request->attributes->get("taille");
 
-        // dd($taille);
         // On récupere le panier actuel
         $panier = $session->get('panier', []);
         $id = $article->getId();
@@ -88,7 +86,6 @@ class CartController extends AbstractController
         }
         // On sauvegarde dans la Session
         $session->set('panier', $panier);
-        // dd($panier);
         return $this->redirectToRoute("panier");    
     }
 
@@ -149,7 +146,6 @@ class CartController extends AbstractController
         if($session->get("codePromo") != null){
             $idCodeSession = $session->get("codePromo");
             $codeSession = $repoCode->find($idCodeSession);
-            // dd($session);
             $promo = $codeSession->getPromo();
             $promoFinal = 1 - ($promo/100);
         }
@@ -239,7 +235,6 @@ class CartController extends AbstractController
     {      
         $commande = $repoCommande->findBy(array(), array('id' => 'desc'),1,0);
         
-        // dd($commande);
         return $this->render('cart/validation.html.twig', [
             'commande' => $commande
         ]);    
