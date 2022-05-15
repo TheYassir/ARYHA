@@ -71,12 +71,13 @@
             <p class="text-end my-3">{{ article.prix|number_format(2)}} € <small>TTC</small></p>
         </div>
         
+        <p class="mx-3 my-3">Couleur : {{ article.couleur|capitalize}}</p>
+
         {% set stock2 = 0 %}
         {% for data in cellules %}
             {% set stock2 = stock2 + data.stock %}
         {% endfor %}
-        
-        <p class="mx-3 my-3">Couleur : {{ article.couleur}}</p>
+
         <form action="" method="post" class="form">
             <p class="mx-3 my-3 ">Tailles :  
                 {% if cellules|length > 0 and stock2 != 0 %}
