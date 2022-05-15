@@ -78,7 +78,6 @@ class ShopController extends AbstractController
         $categorys = $repoCategory->findAll();
         $catHom = $repoCategory->findBy(array("sexe" => "Homme"));
         $catFem = $repoCategory->findBy(array("sexe" => "Femme"));
-        // dump($catHom);
         return $this->render('shop/category_list.html.twig', [
             'categorys' => $categorys,
             'catHom' => $catHom,
@@ -144,7 +143,6 @@ class ShopController extends AbstractController
     public function Shop(SessionInterface $session, ArticleRepository $repoArticle, CodePromoRepository $repoCode, Category $category = null, Request $request): Response
     {
         $panier = $session->get("panier", []);
-// dd($panier);
         if($request->request->get("codePromo") !== null )
         {
             if($session->get("codePromo") == null)
@@ -175,14 +173,12 @@ class ShopController extends AbstractController
         if($session->get("codePromo") != null){
             $idCodeSession = $session->get("codePromo");
             $codeSession = $repoCode->find($idCodeSession);
-            // dd($session);
             $promo = $codeSession->getPromo();
             $promoFinal = 1 - ($promo/100);
         } else {
             $promo = 0;
             $codepro = 0;
         }
-        // dump($promoFinal);
 
 
         // On fabrique les données
