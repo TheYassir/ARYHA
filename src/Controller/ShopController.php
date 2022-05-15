@@ -57,12 +57,6 @@ class ShopController extends AbstractController
 
         }
         
-
-        // $mailMessage = 'Nouvelle commande n°'.$commande->getId() . ' pour un montant de ' . $commande->getMontant() . ' € !';
-        // $mailer->sendEmail(content: $mailMessage, subject: 'Une nouvelle commande !');
-        
-        
-
         return $this->render('shop/contact.html.twig');
     
     }
