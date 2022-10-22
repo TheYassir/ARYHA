@@ -57,12 +57,6 @@ class ShopController extends AbstractController
 
         }
         
-
-        // $mailMessage = 'Nouvelle commande n°'.$commande->getId() . ' pour un montant de ' . $commande->getMontant() . ' € !';
-        // $mailer->sendEmail(content: $mailMessage, subject: 'Une nouvelle commande !');
-        
-        
-
         return $this->render('shop/contact.html.twig');
     
     }
@@ -78,7 +72,6 @@ class ShopController extends AbstractController
         $categorys = $repoCategory->findAll();
         $catHom = $repoCategory->findBy(array("sexe" => "Homme"));
         $catFem = $repoCategory->findBy(array("sexe" => "Femme"));
-        // dump($catHom);
         return $this->render('shop/category_list.html.twig', [
             'categorys' => $categorys,
             'catHom' => $catHom,
@@ -89,21 +82,24 @@ class ShopController extends AbstractController
     #[Route('/shop/{id}', name: 'shop_show')]
     public function ShopShow(Article $article, TailleRepository $repoTaille, Request $request): Response
     {
-             
+        // Cette ligne vérifie si la donnée $request à reçu une valeur ou plus en méthode POST
         if($request->request->count() > 0){
+            // On récupère la valeur envoyer lors du choix de la taille 
             $taille = $request->request->get("taille");
-
+            // On envoie l'utilisateur vers la route ajout au panier avec comme attribut l'article et la taille choisi 
             return $this->redirectToRoute('add_panier', [
                 'id' => $article->getId(),
                 'taille' => $taille 
             ]);    
         }
-
+        // On récupère toute les tailles ayant une relation avec l'article 
         $cellules = $repoTaille->findBy(
             ['article' => $article]
         );
-
+        // j'initialise un tableau vide
         $tabPhoto = [];
+        // Et pour chaque donnée photo en BDD je vérifie si elle est null ou non 
+        // et si elle contient une véritable photo je l'intègre à mon tableau 
         if($article->getPhoto() != Null && $article->getPhoto() != "null" )
         {
             $tabPhoto[] = $article->getPhoto();
@@ -128,8 +124,7 @@ class ShopController extends AbstractController
         {
             $tabPhoto[] = $article->getPhoto6();
         }
-        dump($cellules);
-
+        // Maintenant que le tableau contient toutes les photos je l'envoi à la vue, avec les tailles et l'article lui-même
         return $this->render('shop/fiche-produit.html.twig', [
             'article' => $article,
             'cellules' => $cellules,
@@ -142,7 +137,6 @@ class ShopController extends AbstractController
     public function Shop(SessionInterface $session, ArticleRepository $repoArticle, CodePromoRepository $repoCode, Category $category = null, Request $request): Response
     {
         $panier = $session->get("panier", []);
-// dd($panier);
         if($request->request->get("codePromo") !== null )
         {
             if($session->get("codePromo") == null)
@@ -151,28 +145,34 @@ class ShopController extends AbstractController
                 $codePromo = $repoCode->findOneBy(
                     ['code' => $code]
                 );
-                $codePro = $codePromo->getId();
-
-                $promoCode = $session->set("codePromo", $codePro);
-                $request->request->set("codePromo", null) ;
+                if($codePromo){
+                    $codePro = $codePromo->getId();
+                    $promoCode = $session->set("codePromo", $codePro);
+                    $request->request->set("codePromo", null) ;
+                    $this->addFlash(
+                        'danger',
+                        'Il y a déja un code promo actif'
+                     ); 
+                } else {
+                    $this->addFlash(
+                        'danger',
+                        'Ce code promo n\'existe pas'
+                     );  
+                }
+                
             }
-            $this->addFlash(
-               'danger',
-               'Il y a déja un code promo actif'
-            );    
+               
         }
 
         if($session->get("codePromo") != null){
             $idCodeSession = $session->get("codePromo");
             $codeSession = $repoCode->find($idCodeSession);
-            // dd($session);
             $promo = $codeSession->getPromo();
             $promoFinal = 1 - ($promo/100);
         } else {
             $promo = 0;
             $codepro = 0;
         }
-        // dump($promoFinal);
 
 
         // On fabrique les données

@@ -39,7 +39,7 @@ class RegistrationController extends AbstractController
 
             $user->setPassword($hash);
             $this->addFlash('success', "Félicitation ! Vous êtes maintenant inscrit sur le site !");
-            $mailMessage = $user->getPrenom() . ' ' . $user->getNom() . 'vien de s\'inscrire sur ARHYA';
+            $mailMessage = $user->getPrenom() . ' ' . $user->getNom() . ' vien de s\'inscrire sur ARHYA';
             
             $entityManager->persist($user);
             $mailer->sendEmail(content: $mailMessage, subject: 'Un nouveau inscris !');
@@ -57,24 +57,32 @@ class RegistrationController extends AbstractController
     #[Route('/profil', name: 'app_profil')]
     public function userProfil(Request $request, EntityManagerInterface $manager): Response
     {
+        // cela permet de vérifier si l'utilisateur n'est pas connecté 
         if(!$this->getUser())
-        {
+        {       
+            // et si il ne l'est pas, on le redirige vers la page connexion
             return $this->redirectToRoute('app_login');
         }
-        $user= $this->getUser();
+        // Récupération des données de l'utilisateur
+        $user = $this->getUser();
 
+        // Si dans l'url, il existe la donnée 'op' 
         if( $request->query->get('op')) 
         {
-            
+            // Je crée le fomulaire de modification de l'utilisateur
             $formUpdate = $this->createForm(RegistrationFormType::class, $user, [
                 'userUpdate' => true
             ]);
 
+            // Vérifiacation de la reception de toutes les valeurs
             $formUpdate->handleRequest($request);
     
+            // Si tout est bien rempli sans accro
             if($formUpdate->isSubmitted() && $formUpdate->isValid())
             {
+                // On charge la valeur $user dans le $manager
                 $manager->persist($user);
+                // Et on l'envoi en bdd
                 $manager->flush();
     
                 $this->addFlash('success', 'Vous avez modifié vos informations. Merci de vous authentifié de nouveau');
