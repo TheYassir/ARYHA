@@ -1,1 +1,1 @@
-release: composer install
+web: composer install
